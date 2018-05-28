@@ -1,0 +1,17 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - python:
+            mass_threshold: 50
+  fixme:
+    enabled: true
+  radon:
+    enabled: true
+ratings:
+  paths:
+  - "**.py"
+exclude_paths:
+  - src/bricks/tests/
+  - src/bricks/tests/app/migrations/

@@ -1,0 +1,32 @@
+# Cache and build artifacts
+__pycache__/
+*.egg-info/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.egg
+*.sqlite3
+
+# Build directories
+.pytest_cache/
+docs/_build/
+build/
+dist/
+htmlcov/
+
+# IDEs and editors
+.idea/
+.cache/
+src/__init__.py
+
+# Testing and temporary files
+.tox/
+.coverage
+
+# Private data
+local/
+js/
+ts-boilerplate/
+
