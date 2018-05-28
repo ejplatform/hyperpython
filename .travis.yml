@@ -5,10 +5,11 @@ sudo: false
 # Test environments
 matrix:
   include:
-   - env: TOXENVpy36
+   - env: TOXENV=py36
      python: 3.6
-   - env: TOXENV=py37
-     python: 3.7
+   - env: TOXENV=flake8
+     python: 3.6
+
 
 # Package installation
 install:
