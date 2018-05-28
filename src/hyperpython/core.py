@@ -115,7 +115,6 @@ class Element(ElementMixin):
     def __repr__(self):
         attrs = self.attrs
         children = self.children
-        requires = self.requires
         if attrs and children:
             return 'h(%r, %r, %r)' % (self.tag, self.attrs, self.children)
         elif attrs:
@@ -146,7 +145,10 @@ class Element(ElementMixin):
         write(self.tag)
         if self.attrs:
             write(' ')
+            pos = file.tell()
             dump_attrs(self.attrs, file)
+            if file.tell() == pos:
+                file.seek(pos - 1)
         write('>')
         if not self.is_void:
             for child in self.children:
