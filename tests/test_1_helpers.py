@@ -43,8 +43,8 @@ class TestRenderAttrs:
             {'foo': 'bar'}) == '{&quot;foo&quot;: &quot;bar&quot;}'
 
     def test_join_classes(self):
-        assert join_classes(['x', 'y', False], None, "foo bar") == \
-               ['x', 'y', 'foo', 'bar']
+        assert (join_classes(['x', 'y', False], None, "foo bar")
+                == ['x', 'y', 'foo', 'bar'])
         assert js_class(['x', 'y'], None, "foo bar") == 'x y foo bar'
 
 

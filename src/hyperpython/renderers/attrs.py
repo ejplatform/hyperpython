@@ -70,7 +70,7 @@ def _attrs_str(*args):
     raise TypeError('strings types are not supported')
 
 
-@dump_attrs.register(collections.Sequence)
+@dump_attrs.register(collections.Sequence)  # noqa: C901
 def _attrs_sequence(seq, file):
     write = file.write
     elements = 0

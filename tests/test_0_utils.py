@@ -12,11 +12,11 @@ class TestLazySingleDispatch:
             return 42
 
         @foo.register(str)
-        def _(x):
+        def _str(x):
             return x
 
         @foo.register('collections.OrderedDict')
-        def _(x):
+        def _map(x):
             return dict(x)
 
         d = OrderedDict({3: 'three'})

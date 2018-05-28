@@ -32,8 +32,8 @@ class TestSimpleTagAttrsOperations:
         }
 
     def test_render(self, a):
-        assert a.render() == \
-               '<a class="cls1 cls2" id="id" href="url">click me</a>'
+        assert a.render() \
+               == '<a class="cls1 cls2" id="id" href="url">click me</a>'
 
     def test_render_empty_class_list_as_empty(self):
         assert div(class_=()).render() == '<div></div>'

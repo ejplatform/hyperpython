@@ -34,7 +34,7 @@ def render_single_attr(x):
 
 
 @dump_single_attr.register(str)
-def _(x, file):
+def _single_attr_str(x, file):
     data = x.replace('&', '&amp;').replace('"', '&quot;')
     file.write(data)
 
@@ -47,5 +47,5 @@ for _tt in [int, float, complex, 'decimal.Decimal']:
 # JSON conversions
 @dump_single_attr.register(collections.Sequence)
 @dump_single_attr.register(collections.Mapping)
-def _(x, file):
+def _single_attr_json_data(x, file):
     dump_single_attr(json_dumps(x), file)

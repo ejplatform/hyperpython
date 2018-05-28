@@ -142,11 +142,11 @@ render.register_template = register_template
 
 
 @render.register(str)
-def _(data, ctx=None):
+def _render_str(data, ctx=None):
     return Text(data)
 
 
 @render.register(int)
 @render.register(float)
-def _(data, ctx=None):
+def _render_atom(data, ctx=None):
     return Text(str(data))

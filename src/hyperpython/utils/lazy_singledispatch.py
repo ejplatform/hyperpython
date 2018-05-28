@@ -1,7 +1,8 @@
 from abc import get_cache_token
 from functools import _find_impl, update_wrapper
-from types import MappingProxyType
 from weakref import WeakKeyDictionary
+
+from types import MappingProxyType
 
 
 # TODO(?): maybe we should not use undocumented APIs ;)
@@ -22,7 +23,7 @@ def _possible_qualnames(cls):
             path, _, _ = path.rpartition('.')
 
 
-def lazy_singledispatch(func):
+def lazy_singledispatch(func):  # noqa: C901
     """
     Single-dispatch generic function decorator.
 

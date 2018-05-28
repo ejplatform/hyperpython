@@ -1,7 +1,7 @@
 import collections
 
 from ..core import Element
-from ..tags import a, p, span, h, div, ul, li
+from ..tags import a, p, span, h
 from ..utils import escape, lazy_singledispatch
 
 
@@ -78,7 +78,7 @@ def hyperlink(obj, href='#', **attrs) -> Element:
 
 
 @hyperlink.register(str)
-def _(data, href=None, **attrs):
+def _hyperlink_str(data, href=None, **attrs):
     if href is None:
         data, href = parse_link(data)
     attrs['href'] = href
@@ -86,7 +86,7 @@ def _(data, href=None, **attrs):
 
 
 @hyperlink.register(collections.Mapping)
-def _(obj, **attrs):
+def _hyperlink_map(obj, **attrs):
     content = obj['content']
     for k, v in obj.items():
         if k != 'content':
@@ -95,7 +95,7 @@ def _(obj, **attrs):
 
 
 @hyperlink.register('django.db.models.Model')
-def _(x, **attrs):
+def _hyperlink_model(x, **attrs):
     href = attrs.get('href') or x.get_absolute_url()
     attrs.setdefault('href', href)
     return h('a', attrs, escape(str(x)))
@@ -118,8 +118,4 @@ def breadcrumbs(x, *paths, level=0, **kwargs):
     """
     Component thta Receives a list of links and return a breadcrumbs element.
     """
-    url.extend(paths)
-    url = url[level:]
-
-    div(**kwargs)[ul([li()])]
-    return '/'.join(paths)
+    raise NotImplementedError
