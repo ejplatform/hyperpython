@@ -1,4 +1,4 @@
-.. image:: https://readthedocs.org/projects/hyperpython/badge/?version=latest
+g.. image:: https://readthedocs.org/projects/hyperpython/badge/?version=latest
     :target: http://hyperpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 .. image:: https://travis-ci.org/fabiommendes/hyperpython.svg?branch=master
