@@ -51,7 +51,7 @@ def render_attrs(obj, **kwargs):
             file.write(' ')
         kwargs = {html_natural_attr(k): v for k, v in kwargs.items()}
         dump_attrs(kwargs, file)
-    return file.getvalue()
+    return file.getvalue().rstrip()
 
 
 @dump_attrs.register(type(None))
@@ -73,19 +73,14 @@ def _attrs_str(*args):
 @dump_attrs.register(collections.Sequence)
 def _attrs_sequence(seq, file):
     write = file.write
-    write_space = False
+    elements = 0
 
     for attr, value in seq:
         if value is False or value is None:
             continue
-
-        if write_space:
-            write(' ')
-        else:
-            write_space = True
-
-        if value is True:
+        elif value is True:
             write(attr)
+            write(' ')
         elif attr == 'class':
             if value:
                 write('class="')
@@ -95,11 +90,15 @@ def _attrs_sequence(seq, file):
                     write(' '.join(str(v) for k, v in value.items() if v))
                 else:
                     write(' '.join(value))
-                write('"')
+                write('" ')
             else:
-                file.seek(file.tell() - 1)
+                continue
         else:
             write(attr)
             write('="')
             dump_single_attr(value, file)
-            write('"')
+            write('" ')
+        elements += 1
+
+    if elements:
+        file.seek(file.tell() - 1)
