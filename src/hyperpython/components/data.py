@@ -55,7 +55,7 @@ def html_dict(data, role=None, ctx=None, strict=False, **kwargs):
         </dl>
     """
     body = []
-    for k, v in data.item():
+    for k, v in data.items():
         body.append(dt(render(k, role=role, ctx=ctx, strict=strict)))
         body.append(dd(render(v, role=role, ctx=ctx, strict=strict)))
     return dl(body, **kwargs)

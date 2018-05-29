@@ -6,7 +6,6 @@ from ..core import Text
 django_loader = import_later('django.template.loader')
 
 
-@functools.singledispatch
 def render(obj, role=None, ctx=None, strict=True):
     """
     Convert object into a hyperpython structure.
@@ -22,9 +21,17 @@ def render(obj, role=None, ctx=None, strict=True):
     Returns:
         A hyperpython object.
     """
-    if strict:
-        raise render_error(obj, role)
-    return Text(str(obj))
+    try:
+        return _render(obj, role, ctx)
+    except TypeError:
+        if strict:
+            raise render_error(obj, role)
+        return Text(str(obj))
+
+
+@functools.singledispatch
+def _render(obj, role, ctx):
+    raise render_error(obj, role)
 
 
 def register(cls, role=None):
@@ -39,7 +46,7 @@ def register(cls, role=None):
             Roles define alternate contexts for rendering the same object.
     """
     try:
-        impl = render.registry[cls]
+        impl = _render.registry[cls]
     except KeyError:
         impl = make_type_renderer(cls)
         single_register(cls)(impl)
@@ -134,8 +141,8 @@ def render_error(obj, role):
 #
 # Register renderers
 #
-single_dispatch = render.dispatch
-single_register = render.register
+single_dispatch = _render.dispatch
+single_register = _render.register
 render.dispatch = dispatch
 render.register = register
 render.register_template = register_template
