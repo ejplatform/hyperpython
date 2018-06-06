@@ -1,8 +1,10 @@
 import collections
 
+from .core import render
 from ..core import Element
 from ..tags import a, p, span, h
 from ..utils import escape, lazy_singledispatch
+from ..utils.role_dispatch import role_singledispatch
 
 
 def a_or_p(*args, href=None, **kwargs):
@@ -28,7 +30,7 @@ def a_or_span(*args, href=None, **kwargs):
 
 
 @lazy_singledispatch
-def hyperlink(obj, href='#', **attrs) -> Element:
+def hyperlink(obj, href=None, **attrs) -> Element:
     """
     Converts object to an anchor (<a>) tags.
 
@@ -67,20 +69,17 @@ def hyperlink(obj, href='#', **attrs) -> Element:
             of how keyword arguments are translated into HTML attributes.
     """
 
-    try:
-        render = obj.__html__
-    except AttributeError:
-        raise TypeError('type not supported: %s' % obj.__class__.__name__)
-    else:
-        data = render()
-        attrs['href'] = href
-        return h('a', attrs, [data])
+    data = render(obj)
+    attrs['href'] = href or url(obj)
+    return h('a', attrs, data)
 
 
 @hyperlink.register(str)
 def _hyperlink_str(data, href=None, **attrs):
     if href is None:
-        data, href = parse_link(data)
+        data, href = split_link(data)
+    if not href:
+        raise ValueError('string does not declare a target url')
     attrs['href'] = href
     return h('a', attrs, escape(data))
 
@@ -88,6 +87,8 @@ def _hyperlink_str(data, href=None, **attrs):
 @hyperlink.register(collections.Mapping)
 def _hyperlink_map(obj, **attrs):
     content = obj['content']
+    if 'href' not in obj:
+        raise ValueError('mapping must define an href key.')
     for k, v in obj.items():
         if k != 'content':
             attrs.setdefault(k, v)
@@ -96,12 +97,24 @@ def _hyperlink_map(obj, **attrs):
 
 @hyperlink.register('django.db.models.Model')
 def _hyperlink_model(x, **attrs):
-    href = attrs.get('href') or x.get_absolute_url()
-    attrs.setdefault('href', href)
-    return h('a', attrs, escape(str(x)))
+    attrs['href'] = attrs.get('href') or x.get_absolute_url()
+    body = render(x, strict=False)
+    return h('a', attrs, body)
 
 
-def parse_link(name):
+@role_singledispatch
+def url(obj):
+    """
+    Returns a url for the given object.
+    """
+    if hasattr(obj, '__url__'):
+        return obj.__url__()
+    if hasattr(obj, 'get_absolute_url'):
+        return obj.get_absolute_url()
+    raise TypeError(f'no methods registered for {type(obj).__class__}')
+
+
+def split_link(name):
     """
     Return a tuple with (name, link) from a string of "name<link>".
 

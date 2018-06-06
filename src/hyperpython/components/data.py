@@ -1,7 +1,10 @@
+from collections import Mapping, Iterable
+
 from .core import render
-from ..tags import ul, ol, li, dl, dd, dt, table, thead, tbody, tr, td
+from ..tags import ul, ol, li, dl, dd, dt, table, thead, tbody, tr, td, th
 
 
+@render.register(Iterable)
 def html_list(data, ordered=False, role=None, strict=False, ctx=None, **kwargs):
     """
     Convert a Python iterable into an HTML list element.
@@ -31,7 +34,8 @@ def html_list(data, ordered=False, role=None, strict=False, ctx=None, **kwargs):
     return tag(body, **kwargs)
 
 
-def html_dict(data, role=None, ctx=None, strict=False, **kwargs):
+@render.register(Mapping)
+def html_map(data, role=None, ctx=None, strict=False, **kwargs):
     """
     Renders mapping as a description list.
 
@@ -45,7 +49,7 @@ def html_dict(data, role=None, ctx=None, strict=False, **kwargs):
         Additional keyword arguments are passed to the root element.
 
     Examples:
-        >>> doc = html_dict({'answer': 42, 'universe': True})
+        >>> doc = html_map({'answer': 42, 'universe': True})
         >>> print(doc.pretty())
         <dl>
             <dt>answer</dt>
@@ -78,10 +82,10 @@ def html_table(data, columns=None, role=None, ctx=None, strict=False, **kwargs):
 
     Examples:
         >>> doc = html_table([[1, 2], [3, 4]], columns=['a', 'b'])
-        >>> pprint(doc)
+        >>> print(doc.pretty())
         <table>
             <thead>
-                <tr><th>a</th><th>b</th>
+                <tr><th>a</th><th>b</th></tr>
             </thead>
             <tbody>
                 <tr><td>1</td><td>2</td></tr>
@@ -89,15 +93,21 @@ def html_table(data, columns=None, role=None, ctx=None, strict=False, **kwargs):
             </tbody>
         </table>
     """
+    options = {'role': role, 'strict': strict, 'ctx': ctx}
     body = [
-        tr([td(render(obj, role=role, strict=strict, ctx=ctx)) for obj in row])
+        tr([td(render(obj, **options)) for obj in row])
         for row in data
     ]
-    if columns:
-        return table(**kwargs)[
-            thead([render(col, role=role, strict=strict, ctx=ctx)
-                   for col in columns]),
-            tbody(body)
-        ]
+    if columns is not None:
+        head = tr([to_header_row(col, **options) for col in columns])
+        return table([thead(head), tbody(body)], **kwargs)
     else:
         return table(body, **kwargs)
+
+
+def to_header_row(obj, **options):
+    data = render(obj, **options)
+    if data.tag in ('td', 'th'):
+        return data
+    else:
+        return th(data)

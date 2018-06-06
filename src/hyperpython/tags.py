@@ -1,3 +1,5 @@
+from collections import Sequence
+
 from .core import Tag, Element, Text, as_child, as_attr
 from .utils import html_safe_natural_attr
 
@@ -29,17 +31,26 @@ def h(tag, *args, **attrs):
         if isinstance(arg, dict):
             attrs.update(as_attr(k, v) for k, v in attrs.items())
             children = []
-        elif isinstance(arg, str):
-            children = [Text(arg)]
         else:
-            children = list(map(as_child, arg))
+            children = _as_children(arg)
     elif n_args == 2:
         attrs.update(as_attr(k, v) for k, v in args[0].items())
-        children = list(map(as_child, args[1]))
+        children = _as_children(args[1])
     else:
         raise TypeError('h() accepts at most 3 positional arguments')
 
     return Element(tag, attrs, children, is_void)
+
+
+def _as_children(data):
+    if isinstance(data, str):
+        return [Text(data)]
+    elif isinstance(data, Element):
+        return [data]
+    elif isinstance(data, Sequence):
+        return list(map(as_child, data))
+    else:
+        return [as_child(data)]
 
 
 Tag._h_function = staticmethod(h)

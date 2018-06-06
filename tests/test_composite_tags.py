@@ -4,7 +4,7 @@ from hyperpython import Text, div, h1, p, a
 from hyperpython.utils import safe
 
 
-def _test_nested_is_in_children():
+def test_creates_nested_tags():
     tag1 = div('foo')
     tag2 = div(tag1, cls='bar')
     assert tag1 in tag2.children

@@ -30,7 +30,7 @@ def lazy_singledispatch(func):  # noqa: C901
     Transforms a function into a generic function, which can have different
     behaviours depending upon the type of its first argument. The decorated
     function acts as the default implementation, and additional
-    implementations can be registered using the registerPlugin() attribute of the
+    implementations can be registered using the register() attribute of the
     generic function.
 
     This implementation generalizes the default implementation in functools
@@ -38,7 +38,7 @@ def lazy_singledispatch(func):  # noqa: C901
     instead of types. When it encounters an invalid argument, the multiple
     dispatch function will search if any class in this lazy registry is
     compatible with the given first argument type. It will automatically
-    registerPlugin this class and return the result.
+    register this class and return the result.
 
     Usage:
 
@@ -81,7 +81,7 @@ def lazy_singledispatch(func):  # noqa: C901
         lazy_register decorator.
 
         This will search the function cache for a suitable implementation and
-        registerPlugin it when with the generic function when it is found.
+        register it when with the generic function when it is found.
         """
 
         cls = x.__class__
@@ -118,7 +118,7 @@ def lazy_singledispatch(func):  # noqa: C901
         return impl
 
     def register(cls, func=None):
-        """generic_func.registerPlugin(cls, func) -> func
+        """generic_func.register(cls, func) -> func
 
         Registers a new implementation for the given *cls* on a *generic_func*.
 
@@ -136,7 +136,7 @@ def lazy_singledispatch(func):  # noqa: C901
             # else:
             #     def decorator(func):
             #         for cls in cls_list:
-            #             registerPlugin(cls, func)
+            #             register(cls, func)
             #     return decorator
 
         # Single class
