@@ -1,7 +1,8 @@
 import io
-from types import MappingProxyType
 
+from collections import Sequence
 from markupsafe import Markup
+from types import MappingProxyType
 
 from .renderers import dump_attrs, render_pretty
 from .utils import flatten, unescape, escape as _escape
@@ -26,9 +27,17 @@ class ElementMixin:
     is_element = False
     is_void = False
 
-    def render(self, **kwargs):
+    def render(self):
         """
-        Render element as string.
+        Renders object as string.
+        """
+        file = io.StringIO()
+        self.dump(file)
+        return file.getvalue()
+
+    def dump(self, file):
+        """
+        Dump contents of element in the given file.
         """
         raise NotImplementedError
 
@@ -155,14 +164,6 @@ class Element(ElementMixin):
                 child.dump(file)
         write(f'</{self.tag}>')
 
-    def render(self):
-        """
-        Renders object as string.
-        """
-        file = io.StringIO()
-        self.dump(file)
-        return file.getvalue()
-
     def json(self):
         """
         JSON-compatible representation of object.
@@ -243,6 +244,32 @@ class Text(Markup, ElementMixin):
 
     def json(self):
         return {'text': str(self)} if self.escape else {'raw': str(self)}
+
+
+class Block(ElementMixin, Sequence):
+    """
+    Represents a list of elements *not* wrapped in a tag.
+    """
+
+    id = None
+    classes = property(lambda self: [])
+
+    def __init__(self, children, requires=()):
+        self.children = list(map(as_child, children))
+        self.requires = list(requires)
+
+    def __iter__(self):
+        return iter(self.children)
+
+    def dump(self, file):
+        for child in self.children:
+            child.dump(file)
+
+    def copy(self):
+        return Block(list(self.children), requires=list(self.requires))
+
+    def json(self):
+        return {'body': [x.to_json() for x in self.children]}
 
 
 #

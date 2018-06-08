@@ -2,7 +2,7 @@ __version__ = '0.1.3'
 __author__ = 'Fábio Macêdo Mendes'
 
 try:
-    from .core import Element, Text
+    from .core import Element, Text, Block
     from .tags import (
         HTML5, h,
         body, head, meta, link, title, div, span, article, aside, details, footer,
