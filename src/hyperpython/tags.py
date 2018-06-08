@@ -10,7 +10,7 @@ VOID_ELEMENTS = (
 )
 
 
-def h(tag, *args, **attrs):
+def h(tag, *args, children=None, **attrs):
     """
     Create a tag.
 
@@ -18,12 +18,22 @@ def h(tag, *args, **attrs):
     * ``h('h1', {'class': 'title'}, 'content')``
     * ``h('h1', 'title', class_='title')``
     * ``h('h1', class_='title')['content']``
+    * ``h('h1', class_='title', children=['content'])``
     """
     attr_name = html_safe_natural_attr
     is_void = tag in VOID_ELEMENTS
     n_args = len(args)
     attrs = dict(as_attr(attr_name(k), v) for k, v in attrs.items())
 
+    # Children can be set explicitly as a keyword argument since there is no
+    # "children" attribute in html. This makes the API closer to other VDOM libs
+    # in Js such as React.
+    if children is not None:
+        if args:
+            raise TypeError(
+                'cannot positional arguments if children is specified by a'
+                'keyword argument'
+            )
     if n_args == 0:
         children = []
     elif n_args == 1:

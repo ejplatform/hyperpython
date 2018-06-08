@@ -75,7 +75,8 @@ def make_type_renderer(cls):
 
     render.registry = registry
     render.type = cls
-    render.__name__ = f'render_{cls.__name__}'
+    if isinstance(cls, type):
+        render.__name__ = f'render_{cls.__name__}'
     return render
 
 
