@@ -17,5 +17,6 @@ try:
         time, var, output, acronym, applet, big, basefont, center, dir_, font,
         frame, frameset, noframes, strike, tt
     )
+    from .utils import escape, unescape, safe, sanitize
 except:
     pass

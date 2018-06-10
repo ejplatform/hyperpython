@@ -1,6 +1,6 @@
 import io
-
 from collections import Sequence
+
 from markupsafe import Markup
 from types import MappingProxyType
 
@@ -260,6 +260,12 @@ class Block(ElementMixin, Sequence):
 
     def __iter__(self):
         return iter(self.children)
+
+    def __getitem__(self, idx):
+        return self.children[idx]
+
+    def __len__(self):
+        return len(self.children)
 
     def dump(self, file):
         for child in self.children:

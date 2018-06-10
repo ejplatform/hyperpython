@@ -1,5 +1,5 @@
 from sidekick import import_later
-from ..core import Text
+from ..core import Text, Element, Block
 from ..utils.role_dispatch import role_singledispatch
 
 django_loader = import_later('django.template.loader')
@@ -40,7 +40,7 @@ def render(obj, role=None, ctx=None, strict=True):
 
 
 @role_singledispatch
-def _render(obj, role, ctx):
+def _render(obj, role, ctx=None):
     raise render_error(obj, role)
 
 
@@ -53,6 +53,13 @@ def _render_str(data, ctx=None):
 @_render.register(float)
 def _render_atom(data, ctx=None):
     return Text(str(data))
+
+
+@_render.register(Element)
+@_render.register(Text)
+@_render.register(Block)
+def _(obj, ctx=None):
+    return obj
 
 
 #
