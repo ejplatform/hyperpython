@@ -308,8 +308,14 @@ def as_child(value):
     elif isinstance(value, Tag):
         return Tag._h_function(value.tag)
     elif hasattr(value, '__html__'):
-        return Text(Markup(value.__html__()), escape=False)
+        return Text(value.__html__(), escape=False)
+    elif hasattr(value, '__hyperpython__'):
+        return value.__hyperpython__()
     else:
+        data = str(value)
+        if data == value:
+            return Text(data)
+        
         type_name = value.__class__.__name__
         raise TypeError('invalid type for a child node: %s' % type_name)
 
