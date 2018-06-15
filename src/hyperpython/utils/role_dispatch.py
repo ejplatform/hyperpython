@@ -4,7 +4,7 @@ from .lazy_singledispatch import lazy_singledispatch
 django_loader = import_later('django.template.loader')
 
 
-def role_singledispatch(func):
+def role_singledispatch(func):  # noqa: C901
     """
     Like single dispatch, but dispatch based on the type of the first argument
     and role string.

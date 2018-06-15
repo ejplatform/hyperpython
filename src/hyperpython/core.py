@@ -27,6 +27,9 @@ class ElementMixin:
     is_element = False
     is_void = False
 
+    def _display_html_(self):
+        return self.__html__()
+
     def render(self):
         """
         Renders object as string.
@@ -315,7 +318,6 @@ def as_child(value):
         data = str(value)
         if data == value:
             return Text(data)
-        
         type_name = value.__class__.__name__
         raise TypeError('invalid type for a child node: %s' % type_name)
 
