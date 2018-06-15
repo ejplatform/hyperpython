@@ -50,18 +50,21 @@ mess into smaller pieces.
 
 .. code-block:: python
 
-    from hyperpython import button, div, p, ul, li, span
+    from hyperpython import button, div, p, ul, li, span, a
 
     def menu_button(name, caret=True):
         return \
-            button(type='button',
-                   class_='btn btn-default dropdown-toggle',
-                   data_toggle="dropdown",
-                   aria_haspopup="true",
-                   aria-expanded="false")[
-                name,
-                span(class_='caret') if caret else None,  # Nones are ignored
-            ]
+            button(
+                type='button',
+                class_='btn btn-default dropdown-toggle',
+                data_toggle="dropdown",
+                aria_haspopup="true",
+                aria_expanded="false",
+                children=[
+                    name,
+                    span(class_='caret') if caret else None,  # Nones are ignored
+                ],
+            )
 
 Ok, it looks like it's a lot of trouble for a simple component. But now we can
 reuse this piece and easily make as many buttons as we like: ``menu_button('File'), menu_button('Edit'), ...``.
@@ -75,12 +78,12 @@ a menu separator.
     def menu_data(values):
         def do_item(x):
             if x is ...:
-                return li(role='separator', class='divider')
+                return li(role='separator', class_='divider')
             else:
                 # This could parse the href from string, or take a tuple
                 # input, or whatever you like. The hyperpython.helpers.link function
                 # can be handy here.
-                return li[a(href='#')[x]]
+                return li(a(x, href='#'))
 
         return \
             ul(class_='dropdown-menu')[
@@ -110,27 +113,6 @@ We glue both together...
         ]
 
 Look how nice it is now :)
-
-
-The with statement
-==================
-
-If you have more complex logic the "with" syntax can be handy.
-
->>> with div(class_='card') as fragment:
-...     +h1('Multi-hello')
-...     for i in range(1, 4):
-...         +p('hello %s' % i)
->>> print(fragment.pretty())
-<div class="card">
-  <h1>Multi-hello</h1>
-  <p>hello 1</p>
-  <p>hello 2</p>
-  <p>hello 3</p>
-</div>
-
-The unary + operator says *"add me to the node defined in the last with
-statement"*. Nested ``with`` statements are also supported.
 
 
 How does it work?
@@ -206,11 +188,13 @@ define a tag's children with list comprehensions and maps:
 
 .. code-block:: python
 
+    words = ['name1', 'name2']
+    urls = ['url1', 'url2']
     element = \
-        div[
-            [span(x) for x in words],
-            map(lambda x, y: a(x, href=b), words, hyperlinks),
-        ]
+        div([
+            *[span(x) for x in words],
+            *map(lambda x, y: a(x, href=y), words, urls),
+        ])
 
 Since square brackets were already taken to define the children elements of a
 tag, we cannot use them to directly access the children elements of a tag.
@@ -218,7 +202,7 @@ Instead, this must be done explicitly using the ``tag.children`` interface.
 It behaves just as a regular list so you can do things as
 
 >>> elem = div('foo', class_='elem')
->>> elem.children.append('Hello world')
+>>> elem.add_child('Hello world')
 >>> first = elem.children.pop(0)
 >>> print(elem)
 <div class="elem">Hello world</div>
@@ -240,4 +224,4 @@ the list of classes in the ``tag.classes`` attribute.
 ('id', ['class'])
 >>> elem.id = 'new-id'
 >>> print(elem)
-<div id="new-id" class="class">foo</div>
+<div class="class" id="new-id">foo</div>

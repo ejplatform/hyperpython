@@ -1,13 +1,13 @@
 import io
 from collections import Sequence
+from types import MappingProxyType
 
 from markupsafe import Markup
-from types import MappingProxyType
 
 from .renderers import dump_attrs, render_pretty
 from .utils import flatten, unescape, escape as _escape
 
-SEQUENCE_TYPES = (tuple, list, type(x for x in []))
+SEQUENCE_TYPES = (tuple, list, type(x for x in []), type(map(lambda: 0, [])))
 
 
 class ElementMixin:
@@ -20,6 +20,10 @@ class ElementMixin:
     attrs = MappingProxyType({})
     classes = property(lambda self: self.attrs.get('class', []))
     id = property(lambda self: self.attrs.get('id'))
+
+    @id.setter
+    def id(self, value):
+        self.attrs['id'] = value
 
     children = ()
     requires = ()
@@ -84,6 +88,15 @@ class ElementMixin:
             if obj.is_element:
                 yield obj
                 yield from (child.walk_tags() for child in obj.children)
+
+    def add_child(self, value):
+        """
+        Add child element to data structure.
+
+        Caveat: Hyperpython *do not* enforce immutability, but it is a good
+        practice to keep HTML data structures immutable.
+        """
+        self.children.append(as_child(value))
 
 
 # ------------------------------------------------------------------------------

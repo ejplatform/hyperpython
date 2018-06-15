@@ -1,6 +1,4 @@
-from collections import Sequence
-
-from .core import Tag, Element, Text, as_child, as_attr
+from .core import Tag, Element, Text, as_child, as_attr, SEQUENCE_TYPES
 from .utils import html_safe_natural_attr
 
 # https://www.w3.org/TR/html5/syntax.html#void-elements
@@ -34,7 +32,7 @@ def h(tag, *args, children=None, **attrs):
                 'cannot positional arguments if children is specified by a'
                 'keyword argument'
             )
-        args = (attrs, children)
+        args = (attrs, _as_children(children))
         n_args = 2
     if n_args == 0:
         children = []
@@ -59,7 +57,7 @@ def _as_children(data):
         return [Text(data)]
     elif isinstance(data, Element):
         return [data]
-    elif isinstance(data, Sequence):
+    elif isinstance(data, SEQUENCE_TYPES):
         return list(map(as_child, data))
     else:
         return [as_child(data)]
