@@ -27,7 +27,7 @@ class ElementMixin:
     is_element = False
     is_void = False
 
-    def _display_html_(self):
+    def _repr_html_(self):
         return self.__html__()
 
     def render(self):

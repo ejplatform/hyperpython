@@ -34,6 +34,8 @@ def h(tag, *args, children=None, **attrs):
                 'cannot positional arguments if children is specified by a'
                 'keyword argument'
             )
+        args = (attrs, children)
+        n_args = 2
     if n_args == 0:
         children = []
     elif n_args == 1:
