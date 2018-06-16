@@ -96,7 +96,12 @@ class ElementMixin:
         Caveat: Hyperpython *do not* enforce immutability, but it is a good
         practice to keep HTML data structures immutable.
         """
-        self.children.append(as_child(value))
+        try:
+            append = self.children.append
+        except AttributeError:
+            raise TypeError('cannot change immutable structure')
+        else:
+            append(as_child(value))
 
 
 # ------------------------------------------------------------------------------
