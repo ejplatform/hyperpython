@@ -49,6 +49,6 @@ class TestCoreTagFunctionality:
         assert a == a.copy()
 
     def test_getitem_creates_new_tag_with_extra_children(self, a):
-        new = a['foo']
-        assert new is not a
-        assert str(new) == '<a class="cls" href="url">foo</a>'
+        new = a['!']
+        assert new is a
+        assert str(new) == '<a class="cls" href="url">click me!</a>'

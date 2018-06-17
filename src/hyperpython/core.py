@@ -4,8 +4,9 @@ from types import MappingProxyType
 
 from markupsafe import Markup
 
+from .helpers import classes
 from .renderers import dump_attrs, render_pretty
-from .utils import flatten, unescape, escape as _escape
+from .utils import unescape, escape as _escape
 
 SEQUENCE_TYPES = (tuple, list, type(x for x in []), type(map(lambda: 0, [])))
 
@@ -132,12 +133,12 @@ class Element(ElementMixin):
             raise ValueError('void elements cannot define children')
 
         if isinstance(item, SEQUENCE_TYPES):
-            children = flatten(item)
+            self.children.extend(map(as_child, item))
         elif item is None:
-            children = []
+            pass
         else:
-            children = [item]
-        return Element(self.tag, self.attrs, children, False, self.requires)
+            self.children.append(as_child(item))
+        return self
 
     def __str__(self):
         return str(self.__html__())
@@ -208,16 +209,23 @@ class Element(ElementMixin):
         new.requires = self.requires
         return new
 
-    def add_class(self, *classes):
+    def add_class(self, cls):
         """
-        Add classes to the class list.
+        Add class or group of classes to the class list.
+        """
+        cls = classes(cls)
+        if cls:
+            try:
+                orig = set(self.attrs['class'])
+                self.attrs['class'].extend(x for x in cls if x not in orig)
+            except KeyError:
+                self.attrs['class'] = list(cls)
 
-        Does nothing if class is already present.
+    def set_class(self, cls):
         """
-        try:
-            self.attrs['class'].extend(classes)
-        except KeyError:
-            self.attrs['class'] = list(classes)
+        Replace all current classes by the new ones.
+        """
+        self.attrs['class'] = list(classes(cls))
 
 
 # ------------------------------------------------------------------------------
@@ -304,15 +312,16 @@ class Block(ElementMixin, Sequence):
 #
 def as_attr(name, value):
     """
-    Convert arbitrary object to a valid value for an Element attribute.
+    Enforces an arbitrary pair of attribute name and value has a compatible
+    Hyperpython values.
 
     Args:
         name: attribute name
         value: attribute value
     """
     if name == 'class':
-        if isinstance(value, str):
-            return name, value.split(' ')
+        value = list(classes(value))
+        return name, value
     return name, value
 
 
@@ -320,6 +329,7 @@ def as_child(value):
     """
     Convert arbitrary object to a compatible Element object.
     """
+
     if isinstance(value, (Element, Text)):
         return value
     elif isinstance(value, (str, Markup)):

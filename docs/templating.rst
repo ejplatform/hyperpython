@@ -1,29 +1,40 @@
+.. module:: hyperpython
+
 ==========
 Templating
 ==========
 
-The goal of ``hyperpython`` is to replace a template engine such as Jinja2 by
-Python code that generates HTML fragments. This approach removes the constraints
-imposed by the template language and makes integration with surrounding Python
-code trivial.
+The goal of ``hyperpython`` is to replace a lot of work that would traditionally
+be done with a template engine such as Jinja2 by Python code that generates HTML
+fragments. Templating languages are obviously more efficient than Python for string
+interpolation, and are probably better than Python for the simple cases. However,
+HTML is a structured format that can be very repetitive to create when
+we treat it as a string.
 
-I know you are probably thinking: *"it is a really bad idea to mix template with
-logic"*. Hyperpython obviously doesn't prevent you from shooting yourself on the foot
-and you can make really messy code if you want. However, things can be very
-smooth if you stick to focused and simple components that adopt a more
-functional style.
+It is becoming increasingly common in the Javascript world to use more
+structured approaches to generate HTML (or DOM/virtual DOM nodes, since HTML
+strings are often not necessary on the frontend). React was probably the library
+that popularized this idea. As they elegantly put, "Templates separate technologies,
+not concerns". Their point being that it is better to generate DOM nodes in
+Javascript instead of choosing a deliberately underpowered language that has
+a that poorly communicates with your data sources. The same lesson can be
+applied to Python, on the server side.
 
-Our advice is: *break your code in small pieces and compose these pieces in
-simple and predictable ways*. Incidentally, this is a good advice for any form
+For those afraid of putting too much logic on templates, we recognize that
+Hyperpython doesn't prevent anyone from shooting itself on the foot (just like
+with any templating language). Things tend to be very smooth, however, if you
+stick to focused and simple elements that adopt a straightforward functional
+style. Our advice is: *break your code in small pieces and compose those pieces in
+simple and predictable ways*. Incidentally, this is a good advice for any piece
 of code ;).
-
-The fact is that our good old friend *"a function"* is probably simpler to use
-and composes much better than anything a templating engine has come up with.
 
 Let us dive in!
 
-We want to implement a little Bootstrap element that shows a menu with actions
-(this is a random example taken from Bootstrap website).
+A simple example
+================
+
+Suppose we want to implement a little Bootstrap element that shows a menu with
+actions (this is a random example taken from Bootstrap website).
 
 .. code-block:: html
 
@@ -44,33 +55,37 @@ We want to implement a little Bootstrap element that shows a menu with actions
       </ul>
     </div>
 
-Of course we could translate this directly into hyperpython code by calling the
+Of course we could translate this directly into Hyperpython code by calling the
 corresponding ``div()``'s, ``button()``'s, etc. But first, let us break up this
 mess into smaller pieces.
 
 .. code-block:: python
 
-    from hyperpython import button, div, p, ul, li, span, a
+    from hyperpython import button, div, p, ul, li, span, a, classes
 
-    def menu_button(name, caret=True):
+    def menu_button(name, caret=True, class_=None, **kwargs):
+        if caret:
+            children = [name, ' ', span(caret)]
+        else:
+            children = [name]
+
         return \
             button(
                 type='button',
-                class_='btn btn-default dropdown-toggle',
+                class_=['btn', 'btn-default', 'dropdown-toggle', *classes(class_)],
                 data_toggle="dropdown",
                 aria_haspopup="true",
                 aria_expanded="false",
-                children=[
-                    name,
-                    span(class_='caret') if caret else None,  # Nones are ignored
-                ],
+                children=children,
+                **kwargs
             )
 
-Ok, it looks like it's a lot of trouble for a simple component. But now we can
-reuse this piece and easily make as many buttons as we like: ``menu_button('File'), menu_button('Edit'), ...``.
+It might look like it's a lot of trouble for a simple component. But now we can
+reuse this piece easily instead of writing a similar code from scratch every time
+a new button is necessary: ``menu_button('File'), menu_button('Edit'), ...``.
 The next step is to create a function that takes a list of strings and return
 the corresponding menu (in the real world we might also want to control the href
-attribute). We are also going to be clever and use the Ellipsis (``...``) as
+attribute). We are also going to be clever and use Ellipsis (``...``) as
 a menu separator.
 
 .. code-block:: python
@@ -81,16 +96,12 @@ a menu separator.
                 return li(role='separator', class_='divider')
             else:
                 # This could parse the href from string, or take a tuple
-                # input, or whatever you like. The hyperpython.helpers.link function
-                # can be handy here.
+                # input, or whatever you like. The hyperpython.components.hyperlink
+                # function can be handy here.
                 return li(a(x, href='#'))
+        return ul(map(do_item, values), class_='dropdown-menu')
 
-        return \
-            ul(class_='dropdown-menu')[
-                map(do_item, values)
-            ]
-
-We glue both together...
+Now we glue both together...
 
 .. code-block:: python
 
@@ -118,8 +129,8 @@ Look how nice it is now :)
 How does it work?
 =================
 
-Hyperpython HTML syntax is obviously just regular Python wrapped in a HTML-wannabe
-DSL. How does it work?
+Hyperpython HTML syntax is just regular Python wrapped in a HTML-wannabe DSL.
+How does it work?
 
 Take the example:
 
@@ -131,97 +142,81 @@ Take the example:
             span("555-1234", class_="contact-phone"),
         ]
 
-The first positional argument is a single child element or a list of children.
-Keyword arguments are interpreted as tag attributes. Notice we did not use
-``class`` as an argument name because it is a reserved keyword in Python.
-Hyperpython, however, ignores all trailing underscores and converts underscores in
-the middle of the argument to dashes.
+In Hyperpython, we can declare attributes as keyword arguments and children as a
+index access. This clever abuse of Python syntax is good to creating expressive
+representations of HTML documents. Under the hood, Python call div() and
+generates an :cls:`Element` instance. Indexing is used to insert the given
+elements as children and then return the tag itself as a result. We encourage
+using this syntax only during element creation in order to avoid confusion.
 
-If your tag uses underscore in any attribute name or if you happen to have the
-attributes to values stored in a dictionary, just use the ``attrs`` argument
-of a tag constructor.
+Tag functions also accept a few alternative signatures:
 
-.. code-block:: python
+``h1('title')``:
+    First positional argument can be a single child, string or list of children.
+    This generates ``<h1>title</h1>``.
+``h1({'class': 'foo'}, 'title')``:
+    If the first argument is a dictionary, it is interpreted as attributes.
+    Notice that when passed this way, attribute names are not modified.
+    This generates ``<h1 class="foo">title</h1>``.
+``h1('title', class_='foo', data_foo=True)``:
+    Keyword arguments receive a special treatment: trailing underscores are
+    removed from names that conflict with Python keywords and underscores in the
+    middle of the word are converted to dashes.
+    This generates ``<h1 class="foo" data-foo>title</h1>``.
+``h1(class_='foo', children=['title'])``:
+    Children can also be passed as a keyword argument.
+    This generates ``<h1 class="foo">title</h1>``.
 
-    # <div my_attr="1" attrs="2" data-attr="3">foo</div>
+In HTML, tag attributes are all stringly typed. This is far from ideal and can
+be easily fixed since we are representing HTML from a more rigorously typed
+language. Hyperpython does the following coercions when interpreting
+attributes:
 
-    div('foo', attrs={'my_attr': 1, 'attrs': 2}, data_attr=3)
+"class" attribute:
+    Hyperpython expects a list of strings. If a single string is given, it is
+    split into several classes and saved as a list. It has a similar semantics as
+    the classList attribute in the DOM.
+    The list of classes can also be passed as a dictionary. In that case, it
+    includes all keys associated to a truthy value.
+boolean attributes:
+    A value of False or None for an attribute means that it should be omitted
+    from generated HTML. A value of True renders the attribute without the
+    associated value.
 
 
-Functional API
---------------
+Imperative interface
+--------------------
 
-
-
-Imperative API
---------------
-
-The contact-card element above could have been created in a more regular
-imperative fashion::
-
-    element = div(class_="contact-card")
-    span1 = span("john", class_="contact-name")
-    span2 = span("555-1234", class_="contact-phone")
-    element.children.extend([span1, span2])
-
-This is not as expressive as the first case and forces us to think *imperative*
-instead of thinking in *declarative markup*. This is not very natural for HTML
-and also tends to be more verbose. The "square bracket syntax" is just regular
-Python indexing syntax abused to call ``.children.extend`` to insert child
-elements into the tag's children attribute.
-
-More specifically, the ``tag[args]`` creates a copy of the original tag, flatten
-all list and tuple arguments, insert them into the copied object, and return it.
-The same hack is applied to the metaclass and this allow us to call tags that do
-not define any attribute like this:
-
-.. code-block:: python
-
-    element = \
-        div[
-            span('Foo'),
-            span('Bar'),
-        ]
-
-And since lists, tuples, mappings, and generators are flattened, we can also
-define a tag's children with list comprehensions and maps:
-
-.. code-block:: python
-
-    words = ['name1', 'name2']
-    urls = ['url1', 'url2']
-    element = \
-        div([
-            *[span(x) for x in words],
-            *map(lambda x, y: a(x, href=y), words, urls),
-        ])
-
-Since square brackets were already taken to define the children elements of a
-tag, we cannot use them to directly access the children elements of a tag.
-Instead, this must be done explicitly using the ``tag.children`` interface.
-It behaves just as a regular list so you can do things as
+We encourage users to adopt the declarative API and generally treat tags
+as immutable structures. Hyperpython does not enforce immutability and actually
+offers some APIs to change data structures inplace. Once a tag is created, it
+is possible to change it's attributes dictionary and list of children. We
+encourage to use the appropriate method instead of manipulating those data
+structures directly.
 
 >>> elem = div('foo', class_='elem')
->>> elem.add_child('Hello world')
->>> first = elem.children.pop(0)
+>>> elem.add_child('bar')
 >>> print(elem)
-<div class="elem">Hello world</div>
+<div class="elem">foobar</div>
 
-Similarly to children, attributes are also exposed in a special attribute named
-`attrs` that behaves like a dictionary:
+Similarly to the children property, attributes are also exposed:
 
->>> elem = div('foo', class_='elem')
 >>> elem.attrs['data-answer'] = 42
 >>> elem.attrs.keys()
 dict_keys(['class', 'data-answer'])
 
-The attrs dictionary also exposes the ``id`` and ``class`` elements as read-only
-values. ``id`` is also exposed as an attribute and ``class`` is constructed from
-the list of classes in the ``tag.classes`` attribute.
+Manipulating the list of classes and the element id also introduces specialized
+methods and attributes. The ``.id`` and ``.classes`` attributes expose those
+two properties.
 
 >>> elem = div('foo', class_='class', id='id')
 >>> elem.id, elem.classes
 ('id', ['class'])
->>> elem.id = 'new-id'
+
+Classes can be manipulated directly, but it is safer to use the
+``elem.add_class()`` and ``elem.set_class()`` methods, since they understand
+all the different ways Hyperpython uses to specify a list of classes.
+
+>>> elem.add_class('bar baz')
 >>> print(elem)
-<div class="class" id="new-id">foo</div>
+<div class="class bar baz" id="id">foo</div>

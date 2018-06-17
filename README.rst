@@ -16,10 +16,11 @@ HyperPython
 -----------
 
 HyperPython is a Python interpretion of
-`Hyperscript <http://https://github.com/hyperhype/hyperscript>`. This lib
-allow us to generate, manipulate and query HTML documents using a small DSL
-embedded in Python. Just like Hyperscript, the default entry
-point is the `h` function:
+`Hyperscript <http://https://github.com/hyperhype/hyperscript>`_. If you are not
+familiar with Hyperscript, think of it as being something similar to React to
+Python, but without the JSX. This lib allow us to generate, manipulate and query
+HTML documents using a small DSL embedded in Python. Just like Hyperscript,
+the default entry point is the `h` function:
 
 >>> from hyperpython import h
 >>> elem = h('p', {'class': 'hello'}, 'Hello World!')
@@ -28,6 +29,9 @@ This can be converted to HTML by calling ``str()`` on the element:
 
 >>> print(str(elem))
 <p class="hello">Hello World!</p>
+
+Notice that the p tag could also be imported as a function from the hyperpython
+namespace.
 
 Python and HTML have very different semantics. HTML's syntax gravitates
 around tag attributes + children nodes and does not have a very natural
@@ -43,15 +47,15 @@ more natural way:
 ...         p('Now you can write HTML in Python!'),
 ...     ]
 
-By default, HyperPython stores the DOM node for a later use. We can introspect,
-and modify the result.
+HyperPython stores the DOM node for a later use. We can introspect, query and
+modify the result.
 
 >>> fragment.attrs['id'] = 'element-id'
 >>> len(fragment.children)
 2
 
-We can use str() to print a very compact HTML or the ``.pretty()`` method to
-get a more human-friendly version of the HTML.
+str() prints a very compact HTML. Use ``.pretty()`` to get a more human-friendly
+version of the HTML.
 
 >>> print(fragment.pretty())
 <div class="alert-box" id="element-id">

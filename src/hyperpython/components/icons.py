@@ -13,10 +13,10 @@ def icon_link(href, icon, **kwargs):
     """
     Returns an icon tag inside a anchor element.
     """
-    return a(globals()['icon'](icon), href=href, **kwargs)
+    return a(_icon(icon), href=href, **kwargs)
 
 
-def fa(icon, **kwargs):
+def fa_icon(icon, **kwargs):
     """
     Font awesome icon.
     """
@@ -24,7 +24,7 @@ def fa(icon, **kwargs):
     return i(class_=['fa', f'fa-{icon}', *cls], **kwargs)
 
 
-def fab(icon, **kwargs):
+def fab_icon(icon, **kwargs):
     """
     Font awesome brands icon.
     """
@@ -36,11 +36,14 @@ def fa_link(href, icon, **kwargs):
     """
     A font awesome icon inside a link.
     """
-    return a(fa(icon), href=href, **kwargs)
+    return a(fa_icon(icon), href=href, **kwargs)
 
 
 def fab_link(href, icon, **kwargs):
     """
     A font awesome brand icon inside a link.
     """
-    return a(fab(icon), href=href, **kwargs)
+    return a(fab_icon(icon), href=href, **kwargs)
+
+
+_icon = icon

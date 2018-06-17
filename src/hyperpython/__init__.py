@@ -4,6 +4,7 @@ Core Hyperpython API
 __version__ = '0.1.3'
 __author__ = 'Fábio Macêdo Mendes'
 
+# We put all
 try:
     from .core import Element, Text, Block
     from .tags import (
@@ -21,5 +22,7 @@ try:
         frame, frameset, noframes, strike, tt
     )
     from .utils import escape, unescape, safe, sanitize
-except:
-    pass
+    from .helpers import classes
+except Exception as exc:
+    print('Caught exception:', exc)
+    print('This is expected during installation.')

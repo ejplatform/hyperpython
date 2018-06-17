@@ -3,7 +3,7 @@ from markupsafe import Markup
 
 from hyperpython.components import markdown
 from hyperpython.renderers import render_html, render_single_attr, render_attrs, \
-    join_classes, js_class, dump_html
+    dump_html
 from hyperpython.renderers.helpers import render_pretty
 from hyperpython.utils import sanitize, safe
 
@@ -41,11 +41,6 @@ class TestRenderAttrs:
         assert render_single_attr('foo') == 'foo'
         assert render_single_attr(
             {'foo': 'bar'}) == '{&quot;foo&quot;: &quot;bar&quot;}'
-
-    def test_join_classes(self):
-        assert (join_classes(['x', 'y', False], None, "foo bar")
-                == ['x', 'y', 'foo', 'bar'])
-        assert js_class(['x', 'y'], None, "foo bar") == 'x y foo bar'
 
 
 class TestEscape:
