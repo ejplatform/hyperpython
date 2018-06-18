@@ -2,14 +2,23 @@
 Frequently asked questions
 ==========================
 
-Usage
-=====
+Dependencies
+============
 
-Why is this file empty?
------------------------
+Will it ever support Python 2.7?
+--------------------------------
 
-Because this project is in its infancy ;)
+No. Python 2.7 will meet its end-of-life in 2020, and all projects that use it
+should be planning on moving to Python 3.
 
-We don't know which questions are the most "frequent" yet. If you have doubts
-go to our issue tracker in github and post a question. If we have to
-answer it twice, it might end up in this section.
+
+Will it ever support Python 3.5 or lower?
+-----------------------------------------
+
+Probably not. Hyperpython uses a functional programming library called Sidekick_
+which requires Python 3.6+. It is not impossible to port this library to 3.5,
+but it is a very low priority for the developers. You can make this happen by
+sending pull requests ;)
+
+
+.. _Sidekick: https://github.com/fabiommendes/sidekick/

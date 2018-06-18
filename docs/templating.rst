@@ -6,27 +6,27 @@ Templating
 
 The goal of ``hyperpython`` is to replace a lot of work that would traditionally
 be done with a template engine such as Jinja2 by Python code that generates HTML
-fragments. Templating languages are obviously more efficient than Python for string
-interpolation, and are probably better than Python for the simple cases. However,
-HTML is a structured format that can be very repetitive to create when
-we treat it as a string.
+fragments. Templating languages are obviously more efficient than pure Python for
+string interpolation, and should work better for simple cases. For long documents,
+however, templating can be very repetitive. HTML is a structured format and we
+eliminate duplication by composing simple functions and using other standard
+techniques in Software Engineering.
 
 It is becoming increasingly common in the Javascript world to use more
-structured approaches to generate HTML (or DOM/virtual DOM nodes, since HTML
-strings are often not necessary on the frontend). React was probably the library
-that popularized this idea. As they elegantly put, "Templates separate technologies,
-not concerns". Their point being that it is better to generate DOM nodes in
-Javascript instead of choosing a deliberately underpowered language that has
-a that poorly communicates with your data sources. The same lesson can be
-applied to Python, on the server side.
+structured approaches to generate HTML code (or direct creation of DOM/virtual DOM nodes).
+React was probably the library that popularized this idea. As they elegantly put,
+"Templates separate technologies, not concerns". The point being that it is
+better to generate DOM nodes in Javascript instead of choosing a deliberately
+underpowered language that has a that poorly communicates with your data
+sources created in Javascript. The same lesson can be applied to Python on
+the server side.
 
 For those afraid of putting too much logic on templates, we recognize that
-Hyperpython doesn't prevent anyone from shooting itself on the foot (just like
-with any templating language). Things tend to be very smooth, however, if you
-stick to focused and simple elements that adopt a straightforward functional
-style. Our advice is: *break your code in small pieces and compose those pieces in
-simple and predictable ways*. Incidentally, this is a good advice for any piece
-of code ;).
+Hyperpython doesn't prevent anyone from shooting itself on the foot, but neither
+does any minimally powerful templating language. The discipline we should exercise
+is to keep business logic separate from view logic. Our advice is:
+*break your code in small pieces and compose those pieces in simple and predictable ways*.
+Incidentally, this is a good advice for any piece of code ;).
 
 Let us dive in!
 
@@ -145,7 +145,7 @@ Take the example:
 In Hyperpython, we can declare attributes as keyword arguments and children as a
 index access. This clever abuse of Python syntax is good to creating expressive
 representations of HTML documents. Under the hood, Python call div() and
-generates an :cls:`Element` instance. Indexing is used to insert the given
+generates an :class:`Element` instance. Indexing is used to insert the given
 elements as children and then return the tag itself as a result. We encourage
 using this syntax only during element creation in order to avoid confusion.
 

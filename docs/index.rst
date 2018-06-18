@@ -16,6 +16,7 @@ a Python sub-language.
    Django integration <django.rst>
    API documentation <apidoc.rst>
    Frequently asked questions <faq.rst>
+   Roadmap <roadmap.rst>
    License <license.rst>
 
 Indices and tables
