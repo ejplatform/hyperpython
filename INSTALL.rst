@@ -20,6 +20,8 @@ option and execute as superuser by prepending the command with ``sudo``.
 Troubleshoot
 ------------
 
+Hyperpython requires Python 3.6+. Make sure you use an updated distribution.
+
 Windows users may find that these command will only works if typed from Python's
 installation directory.
 

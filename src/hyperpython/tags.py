@@ -10,13 +10,30 @@ VOID_ELEMENTS = {
 
 def h(tag, *args, children=None, **attrs):
     """
-    Create a tag.
+    Creates a tag.
 
-    * ``h('h1', 'content')``
-    * ``h('h1', {'class': 'title'}, 'content')``
-    * ``h('h1', 'title', class_='title')``
-    * ``h('h1', class_='title')['content']``
-    * ``h('h1', class_='title', children=['content'])``
+    It has many different signatures:
+
+    h('h1', 'content')
+        Content can be a string, a child node or a list of children.
+
+    h('h1', {'class': 'title'}, 'content')
+        If the second argument is a dictionary, it is interpreted as tag
+        attributes.
+
+    h('h1', 'title', class_='title')
+        Keyword arguments are also interpreted a attributes. The h function
+        makes a few changes: underscores are converted to dashes and trailing
+        underscores after Python keywords such as ``class_``, ``for_``, etc are
+        ignored.
+
+    h('h1', class_='title')['content']
+        Children can also be specified using squared brackets. It understands
+        strings, other tags, and lists of tags.
+
+    h('h1', class_='title', children=['content'])
+        Optionally, the list of children nodes can be specified as a keyword
+        argument.
     """
     attr_name = html_safe_natural_attr
     is_void = tag in VOID_ELEMENTS

@@ -1,34 +1,8 @@
 .. module:: hyperpython
 
-==========
-Templating
-==========
-
-The goal of ``hyperpython`` is to replace a lot of work that would traditionally
-be done with a template engine such as Jinja2 by Python code that generates HTML
-fragments. Templating languages are obviously more efficient than pure Python for
-string interpolation, and should work better for simple cases. For long documents,
-however, templating can be very repetitive. HTML is a structured format and we
-eliminate duplication by composing simple functions and using other standard
-techniques in Software Engineering.
-
-It is becoming increasingly common in the Javascript world to use more
-structured approaches to generate HTML code (or direct creation of DOM/virtual DOM nodes).
-React was probably the library that popularized this idea. As they elegantly put,
-"Templates separate technologies, not concerns". The point being that it is
-better to generate DOM nodes in Javascript instead of choosing a deliberately
-underpowered language that has a that poorly communicates with your data
-sources created in Javascript. The same lesson can be applied to Python on
-the server side.
-
-For those afraid of putting too much logic on templates, we recognize that
-Hyperpython doesn't prevent anyone from shooting itself on the foot, but neither
-does any minimally powerful templating language. The discipline we should exercise
-is to keep business logic separate from view logic. Our advice is:
-*break your code in small pieces and compose those pieces in simple and predictable ways*.
-Incidentally, this is a good advice for any piece of code ;).
-
-Let us dive in!
+========
+Tutorial
+========
 
 A simple example
 ================
@@ -55,9 +29,9 @@ actions (this is a random example taken from Bootstrap website).
       </ul>
     </div>
 
-Of course we could translate this directly into Hyperpython code by calling the
-corresponding ``div()``'s, ``button()``'s, etc. But first, let us break up this
-mess into smaller pieces.
+Of course we could translate this directly into Hyperpython by calling the
+corresponding ``div()``, ``button()``, etc functions. But first, let us break
+up this mess into smaller pieces.
 
 .. code-block:: python
 
@@ -65,7 +39,7 @@ mess into smaller pieces.
 
     def menu_button(name, caret=True, class_=None, **kwargs):
         if caret:
-            children = [name, ' ', span(caret)]
+            children = [name, ' ', span('caret')]
         else:
             children = [name]
 
@@ -129,8 +103,8 @@ Look how nice it is now :)
 How does it work?
 =================
 
-Hyperpython HTML syntax is just regular Python wrapped in a HTML-wannabe DSL.
-How does it work?
+Hyperpython syntax is just regular Python wrapped in a HTML-wannabe DSL. How
+does it work?
 
 Take the example:
 
@@ -143,8 +117,8 @@ Take the example:
         ]
 
 In Hyperpython, we can declare attributes as keyword arguments and children as a
-index access. This clever abuse of Python syntax is good to creating expressive
-representations of HTML documents. Under the hood, Python call div() and
+index access. This clever abuse of Python syntax is good for creating expressive
+representations of HTML documents. Under the hood, Python calls div() and
 generates an :class:`Element` instance. Indexing is used to insert the given
 elements as children and then return the tag itself as a result. We encourage
 using this syntax only during element creation in order to avoid confusion.
@@ -167,10 +141,9 @@ Tag functions also accept a few alternative signatures:
     Children can also be passed as a keyword argument.
     This generates ``<h1 class="foo">title</h1>``.
 
-In HTML, tag attributes are all stringly typed. This is far from ideal and can
-be easily fixed since we are representing HTML from a more rigorously typed
-language. Hyperpython does the following coercions when interpreting
-attributes:
+In HTML, all tag attributes are all stringly typed. This is far from ideal and can
+be easily fixed since we are representing HTML from a typed language.
+Hyperpython does the following coercions when interpreting attributes:
 
 "class" attribute:
     Hyperpython expects a list of strings. If a single string is given, it is
@@ -190,24 +163,22 @@ Imperative interface
 We encourage users to adopt the declarative API and generally treat tags
 as immutable structures. Hyperpython does not enforce immutability and actually
 offers some APIs to change data structures inplace. Once a tag is created, it
-is possible to change it's attributes dictionary and list of children. We
-encourage to use the appropriate method instead of manipulating those data
-structures directly.
+is possible to change it's attributes dictionary and list of children. There
+are also a few methods designed to manipulate Hyperpython data structures.
 
 >>> elem = div('foo', class_='elem')
 >>> elem.add_child('bar')
 >>> print(elem)
 <div class="elem">foobar</div>
 
-Similarly to the children property, attributes are also exposed:
+Attributes are also exposed in the .attrs dictionary:
 
 >>> elem.attrs['data-answer'] = 42
 >>> elem.attrs.keys()
 dict_keys(['class', 'data-answer'])
 
-Manipulating the list of classes and the element id also introduces specialized
-methods and attributes. The ``.id`` and ``.classes`` attributes expose those
-two properties.
+The "class" and "id" attributes are also exposed directly from the tag object
+since they are used so often:
 
 >>> elem = div('foo', class_='class', id='id')
 >>> elem.id, elem.classes

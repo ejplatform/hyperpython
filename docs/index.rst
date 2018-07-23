@@ -12,9 +12,9 @@ a Python sub-language.
 
    Overview <overview.rst>
    Installation instructions <install.rst>
-   Templating <templating.rst>
-   Django integration <django.rst>
+   Tutorial <tutorial.rst>
    API documentation <apidoc.rst>
+   Django integration <django.rst>
    Frequently asked questions <faq.rst>
    Roadmap <roadmap.rst>
    License <license.rst>

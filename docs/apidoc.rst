@@ -24,27 +24,27 @@ Functions
 ~~~~~~~~~
 
 The generic entry point is the :func:`h` function. It also has functions with
-same names of HTML tags.
+same names of all HTML tags.
 
 .. autofunction:: h
 
 
+Communication with external Python objects
+------------------------------------------
 
-Components
-----------
-
-Basic interfaces
-................
-
-.. automodule:: hyperpython.components
-   :members: render, render_html
+.. module:: hyperpython.components
+.. autofunction:: render
+.. autofunction:: render_html
 
 
 Hyperlinks
-..........
+----------
 
-.. automodule:: hyperpython.components
-   :members: hyperlink, url, a_or_p, a_or_span, breadcrumbs
+.. autofunction:: hyperlink
+.. autofunction:: url
+.. autofunction:: a_or_p
+.. autofunction:: a_or_span
+.. autofunction:: breadcrumbs
 
 
 HTML data structures
@@ -53,8 +53,9 @@ HTML data structures
 Those functions convert Python data structures to their natural HTML
 representations.
 
-.. automodule:: hyperpython.components
-   :members: html_list, html_map, html_table
+.. autofunction:: html_list
+.. autofunction:: html_map
+.. autofunction:: html_table
 
 
 Icons
@@ -63,12 +64,15 @@ Icons
 Generic icon support using the <i> tag and helper functions for Font Awesome
 icons.
 
-.. automodule:: hyperpython.components
-   :members: icon, icon_link, fa_icon, fab_icon, fa_link, fab_link
+.. autofunction:: icon
+.. autofunction:: icon_link
+.. autofunction:: fa_icon
+.. autofunction:: fab_icon
+.. autofunction:: fa_link
+.. autofunction:: fab_link
 
 
 Text
 ....
 
-.. automodule:: hyperpython.components
-   :members: markdown
+.. autofunction:: markdown
