@@ -220,12 +220,14 @@ class Element(ElementMixin):
                 self.attrs['class'].extend(x for x in cls if x not in orig)
             except KeyError:
                 self.attrs['class'] = list(cls)
+        return self
 
     def set_class(self, cls):
         """
         Replace all current classes by the new ones.
         """
         self.attrs['class'] = list(classes(cls))
+        return self
 
 
 # ------------------------------------------------------------------------------

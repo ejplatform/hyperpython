@@ -29,7 +29,7 @@ def fab_icon(icon, **kwargs):
     Font awesome brands icon.
     """
     cls = kwargs.pop('class_', ())
-    return i(class_=['fab', f'fab-{icon}', *cls], **kwargs)
+    return i(class_=['fab', f'fa-{icon}', *cls], **kwargs)
 
 
 def fa_link(href, icon, **kwargs):
