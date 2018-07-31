@@ -39,9 +39,26 @@ def render(obj, role=None, ctx=None, strict=True):
         return Text(str(obj))
 
 
+def render_request(request, obj, role=None, ctx=None, strict=True):
+    """
+    Similar to render(), but receives a WSGI request as first argument.
+
+    This function is framework agnostic, since WSGI is a Python protocol that is
+    a protocol that is implemented by several frameworks. It is unlikely,
+    however that implementations aimed to some specific framework will work
+    correctly in other frameworks.
+    """
+    return _render_request(obj, role, request, ctx)
+
+
 @role_singledispatch
 def _render(obj, role, ctx=None):
     raise render_error(obj, role)
+
+
+@role_singledispatch
+def _render_request(obj, role, request=None, ctx=None):
+    raise render(obj, role, ctx)
 
 
 @_render.register(str)
@@ -113,3 +130,26 @@ def register_template(cls, template, role=None, object_variable=None):
 render.register = _render.register
 render.dispatch = _render.dispatch
 render.register_template = register_template
+
+
+def register_request(cls):
+    def decorator(func):
+        def method(obj, role, request, **kwargs):
+            return func(request, obj, role, **kwargs)
+
+        method._function = func
+        return _render_request.register(method)
+
+    return decorator
+
+
+def dispatch(cls, role=None):
+    func = _render_request.dispatch(cls, role)
+    try:
+        return func._function
+    except AttributeError:
+        return lambda request, obj, role=None, **kwargs: func(obj, request, role, **kwargs)
+
+
+render_request.register = register_request
+render_request.dispatch = dispatch

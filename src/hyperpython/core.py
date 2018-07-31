@@ -1,8 +1,8 @@
 import io
 from collections import Sequence
-from types import MappingProxyType
 
 from markupsafe import Markup
+from types import MappingProxyType
 
 from .helpers import classes
 from .renderers import dump_attrs, render_pretty
@@ -209,17 +209,23 @@ class Element(ElementMixin):
         new.requires = self.requires
         return new
 
-    def add_class(self, cls):
+    def add_class(self, cls, first=False):
         """
         Add class or group of classes to the class list.
         """
-        cls = classes(cls)
-        if cls:
-            try:
-                orig = set(self.attrs['class'])
-                self.attrs['class'].extend(x for x in cls if x not in orig)
-            except KeyError:
-                self.attrs['class'] = list(cls)
+        new_classes = classes(cls)
+        try:
+            old_classes = self.attrs['class']
+        except KeyError:
+            self.attrs['class'] = new_classes
+        else:
+            if first:
+                class_set = set(new_classes)
+                new_classes.extend(x for x in old_classes if x not in class_set)
+                self.attrs['class'][:] = new_classes
+            else:
+                class_set = set(old_classes)
+                old_classes.extend(x for x in new_classes if x not in class_set)
         return self
 
     def set_class(self, cls):
@@ -235,7 +241,6 @@ class Text(Markup, ElementMixin):
     """
     It extends the Markup object with a Element-compatible API.
     """
-
     id = None
     classes = property(lambda self: [])
     unescaped = property(unescape)

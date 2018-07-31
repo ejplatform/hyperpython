@@ -1,5 +1,6 @@
 from collections import Mapping, Iterable
 
+from hyperpython import Element, h
 from .core import render
 from ..tags import ul, ol, li, dl, dd, dt, table, thead, tbody, tr, td, th
 
@@ -111,3 +112,13 @@ def to_header_row(obj, **options):
         return data
     else:
         return th(data)
+
+
+def wrap(obj, tag='div'):
+    """
+    Wraps object in a div (or any other specified tag) if it is not an element.
+    """
+    if isinstance(obj, Element):
+        return obj
+    else:
+        return h(tag, {}, obj)

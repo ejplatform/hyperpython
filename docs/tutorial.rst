@@ -188,6 +188,10 @@ Classes can be manipulated directly, but it is safer to use the
 ``elem.add_class()`` and ``elem.set_class()`` methods, since they understand
 all the different ways Hyperpython uses to specify a list of classes.
 
->>> elem.add_class('bar baz')
+>>> elem.add_class('bar baz')                               # doctest: +ELLIPSIS
+h(...)
 >>> print(elem)
 <div class="class bar baz" id="id">foo</div>
+
+Notice that add_class() returns the changed element and hence can be used in a
+fluid API style.

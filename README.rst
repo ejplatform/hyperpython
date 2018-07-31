@@ -51,7 +51,7 @@ code. We can apply the str() function for a compact representation of the output
 code or call ``.pretty()`` method to to get a more human-friendly output.
 
 >>> print(fragment.pretty())
-<div class="alert-box" id="element-id">
+<div class="alert-box">
   <h1>Hello Python</h1>
   <p>Now you can write HTML in Python!</p>
 </div>

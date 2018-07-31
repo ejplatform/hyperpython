@@ -1,49 +1,32 @@
+from .fa_icons import COLLECTIONS as FA_COLLECTIONS
 from ..tags import i, a
 
 
-def icon(icon, **kwargs):
+def icon(icon, href=None, icon_class=lambda x: x, **kwargs):
     """
     Returns a icon tag.
+
+    If an href attribute is passed, it wraps the results into a anchor link.
     """
-    cls = kwargs.pop('class_', ())
-    return i(class_=[*icon.split(), *cls], **kwargs)
+    if href:
+        return a(_icon(icon, href=href, **kwargs))
+    return i(**kwargs).add_class(icon_class(icon))
 
 
-def icon_link(href, icon, **kwargs):
-    """
-    Returns an icon tag inside a anchor element.
-    """
-    return a(_icon(icon), href=href, **kwargs)
-
-
-def fa_icon(icon, **kwargs):
+def fa_icon(icon, href=None, collection=None, **kwargs):
     """
     Font awesome icon.
     """
-    cls = kwargs.pop('class_', ())
-    return i(class_=['fa', f'fa-{icon}', *cls], **kwargs)
+    if collection is None:
+        collection = FA_COLLECTIONS.get(icon, 'fa')
+    return _icon(icon, href, lambda x: [collection, f'fa-{icon}'], **kwargs)
 
 
-def fab_icon(icon, **kwargs):
+def fab_icon(icon, href=None, **kwargs):
     """
     Font awesome brands icon.
     """
-    cls = kwargs.pop('class_', ())
-    return i(class_=['fab', f'fa-{icon}', *cls], **kwargs)
-
-
-def fa_link(href, icon, **kwargs):
-    """
-    A font awesome icon inside a link.
-    """
-    return a(fa_icon(icon), href=href, **kwargs)
-
-
-def fab_link(href, icon, **kwargs):
-    """
-    A font awesome brand icon inside a link.
-    """
-    return a(fab_icon(icon), href=href, **kwargs)
+    return fab_icon(icon, href, collection='fab', **kwargs)
 
 
 _icon = icon
