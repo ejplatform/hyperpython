@@ -1,3 +1,5 @@
+from types import MappingProxyType
+
 from sidekick import import_later
 from .lazy_singledispatch import lazy_singledispatch
 
@@ -13,6 +15,7 @@ def role_singledispatch(func):  # noqa: C901
     wrapped = lazy_singledispatch(func)
     single_register = wrapped.register
     single_dispatch = wrapped.dispatch
+    registry = {}
 
     def register(cls, role=None):
         """
@@ -33,6 +36,7 @@ def role_singledispatch(func):  # noqa: C901
 
         def decorator(func):
             impl.registry[role] = func
+            registry[cls, role] = impl
             return func
 
         return decorator
@@ -41,7 +45,6 @@ def role_singledispatch(func):  # noqa: C901
         """
         Return the implementation for the given type and role.
         """
-
         impl = single_dispatch(cls)
         if role is None:
             return impl
@@ -56,22 +59,23 @@ def role_singledispatch(func):  # noqa: C901
 
     wrapped.register = register
     wrapped.dispatch = dispatch
+    wrapped.registry = MappingProxyType(registry)
     return wrapped
 
 
 def make_type_renderer(cls):
     registry = {}
 
-    def render(obj, role=None, ctx=None):
-        ctx = {} if ctx is None else ctx
+    def render(obj, role=None, **kwargs):
         try:
             func = registry[role]
         except KeyError:
             try:
                 func = registry[None]
+                kwargs['role'] = role
             except KeyError:
                 raise error(obj, role)
-        return func(obj, ctx)
+        return func(obj, **kwargs)
 
     render.registry = registry
     render.type = cls

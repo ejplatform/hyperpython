@@ -65,11 +65,8 @@ Generic icon support using the <i> tag and helper functions for Font Awesome
 icons.
 
 .. autofunction:: icon
-.. autofunction:: icon_link
 .. autofunction:: fa_icon
 .. autofunction:: fab_icon
-.. autofunction:: fa_link
-.. autofunction:: fab_link
 
 
 Text

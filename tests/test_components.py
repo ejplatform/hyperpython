@@ -10,6 +10,14 @@ class CustomType:
         return 'custom'
 
 
+class CustomTypeWithHtml:
+    def __str__(self):
+        return 'custom'
+
+    def __html__(self):
+        return '<div>custom</div>'
+
+
 class TestRender:
     def test_render_base_python_types(self):
         assert render_html('hello') == 'hello'
@@ -21,19 +29,16 @@ class TestRender:
         assert render_html([1, 2]) == '<ul><li>1</li><li>2</li></ul>'
         assert render_html({'foo': 'bar'}) == '<dl><dt>foo</dt><dd>bar</dd></dl>'
 
-    def test_render_arbitrary_types_in_non_strict_mode(self):
-        assert render_html(CustomType(), strict=False) == 'custom'
-
-    def test_fail_in_strict_mode(self):
-        with pytest.raises(TypeError):
-            render_html(CustomType())
+    def test_render_arbitrary_types(self):
+        assert render_html(CustomType()) == 'custom'
+        assert render_html(CustomTypeWithHtml()) == '<div>custom</div>'
 
     def test_dispatch_custom_type(self):
         class Type:
             pass
 
         @render.register(Type)
-        def render_type(x, ctx=None):
+        def render_type(x, role=None):
             return Text('html')
 
         assert render_html(Type(), role='detail') == 'html'

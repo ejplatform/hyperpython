@@ -133,11 +133,6 @@ def lazy_singledispatch(func):  # noqa: C901
                 for cls in cls_list:
                     register(cls, func)
                 return
-            # else:
-            #     def decorator(func):
-            #         for cls in cls_list:
-            #             register(cls, func)
-            #     return decorator
 
         # Single class
         if func is None:
@@ -151,8 +146,9 @@ def lazy_singledispatch(func):  # noqa: C901
         dispatch_cache.clear()
         return func
 
-    def wrapper(*args, **kw):
-        return dispatch(args[0].__class__)(*args, **kw)
+    def wrapper(*args, **kwargs):
+        impl = dispatch(args[0].__class__)
+        return impl(*args, **kwargs)
 
     registry[object] = fallback
     wrapper.register = register
