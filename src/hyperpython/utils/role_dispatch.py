@@ -1,5 +1,6 @@
 from types import MappingProxyType
 
+from hyperpython import Text
 from sidekick import import_later
 from .lazy_singledispatch import lazy_singledispatch
 
@@ -74,7 +75,7 @@ def make_type_renderer(cls):
                 func = registry[None]
                 kwargs['role'] = role
             except KeyError:
-                raise error(obj, role)
+                return Text(str(obj))
         return func(obj, **kwargs)
 
     render.registry = registry
