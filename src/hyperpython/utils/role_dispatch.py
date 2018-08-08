@@ -14,8 +14,9 @@ def role_singledispatch(func):  # noqa: C901
     """
 
     wrapped = lazy_singledispatch(func)
-    single_register = wrapped.register
-    single_dispatch = wrapped.dispatch
+    cls_register = wrapped.register
+    cls_dispatch = wrapped.dispatch
+    cls_registry = wrapped.registry
     registry = {}
 
     def register(cls, role=None):
@@ -30,10 +31,10 @@ def role_singledispatch(func):  # noqa: C901
                 Roles define alternate contexts for rendering the same object.
         """
         try:
-            impl = wrapped.registry[cls]
+            impl = cls_registry[cls]
         except KeyError:
             impl = make_type_renderer(cls)
-            single_register(cls)(impl)
+            cls_register(cls)(impl)
 
         def decorator(func):
             impl.registry[role] = func
@@ -46,17 +47,14 @@ def role_singledispatch(func):  # noqa: C901
         """
         Return the implementation for the given type and role.
         """
-        impl = single_dispatch(cls)
+        impl = cls_dispatch(cls)
         if role is None:
             return impl
         try:
             return impl.registry[role]
         except KeyError:
-            try:
-                return impl.registry[None]
-            except KeyError:
-                msg = 'no implementation for %s (role=%r' % (cls.__name__, role)
-                raise TypeError(msg)
+            msg = 'no implementation for %s (role=%r' % (cls.__name__, role)
+            raise TypeError(msg)
 
     wrapped.register = register
     wrapped.dispatch = dispatch
