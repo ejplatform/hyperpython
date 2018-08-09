@@ -1,6 +1,6 @@
 from sidekick import import_later, Proxy
-from ..core import Text, Element, Block
-from ..utils.role_dispatch import role_singledispatch
+from .core import Text, Element, Block
+from .utils.role_dispatch import role_singledispatch
 
 django_loader = import_later('django.template.loader')
 
@@ -41,11 +41,11 @@ def render(obj, role=None, **kwargs):
 #
 # Auxiliary functions
 #
-def register_template(cls, template, role=None):
+def register_template(cls, template, role=None, function=None):
     """
-    Register a template-based renderer.
+    Decorator that registers a template-based renderer.
 
-    (Currently, only Django templates are supported)
+    (Currently, only Django templates are supported).
 
     Args:
         cls:
@@ -54,7 +54,36 @@ def register_template(cls, template, role=None):
             Template name or list of template names.
         role:
             Optional role for the template.
+
+    Examples:
+        The decorated function must receive an instance of `cls` as first
+        argument and any number of keyword arguments. It should return a context
+        dictionary that is passed to the template to render the final HTML
+        string.
+
+        @render.register_template(User, 'users/user-contact.html', 'contact')
+        def user_contact(user, **kwargs):
+            return {
+                'name': user.name,
+                'email': user.get_public_email(),
+                # ...
+            }
+
+        The role can be omitted to register a fallback implementation for the
+        given model. The fallback receives the passed role as a keyword
+        argument.
+
+        @render.register_template(User, 'users/user-generic.html')
+        def user_contact(user, role=None, **kwargs):
+            return {
+                'user': user,
+                'role': role,
+            }
     """
+    if function is not None:
+        render.register_template(cls, template, role=role)(function)
+        return
+
     template = django_loader.get_template(template)
     renderer = template.render
 

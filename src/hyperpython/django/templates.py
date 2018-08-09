@@ -63,6 +63,7 @@ class Origin:
     A container to hold debug information as described in the template API
     documentation.
     """
+
     def __init__(self, name, template_name):
         self.name = name
         self.template_name = template_name

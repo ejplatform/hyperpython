@@ -1,5 +1,5 @@
 import sidekick as sk
-from hyperpython.utils import safe
+from ..utils import safe
 
 _markdown = sk.import_later('markdown:markdown')
 

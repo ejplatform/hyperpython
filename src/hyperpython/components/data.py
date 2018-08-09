@@ -1,7 +1,8 @@
 from collections import Mapping, Iterable
 
-from hyperpython import Element, h
-from .core import render
+from ..core import Element
+from ..tags import h
+from ..render import render
 from ..tags import ul, ol, li, dl, dd, dt, table, thead, tbody, tr, td, th
 
 

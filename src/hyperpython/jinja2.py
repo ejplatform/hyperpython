@@ -1,6 +1,6 @@
 from jinja2.filters import contextfilter
 
-from ..components import render
+from hyperpython import render
 
 
 @contextfilter

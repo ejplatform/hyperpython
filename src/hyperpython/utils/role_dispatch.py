@@ -1,3 +1,4 @@
+from functools import partial
 from types import MappingProxyType
 
 from hyperpython import Text
@@ -53,8 +54,7 @@ def role_singledispatch(func):  # noqa: C901
         try:
             return impl.registry[role]
         except KeyError:
-            msg = 'no implementation for %s (role=%r' % (cls.__name__, role)
-            raise TypeError(msg)
+            return partial(impl, role=role)
 
     wrapped.register = register
     wrapped.dispatch = dispatch

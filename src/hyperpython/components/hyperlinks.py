@@ -1,6 +1,6 @@
 import collections
 
-from .core import render
+from ..render import render
 from ..core import Element
 from ..tags import a, p, span, h
 from ..utils import escape, lazy_singledispatch

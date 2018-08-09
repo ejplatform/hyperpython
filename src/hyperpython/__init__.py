@@ -7,6 +7,7 @@ __author__ = 'Fábio Macêdo Mendes'
 # We put all
 try:
     from .core import Element, Text, Block
+    from .render import render, render_html
     from .tags import (
         HTML5, h,
         body, head, meta, link, title, div, span, article, aside, details, footer,

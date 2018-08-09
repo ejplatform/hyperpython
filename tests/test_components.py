@@ -1,8 +1,8 @@
 import pytest
 
-from hyperpython import Text
+from hyperpython import Text, render, render_html
 from hyperpython.components import (
-    hyperlink, render_html, render, html_table, html_list, html_map, a_or_p,
+    hyperlink, html_table, html_list, html_map, a_or_p,
     a_or_span, fab_icon, fa_icon,
 )
 from hyperpython.components.hyperlinks import split_link
@@ -42,11 +42,10 @@ class TestRender:
 
         @render.register(Type)
         def render_type(x, role=None):
-            return Text('html')
+            return Text('html' if role is None else f'html-{role}')
 
-        assert render_html(Type(), role='detail') == 'html'
-        assert render.dispatch(Type)(Type()) == 'html'
-        assert render.dispatch(Type, role='detail')(Type()) == 'html'
+        assert render_html(Type()) == 'html'
+        assert render_html(Type(), role='detail') == 'html-detail'
 
 
 class TestHyperlink:
