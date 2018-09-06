@@ -1,10 +1,10 @@
 """
 Core Hyperpython API
 """
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 __author__ = 'Fábio Macêdo Mendes'
 
-# We put all
+# Ugly hack to make it possible to store __version__ directly on __init__.py
 try:
     from .core import Element, Text, Block
     from .html import html, render
@@ -25,6 +25,6 @@ try:
     from .utils import escape, unescape, safe, sanitize
     from .fragment import fragment
     from .helpers import classes
-except Exception as exc:
+except ImportError as exc:
     print('Caught exception:', exc)
     print('This is expected during installation.')
