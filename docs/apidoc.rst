@@ -29,16 +29,24 @@ same names of all HTML tags.
 .. autofunction:: h
 
 
-Communication with external Python objects
-------------------------------------------
+Creation of HTML elements for Python objects
+--------------------------------------------
+
+.. autofunction:: html
+.. autofunction:: render
+.. autofunction:: fragment
+
+
+Hyperpython components
+----------------------
 
 .. module:: hyperpython.components
-.. autofunction:: render
-.. autofunction:: render_html
+
+All functions bellow belongs to the :mod:`hyperpython.components` module.
 
 
 Hyperlinks
-----------
+~~~~~~~~~~
 
 .. autofunction:: hyperlink
 .. autofunction:: url
@@ -48,7 +56,7 @@ Hyperlinks
 
 
 HTML data structures
-....................
+~~~~~~~~~~~~~~~~~~~~
 
 Those functions convert Python data structures to their natural HTML
 representations.
@@ -59,7 +67,7 @@ representations.
 
 
 Icons
-.....
+~~~~~
 
 Generic icon support using the <i> tag and helper functions for Font Awesome
 icons.
@@ -70,6 +78,6 @@ icons.
 
 
 Text
-....
+~~~~
 
 .. autofunction:: markdown

@@ -1,4 +1,5 @@
 from sidekick import import_later, Proxy
+
 from .core import Text, Element, Block
 from .utils.role_dispatch import role_singledispatch
 
@@ -30,6 +31,15 @@ def render(obj, role=None, **kwargs):
     Returns:
         A hyperpython object.
     """
+    # Try the html_role interface.
+    try:
+        method = obj.html_role
+    except AttributeError:
+        pass
+    else:
+        return method(role=role, **kwargs)
+
+    # Fallback to __html__ or string renderers
     try:
         raw = obj.__html__()
     except AttributeError:
@@ -45,7 +55,7 @@ def register_template(cls, template, role=None, function=None):
     """
     Decorator that registers a template-based renderer.
 
-    (Currently, only Django templates are supported).
+    (Currently, only Django is supported).
 
     Args:
         cls:
@@ -54,6 +64,8 @@ def register_template(cls, template, role=None, function=None):
             Template name or list of template names.
         role:
             Optional role for the template.
+        function (callable):
+            Decorated function (when not using the decorator syntax).
 
     Examples:
         The decorated function must receive an instance of `cls` as first
@@ -81,8 +93,7 @@ def register_template(cls, template, role=None, function=None):
             }
     """
     if function is not None:
-        render.register_template(cls, template, role=role)(function)
-        return
+        return render.register_template(cls, template, role=role)(function)
 
     template = django_loader.get_template(template)
     renderer = template.render
