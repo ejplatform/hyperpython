@@ -51,7 +51,7 @@ def test_create_tag_with_single_child():
 def test_tag_representation():
     assert repr(p()) == "h('p')"
     assert repr(p(class_='foo')) == "h('p', {'class': ['foo']})"
-    assert repr(div[p, p('foo')]) == "h('div', [h('p'), h('p', [Text('foo')])])"
+    assert repr(div[p, p('foo')]) == "h('div', [h('p'), h('p', 'foo')])"
 
 
 def test_tag_str_representation():

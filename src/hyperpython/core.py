@@ -1,8 +1,8 @@
 import io
 from collections import Sequence
+from types import MappingProxyType
 
 from markupsafe import Markup
-from types import MappingProxyType
 
 from .helpers import classes
 from .renderers import dump_attrs, render_pretty
@@ -34,6 +34,9 @@ class ElementMixin:
 
     def _repr_html_(self):
         return self.__html__()
+
+    def _repr_child_(self):
+        return self.__repr__()
 
     def render(self):
         """
@@ -146,12 +149,18 @@ class Element(ElementMixin):
     def __repr__(self):
         attrs = self.attrs
         children = self.children
+        if len(children) == 1 and isinstance(children[0], Text):
+            children_repr = children[0]._repr_child_()
+        else:
+            data = ', '.join(x._repr_child_() for x in children)
+            children_repr = f'[{data}]'
+
         if attrs and children:
-            return 'h(%r, %r, %r)' % (self.tag, self.attrs, self.children)
+            return 'h(%r, %s, %s)' % (self.tag, attrs, children_repr)
         elif attrs:
-            return 'h(%r, %r)' % (self.tag, attrs)
+            return 'h(%r, %s)' % (self.tag, attrs)
         elif children:
-            return 'h(%r, %r)' % (self.tag, children)
+            return 'h(%r, %s)' % (self.tag, children_repr)
         else:
             return 'h(%r)' % self.tag
 
@@ -265,6 +274,12 @@ class Text(Markup, ElementMixin):
 
     def __repr__(self):
         return 'Text(%r)' % str(self)
+
+    def _repr_child_(self):
+        if self.escape:
+            return repr(str(self))
+        else:
+            return repr(self)
 
     def render(self):
         return self.__html__()

@@ -1,6 +1,6 @@
 import pytest
 
-from hyperpython import Text, render, render_html
+from hyperpython import Text, html, render
 from hyperpython.components import (
     hyperlink, html_table, html_list, html_map, a_or_p,
     a_or_span, fab_icon, fa_icon,
@@ -23,29 +23,29 @@ class CustomTypeWithHtml:
 
 class TestRender:
     def test_render_base_python_types(self):
-        assert render_html('hello') == 'hello'
-        assert render_html(42) == '42'
-        assert render_html(3.14) == '3.14'
+        assert render('hello') == 'hello'
+        assert render(42) == '42'
+        assert render(3.14) == '3.14'
 
     def test_escape_strings_when_rendering(self):
-        assert render_html('<') == '&lt;'
-        assert render_html([1, 2]) == '<ul><li>1</li><li>2</li></ul>'
-        assert render_html({'foo': 'bar'}) == '<dl><dt>foo</dt><dd>bar</dd></dl>'
+        assert render('<') == '&lt;'
+        assert render([1, 2]) == '<ul><li>1</li><li>2</li></ul>'
+        assert render({'foo': 'bar'}) == '<dl><dt>foo</dt><dd>bar</dd></dl>'
 
     def test_render_arbitrary_types(self):
-        assert render_html(CustomType()) == 'custom'
-        assert render_html(CustomTypeWithHtml()) == '<div>custom</div>'
+        assert render(CustomType()) == 'custom'
+        assert render(CustomTypeWithHtml()) == '<div>custom</div>'
 
     def test_dispatch_custom_type(self):
         class Type:
             pass
 
-        @render.register(Type)
+        @html.register(Type)
         def render_type(x, role=None):
             return Text('html' if role is None else f'html-{role}')
 
-        assert render_html(Type()) == 'html'
-        assert render_html(Type(), role='detail') == 'html-detail'
+        assert render(Type()) == 'html'
+        assert render(Type(), role='detail') == 'html-detail'
 
 
 class TestHyperlink:

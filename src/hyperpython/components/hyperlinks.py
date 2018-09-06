@@ -1,6 +1,6 @@
 import collections
 
-from ..render import render
+from ..html import html
 from ..core import Element
 from ..tags import a, p, span, h
 from ..utils import escape, lazy_singledispatch
@@ -69,7 +69,7 @@ def hyperlink(obj, href=None, **attrs) -> Element:
             of how keyword arguments are translated into HTML attributes.
     """
 
-    data = render(obj)
+    data = html(obj)
     attrs['href'] = href or url(obj)
     return h('a', attrs, data)
 
@@ -98,7 +98,7 @@ def _hyperlink_map(obj, **attrs):
 @hyperlink.register('django.db.models.Model')
 def _hyperlink_model(x, **attrs):
     attrs['href'] = attrs.get('href') or x.get_absolute_url()
-    body = render(x, strict=False)
+    body = html(x)
     return h('a', attrs, body)
 
 

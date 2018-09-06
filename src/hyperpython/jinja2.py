@@ -1,6 +1,6 @@
 from jinja2.filters import contextfilter
 
-from hyperpython import render
+from hyperpython import html
 
 
 @contextfilter
@@ -12,9 +12,9 @@ def role(ctx, obj, role, **kwargs):
     try:
         request = ctx['request']
     except KeyError:
-        return render(obj, role, **kwargs)
+        return html(obj, role, **kwargs)
     else:
-        return render(obj, role, request=request, **kwargs)
+        return html(obj, role, request=request, **kwargs)
 
 
 #

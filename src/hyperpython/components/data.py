@@ -1,13 +1,13 @@
 from collections import Mapping, Iterable
 
 from ..core import Element
+from ..html import html
 from ..tags import h
-from ..render import render
 from ..tags import ul, ol, li, dl, dd, dt, table, thead, tbody, tr, td, th
 
 
-@render.register(Iterable)
-def html_list(data, ordered=False, role=None, strict=False, ctx=None, **kwargs):
+@html.register(Iterable)
+def html_list(data, ordered=False, role=None, **kwargs):
     """
     Convert a Python iterable into an HTML list element.
 
@@ -16,9 +16,8 @@ def html_list(data, ordered=False, role=None, strict=False, ctx=None, **kwargs):
             Sequence data.
         ordered:
             If True, returns an ordered list (<ol>) element.
-        role, strict, ctx:
-            Arguments to pass to render() to transform each element in the
-            sequence.
+        role:
+            Role passed to render each item in the sequence.
 
         Additional keyword arguments are passed to the root element.
 
@@ -32,12 +31,12 @@ def html_list(data, ordered=False, role=None, strict=False, ctx=None, **kwargs):
         </ul>'
     """
     tag = ol if ordered else ul
-    body = [li(render(x, role=role, strict=strict, ctx=ctx)) for x in data]
+    body = [li(html(x, role=role)) for x in data]
     return tag(body, **kwargs)
 
 
-@render.register(Mapping)
-def html_map(data, role=None, ctx=None, strict=False, **kwargs):
+@html.register(Mapping)
+def html_map(data, role=None, **kwargs):
     """
     Renders mapping as a description list.
 
@@ -61,13 +60,14 @@ def html_map(data, role=None, ctx=None, strict=False, **kwargs):
         </dl>
     """
     body = []
-    for k, v in data.items():
-        body.append(dt(render(k, role=role, ctx=ctx, strict=strict)))
-        body.append(dd(render(v, role=role, ctx=ctx, strict=strict)))
+    items = getattr(data, 'items', lambda: data)
+    for k, v in items():
+        body.append(dt(html(k, role=role)))
+        body.append(dd(html(v, role=role)))
     return dl(body, **kwargs)
 
 
-def html_table(data, columns=None, role=None, ctx=None, strict=False, **kwargs):
+def html_table(data, columns=None, role=None, **kwargs):
     """
     Convert 2D matrix-like data to an HTML table.
 
@@ -95,9 +95,9 @@ def html_table(data, columns=None, role=None, ctx=None, strict=False, **kwargs):
             </tbody>
         </table>
     """
-    options = {'role': role, 'strict': strict, 'ctx': ctx}
+    options = {'role': role}
     body = [
-        tr([td(render(obj, **options)) for obj in row])
+        tr([td(html(obj, **options)) for obj in row])
         for row in data
     ]
     if columns is not None:
@@ -108,7 +108,7 @@ def html_table(data, columns=None, role=None, ctx=None, strict=False, **kwargs):
 
 
 def to_header_row(obj, **options):
-    data = render(obj, **options)
+    data = html(obj, **options)
     if data.tag in ('td', 'th'):
         return data
     else:

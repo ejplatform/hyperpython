@@ -7,7 +7,7 @@ __author__ = 'Fábio Macêdo Mendes'
 # We put all
 try:
     from .core import Element, Text, Block
-    from .render import render, render_html
+    from .html import html, render
     from .tags import (
         HTML5, h,
         body, head, meta, link, title, div, span, article, aside, details, footer,
@@ -23,6 +23,7 @@ try:
         frame, frameset, noframes, strike, tt
     )
     from .utils import escape, unescape, safe, sanitize
+    from .fragment import fragment
     from .helpers import classes
 except Exception as exc:
     print('Caught exception:', exc)

@@ -1,21 +1,23 @@
+from functools import wraps
+
 from sidekick import import_later, Proxy
 
 from .core import Text, Element, Block
-from .utils.role_dispatch import role_singledispatch
+from .utils.role_dispatch import role_singledispatch, error
 
 django_loader = import_later('django.template.loader')
 
 
-def render_html(obj, role=None, **kwargs):
+def render(obj, role=None, **kwargs):
     """
     Like :func:`render`, but return a string of HTML code instead of a
     Hyperpython object.
     """
-    return render(obj, role=role, **kwargs).__html__()
+    return html(obj, role=role, **kwargs).__html__()
 
 
 @role_singledispatch
-def render(obj, role=None, **kwargs):
+def html(obj, role=None, **kwargs):
     """
     Convert object into a hyperpython structure.
 
@@ -40,6 +42,9 @@ def render(obj, role=None, **kwargs):
         return method(role=role, **kwargs)
 
     # Fallback to __html__ or string renderers
+    if role is not None:
+        raise error(obj, role)
+
     try:
         raw = obj.__html__()
     except AttributeError:
@@ -93,13 +98,13 @@ def register_template(cls, template, role=None, function=None):
             }
     """
     if function is not None:
-        return render.register_template(cls, template, role=role)(function)
+        return html.register_template(cls, template, role=role)(function)
 
     template = django_loader.get_template(template)
     renderer = template.render
 
     def decorator(func):
-        @render.register(cls, role)
+        @html.register(cls, role)
         def wrapped(obj, **kwargs):
             ctx = func(obj, **kwargs)
             request = ctx.get('request')
@@ -111,13 +116,24 @@ def register_template(cls, template, role=None, function=None):
     return decorator
 
 
-render.register_template = register_template
+html.register_template = register_template
+
 
 #
 # Register default renderers
 #
-render.register(str)(lambda x, **kwargs: Text(x))
-render.register(Proxy)(lambda x, **kwargs: render(x._obj__, **kwargs))
+def no_role(func):
+    @wraps(func)
+    def wrapped(x, role=None, **kwargs):
+        if role is None:
+            return func(x, **kwargs)
+        raise error(x, role)
+
+    return wrapped
+
+
+html.register(str)(no_role(lambda x: Text(x)))
+html.register(Proxy)(lambda x, **kwargs: html(x._obj__, **kwargs))
 
 for _cls in (Element, Text, Block):
-    render.register(_cls)(lambda x, **kwargs: x)
+    html.register(_cls)(no_role(lambda x: x))

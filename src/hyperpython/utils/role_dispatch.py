@@ -1,8 +1,8 @@
 from functools import partial
 from types import MappingProxyType
 
-from hyperpython import Text
 from sidekick import import_later
+
 from .lazy_singledispatch import lazy_singledispatch
 
 django_loader = import_later('django.template.loader')
@@ -37,10 +37,10 @@ def role_singledispatch(func):  # noqa: C901
             impl = make_type_renderer(cls)
             cls_register(cls)(impl)
 
-        def decorator(func):
-            impl.registry[role] = func
+        def decorator(decorated):
+            impl.registry[role] = decorated
             registry[cls, role] = impl
-            return func
+            return decorated
 
         return decorator
 
@@ -73,7 +73,7 @@ def make_type_renderer(cls):
                 func = registry[None]
                 kwargs['role'] = role
             except KeyError:
-                return Text(str(obj))
+                raise error(obj, role)
         return func(obj, **kwargs)
 
     render.registry = registry
@@ -85,4 +85,4 @@ def make_type_renderer(cls):
 
 def error(obj, role):
     tname = type(obj).__name__
-    return TypeError('no method registered for %s (role=%r)' % (tname, role))
+    return TypeError(f'no "{role}" role for {tname} objects')
