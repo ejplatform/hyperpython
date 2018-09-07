@@ -168,8 +168,7 @@ are also a few methods designed to manipulate Hyperpython data structures.
 
 >>> elem = div('foo', class_='elem')
 >>> elem.add_child('bar')
->>> print(elem)
-<div class="elem">foobar</div>
+h('div', {'class': ['elem']}, ['foo', 'bar'])
 
 Attributes are also exposed in the .attrs dictionary:
 

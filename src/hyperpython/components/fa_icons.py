@@ -1,3 +1,4 @@
+# noinspection SpellCheckingInspection
 LIB_ICONS = {
     'fa': [
         'address-book', 'address-card', 'adjust', 'alarm-clock', 'align-center', 'align-justify', 'align-left',

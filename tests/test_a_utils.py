@@ -2,7 +2,9 @@ from collections import OrderedDict
 
 import pytest
 
-from hyperpython.utils import lazy_singledispatch, html_safe_natural_attr, flatten
+from hyperpython.utils import (lazy_singledispatch, html_safe_natural_attr,
+                               flatten)
+from hyperpython.utils.text import (snake_case, dash_case, random_id)
 
 
 class TestLazySingleDispatch:
@@ -38,6 +40,17 @@ class TestStringUtils:
         for name in invalid:
             with pytest.raises(ValueError):
                 html_safe_natural_attr(name)
+
+    def test_case_transformers(self):
+        assert snake_case('FooBar') == 'foo_bar'
+        assert dash_case('FooBar') == 'foo-bar'
+
+    def test_random_id(self):
+        assert random_id(prefix='foo-').startswith('foo-')
+        assert random_id().startswith('id-')
+        r_id = random_id(prefix=None, size=10)
+        assert len(r_id) == 10
+        assert r_id[0].isalpha()
 
 
 class TestSeqUtils:

@@ -1,11 +1,14 @@
 import pytest
+import sidekick as sk
+from mock import Mock
 
-from hyperpython import Text, html, render
+from hyperpython import Text, html, render, p
 from hyperpython.components import (
     hyperlink, html_table, html_list, html_map, a_or_p,
-    a_or_span, fa_icon,
+    a_or_span, fa_icon, page
 )
 from hyperpython.components.hyperlinks import split_link
+from hyperpython.core import as_child
 
 
 class CustomType:
@@ -18,6 +21,11 @@ class CustomTypeWithHtml:
         return 'custom'
 
     def __html__(self):
+        return '<div>custom</div>'
+
+
+class CustomTypeWithHyperpython:
+    def __hyperpython__(self):
         return '<div>custom</div>'
 
 
@@ -41,11 +49,59 @@ class TestRender:
             pass
 
         @html.register(Type)
-        def render_type(x, role=None):
+        def render_type(_, role=None):
             return Text('html' if role is None else f'html-{role}')
 
         assert render(Type()) == 'html'
         assert render(Type(), role='detail') == 'html-detail'
+
+    def test_role_dispatch(self):
+        assert html.dispatch(str)(42) == html(42)
+
+        with pytest.raises(TypeError):
+            html.dispatch(str, 'foo')
+
+    def test_conversion_to_children(self):
+        assert as_child(42)
+        assert as_child(p)
+        assert as_child(CustomTypeWithHtml())
+        assert as_child(CustomTypeWithHyperpython())
+
+        with pytest.raises(TypeError):
+            as_child([])
+
+
+# noinspection PyShadowingNames
+class TestDjangoRenderer:
+    @pytest.yield_fixture
+    def model_class(self):
+        import sys
+
+        class Base:
+            pass
+
+        class Model(Base):
+            _meta = sk.record(app_label='app', model_name='model')
+
+        sys.modules['django.db.models'] = sk.record(Model=Base)
+        sys.modules['django.template.loader'] = sk.record(get_template=Mock())
+        try:
+            yield Model
+        finally:
+            del sys.modules['django.db.models']
+
+    def test_render_django_model(self, model_class):
+        @html.register_template(model_class, 'example.html', role='simple')
+        def renderer(obj):
+            return {'obj': obj, 'answer': 42}
+
+        obj = model_class()
+        result = html(obj, 'simple')
+        assert isinstance(result, Text)
+
+    def test_cannot_render_wrong_role(self):
+        with pytest.raises(TypeError):
+            html('foo', 'bad-role')
 
 
 class TestHyperlink:
@@ -103,3 +159,21 @@ class TestIcons:
     def test_render_icon_with_link(self):
         assert str(fa_icon('user', href='#')) == '<a href="#"><i class="fa fa-user"></i></a>'
         assert str(fa_icon('github', href='#')) == '<a href="#"><i class="fab fa-github"></i></a>'
+
+
+class TestPageHead:
+    def test_head_component(self):
+        head = page.Head(
+            title='My Page',
+            favicons={
+                57: '/icon-57.ico',
+                128: '/icon-128.ico',
+                'default': '/icon.ico',
+            },
+            google_analytics_id='g-id',
+            meta_headers={'X-Frame-Options': 'sameorigin'}
+        )
+        head_html = str(head)
+        assert '<title>My Page</title>' in head_html
+        assert head_html.startswith('<head>')
+        assert head_html.endswith('</head>')

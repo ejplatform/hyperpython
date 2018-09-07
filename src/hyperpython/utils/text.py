@@ -13,7 +13,7 @@ escape_silent = escape_silent
 unescape = unescape
 VALID_ID_CHARS = ascii_letters + digits + '_-'
 STR_TYPES = (str, bytes, Markup)
-SAFE_ATTRIBUTE_NAME = re.compile(r'^[^\s\=\<\>\&\"\']+$')
+SAFE_ATTRIBUTE_NAME = re.compile(r'^[^\s=<>&\"\']+$')
 
 
 def dash_case(name):
@@ -56,10 +56,10 @@ def random_id(prefix='id-', size=8):
 
     Returns:
         A random string.
-
     """
     if not prefix:
         prefix = choice(ascii_letters)
+        size -= 1
     return prefix + ''.join(choice(VALID_ID_CHARS) for _ in range(size))
 
 

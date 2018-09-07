@@ -5,6 +5,7 @@ from json import dumps as json_dumps
 from ..utils import lazy_singledispatch
 
 
+# noinspection PyUnusedLocal
 @lazy_singledispatch
 def dump_single_attr(x, file):
     """

@@ -1,7 +1,7 @@
 import re
 from collections import OrderedDict
 
-from .core import Element
+from .core import BaseElement
 
 identity = (lambda x: x)
 FRAGMENT_REGISTRY = OrderedDict()
@@ -36,25 +36,25 @@ def fragment(path, **kwargs):
     try:
         func = SIMPLE_PATH_REGISTRY[path]
     except KeyError:
-        pass
+        for key, func in FRAGMENT_REGISTRY.items():
+            args = key(path)
+            if args is not None:
+                try:
+                    result = func(**args, **kwargs)
+                except FragmentNotFound:
+                    continue
+                else:
+                    break
+        else:
+            raise FragmentNotFound(f'no fragment registered to {path}')
     else:
-        return func(**kwargs)
+        result = func(**kwargs)
 
-    for key, func in FRAGMENT_REGISTRY.items():
-        args = key(path)
-        if args is not None:
-            try:
-                result = func(**args, **kwargs)
-            except FragmentNotFound:
-                continue
-            else:
-                if not isinstance(result, Element):
-                    cls = type(result).__name__
-                    msg = f'fragment function returned {cls} instead of element'
-                    raise TypeError(msg)
-                return result
-
-    raise FragmentNotFound(f'no fragment registered to {path}')
+    if not isinstance(result, BaseElement):
+        cls = type(result).__name__
+        msg = f'fragment function returned {cls} instead of element'
+        raise TypeError(msg)
+    return result
 
 
 def register(path):
@@ -67,7 +67,7 @@ def register(path):
     """
 
     def decorator(func):
-        if '<' in path:
+        if '<' in path or '>' in path:
             FRAGMENT_REGISTRY[make_validator(path)] = func
         else:
             SIMPLE_PATH_REGISTRY[path] = func
@@ -199,8 +199,8 @@ def coercion_function(coercions):
     types.
     """
 
-    def coercion(map):
-        return {k: coercions.get(k, identity)(v) for k, v in map.items()}
+    def coercion(dic):
+        return {k: coercions.get(k, identity)(v) for k, v in dic.items()}
 
     return coercion
 

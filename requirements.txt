@@ -1,3 +1,4 @@
+markupsafe
 sidekick >= 0.4.2
 setuptools >= 30.3
 -e .[dev]

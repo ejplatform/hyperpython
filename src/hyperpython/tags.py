@@ -106,7 +106,7 @@ figure = Tag('figure', 'Specifies self-contained content')
 header = Tag('header', 'A header for a document or section')
 main = Tag('main', 'Specifies the main content of a document')
 p = Tag('p', 'A paragraph')
-pre = Tag('pre', 'Preformatted text')
+pre = Tag('pre', 'Pre-formatted text')
 section = Tag('section', 'A section in a document')
 
 # External elements

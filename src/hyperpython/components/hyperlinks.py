@@ -52,7 +52,9 @@ def hyperlink(obj, href=None, **attrs) -> Element:
             It must define a get_absolute_url() method. This function uses
             this result as the href field and str(model) as its content.
 
-            >>> hyperlink(User(first_name='Joe', username='joe123'))
+            >>> from django.contrib.auth import get_user_model
+            >>> user_model = get_user_model()
+            >>> hyperlink(user_model(first_name='Joe', username='joe123'))
             <a href="/users/joe123">Joe</a>
 
 
@@ -65,8 +67,9 @@ def hyperlink(obj, href=None, **attrs) -> Element:
 
     See Also:
 
-        :func:`pyml.helpers.attrs`: See this function for an exact explanation
-            of how keyword arguments are translated into HTML attributes.
+        :func:`hyperpython.helpers.attrs`: See this function for an exact
+            explanation of how keyword arguments are translated into HTML
+            attributes.
     """
 
     data = html(obj)
@@ -129,6 +132,6 @@ def split_link(name):
 
 def breadcrumbs(x, *paths, level=0, **kwargs):
     """
-    Component thta Receives a list of links and return a breadcrumbs element.
+    Component that Receives a list of links and return a breadcrumbs element.
     """
     raise NotImplementedError

@@ -1,30 +1,37 @@
+import copy
 import io
 from collections import Sequence
 from types import MappingProxyType
 
 from markupsafe import Markup
+from sidekick import lazy, delegate_to
 
 from .helpers import classes
 from .renderers import dump_attrs, render_pretty
 from .utils import unescape, escape as _escape
 
 SEQUENCE_TYPES = (tuple, list, type(x for x in []), type(map(lambda: 0, [])))
+JUPYTER_NOTEBOOK_RENDER_HTML = True
+cte = (lambda value: lambda *args: value)
 
 
-class ElementMixin:
+class BaseElement:
     """
     Mixins for the Element API.
     """
 
     # Default values and properties
-    tag = None
+    tag = property(cte(None))
     attrs = MappingProxyType({})
     classes = property(lambda self: self.attrs.get('class', []))
     id = property(lambda self: self.attrs.get('id'))
 
     @id.setter
     def id(self, value):
-        self.attrs['id'] = value
+        setitem = getattr(self.attrs, '__setitem__', None)
+        if setitem is None:
+            raise AttributeError('cannot set id of immutable type')
+        setitem('id', value)
 
     children = ()
     requires = ()
@@ -32,10 +39,16 @@ class ElementMixin:
     is_element = False
     is_void = False
 
-    def _repr_html_(self):
-        return self.__html__()
+    def __html__(self):
+        return self.render()
 
-    def _repr_child_(self):
+    def __str__(self):
+        return str(self.__html__())
+
+    def _repr_html_(self):
+        return self.__html__() if JUPYTER_NOTEBOOK_RENDER_HTML else repr(self)
+
+    def _repr_child(self):
         return self.__repr__()
 
     def render(self):
@@ -58,14 +71,14 @@ class ElementMixin:
     def copy(self):
         raise NotImplementedError
 
-    def pretty(self):
+    def pretty(self, **kwargs):
         """
         Render a pretty printed HTML.
 
         This method is less efficient than .render(), but is useful for
         debugging
         """
-        return render_pretty(self)
+        return render_pretty(self, **kwargs)
 
     def walk(self):
         """
@@ -75,23 +88,19 @@ class ElementMixin:
 
         yield self
         for obj in self.children:
-            yield obj
-            if obj.is_element:
-                yield from (child.walk() for child in obj.children)
+            yield from obj.walk()
 
     def walk_tags(self):
         """
         Walk over all elements in the object tree, excluding Text fragments.
         """
 
-        if not self.is_element:
-            return
+        if self.is_element:
+            yield self
 
-        yield self
         for obj in self.children:
             if obj.is_element:
-                yield obj
-                yield from (child.walk_tags() for child in obj.children)
+                yield from obj.walk_tags()
 
     def add_child(self, value):
         """
@@ -100,21 +109,49 @@ class ElementMixin:
         Caveat: Hyperpython *do not* enforce immutability, but it is a good
         practice to keep HTML data structures immutable.
         """
-        try:
-            append = self.children.append
-        except AttributeError:
+        append = getattr(self.children, 'append', None)
+        if append is None:
             raise TypeError('cannot change immutable structure')
         else:
             append(as_child(value))
+        return self
 
 
-# ------------------------------------------------------------------------------
-class Element(ElementMixin):
+class Component(BaseElement):
+    """
+    Component that delegates the creation of HTML tree to an .html() method.
+    """
+
+    json = delegate_to('_tree')
+    dump = delegate_to('_tree')
+    tag = delegate_to('_tree')
+    attrs = delegate_to('_tree')
+    children = delegate_to('_tree')
+    requires = delegate_to('_tree')
+    is_void = delegate_to('_tree')
+    is_element = delegate_to('_tree')
+
+    @lazy
+    def _tree(self):
+        return self.html()
+
+    def html(self, **kwargs):
+        raise NotImplementedError('must be implemented in subclasses')
+
+    def copy(self):
+        new = copy.copy(self)
+        new._tree = self._tree.copy()
+        return new
+
+    # ------------------------------------------------------------------------------
+
+
+class Element(BaseElement):
     """
     Represents an HTML element.
     """
 
-    tag: str
+    tag: str = ''
     attrs: dict
     children: list
     is_void: bool
@@ -143,16 +180,13 @@ class Element(ElementMixin):
             self.children.append(as_child(item))
         return self
 
-    def __str__(self):
-        return str(self.__html__())
-
     def __repr__(self):
         attrs = self.attrs
         children = self.children
         if len(children) == 1 and isinstance(children[0], Text):
-            children_repr = children[0]._repr_child_()
+            children_repr = repr_child(children[0])
         else:
-            data = ', '.join(x._repr_child_() for x in children)
+            data = ', '.join(repr_child(x) for x in children)
             children_repr = f'[{data}]'
 
         if attrs and children:
@@ -163,9 +197,6 @@ class Element(ElementMixin):
             return 'h(%r, %s)' % (self.tag, children_repr)
         else:
             return 'h(%r)' % self.tag
-
-    def __html__(self):
-        return self.render()
 
     def __eq__(self, other):
         if other.__class__ is self.__class__:
@@ -226,9 +257,10 @@ class Element(ElementMixin):
         try:
             old_classes = self.attrs['class']
         except KeyError:
-            self.attrs['class'] = new_classes
+            self.attrs['class'] = list(new_classes)
         else:
             if first:
+                new_classes = list(new_classes)
                 class_set = set(new_classes)
                 new_classes.extend(x for x in old_classes if x not in class_set)
                 self.attrs['class'][:] = new_classes
@@ -237,7 +269,7 @@ class Element(ElementMixin):
                 old_classes.extend(x for x in new_classes if x not in class_set)
         return self
 
-    def set_class(self, cls):
+    def set_class(self, cls=()):
         """
         Replace all current classes by the new ones.
         """
@@ -246,12 +278,10 @@ class Element(ElementMixin):
 
 
 # ------------------------------------------------------------------------------
-class Text(Markup, ElementMixin):
+class Text(Markup, BaseElement):
     """
     It extends the Markup object with a Element-compatible API.
     """
-    id = None
-    classes = property(lambda self: [])
     unescaped = property(unescape)
 
     def __new__(cls, data, escape=None):
@@ -275,7 +305,7 @@ class Text(Markup, ElementMixin):
     def __repr__(self):
         return 'Text(%r)' % str(self)
 
-    def _repr_child_(self):
+    def _repr_child(self):
         if self.escape:
             return repr(str(self))
         else:
@@ -291,18 +321,17 @@ class Text(Markup, ElementMixin):
             file.write(self)
 
     def copy(self, parent=None):
-        return Text(self)
+        return Text(self, escape=self.escape)
 
     def json(self):
         return {'text': str(self)} if self.escape else {'raw': str(self)}
 
 
-class Block(ElementMixin, Sequence):
+class Block(BaseElement, Sequence):
     """
     Represents a list of elements *not* wrapped in a tag.
     """
 
-    id = None
     classes = property(lambda self: [])
 
     def __init__(self, children, requires=()):
@@ -359,6 +388,7 @@ def as_child(value):
     elif isinstance(value, (int, float)):
         return Text(str(value))
     elif isinstance(value, Tag):
+        # noinspection PyProtectedMember
         return Tag._h_function(value.tag)
     elif hasattr(value, '__html__'):
         return Text(value.__html__(), escape=False)
@@ -370,6 +400,14 @@ def as_child(value):
             return Text(data)
         type_name = value.__class__.__name__
         raise TypeError('invalid type for a child node: %s' % type_name)
+
+
+def repr_child(value):
+    """
+    Simplify representation of element, when it is inside a list of children.
+    """
+    # noinspection PyProtectedMember
+    return value._repr_child()
 
 
 class Tag:

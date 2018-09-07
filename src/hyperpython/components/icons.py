@@ -2,12 +2,12 @@ from .fa_icons import COLLECTIONS as FA_COLLECTIONS
 from ..tags import i, a
 
 
-def icon(icon, href=None, icon_class=lambda x: x, **kwargs):
+def icon(name, href=None, icon_class=lambda x: x, **kwargs):
     """
     Returns a icon tag.
 
     Args:
-        icon (str):
+        name (str):
             Name of the icon.
         href (str):
             If given, it wraps the results into a anchor link.
@@ -16,16 +16,16 @@ def icon(icon, href=None, icon_class=lambda x: x, **kwargs):
             list of classes that should be added to the icon.
     """
     if href:
-        return a(_icon(icon, **kwargs), href=href)
-    return i(**kwargs).add_class(icon_class(icon))
+        return a(icon(name, **kwargs), href=href)
+    return i(**kwargs).add_class(icon_class(name))
 
 
-def fa_icon(icon, href=None, collection=None, **kwargs):
+def fa_icon(name, href=None, collection=None, **kwargs):
     """
     Font awesome icon.
 
     Args:
-        icon (str):
+        name (str):
             Name of the icon.
         href (str):
             If given, it wraps the results into a anchor link.
@@ -42,10 +42,7 @@ def fa_icon(icon, href=None, collection=None, **kwargs):
         <i class="fa fa-face"></i>
     """
     if collection is None:
-        collection = FA_COLLECTIONS.get(icon, 'fa')
+        collection = FA_COLLECTIONS.get(name, 'fa')
     if href:
-        return a(fa_icon(icon, collection=collection, **kwargs), href=href)
-    return _icon(icon, href, lambda x: [collection, f'fa-{icon}'], **kwargs)
-
-
-_icon = icon
+        return a(fa_icon(name, collection=collection, **kwargs), href=href)
+    return icon(name, href, lambda x: [collection, f'fa-{name}'], **kwargs)

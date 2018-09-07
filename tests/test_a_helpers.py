@@ -1,10 +1,7 @@
 import pytest
-from markupsafe import Markup
 
 from hyperpython.components import markdown
-from hyperpython.renderers import render_html, render_single_attr, render_attrs, \
-    dump_html
-from hyperpython.renderers.helpers import render_pretty
+from hyperpython.renderers import render_single_attr, render_attrs
 from hyperpython.utils import sanitize, safe
 
 
@@ -60,58 +57,3 @@ class TestExtras:
 
     def test_markdown(self):
         assert markdown('#foo\n') == '<h1>foo</h1>'
-
-
-class TestRender:
-    """
-    Tests functions on bricks.helpers.render
-    """
-
-    def test_render_examples(self):
-        assert render_html('bar') == 'bar'
-        assert render_html(['foo', 'bar']) == 'foo bar'
-        assert render_html(Markup('foo')) == 'foo'
-
-    def test_render_renderable(self):
-        class Foo:
-
-            def __str__(self):
-                return 'foo'
-
-            __html__ = __str__
-
-            def render(self):
-                return str(self)
-
-        foo = Foo()
-        assert render_html(foo) == 'foo'
-
-    def test_render_not_supported(self):
-        with pytest.raises(TypeError):
-            render_html(b'sdfsdf')
-
-    def test_register_template(self):
-        class Foo:
-            __str__ = (lambda self: 'foo')
-
-        handler = (lambda x: lambda ctx, f: f.write('{object}!'.format(**ctx)))
-        dump_html.register_template(Foo, which=handler)
-        assert Foo in dump_html.registry
-        assert render_html(Foo()) == 'foo!'
-
-    def test_register_template_using_decorator(self):
-        class Foo:
-            __str__ = (lambda self: 'foo')
-
-        handler = (lambda x: lambda ctx, f: print(ctx) or f.write('{object}!'.format(**ctx)))
-
-        @dump_html.register_context(Foo, which=handler)
-        def get_context(x):
-            return {'object': 42}
-
-        assert Foo in dump_html.registry
-        assert render_html(Foo()) == '42!'
-
-    def test_pretty_printer(self):
-        html = render_pretty('<div><p>foo</p></div>').strip()
-        assert html == '<div>\n  <p>foo</p>\n</div>'

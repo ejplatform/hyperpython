@@ -23,7 +23,7 @@ def html_list(data, ordered=False, role=None, **kwargs):
 
     Examples:
         >>> doc = html_list([1, 2, 3])
-        >>> pprint(doc)
+        >>> print(doc.pretty())
         <ul>
             <li>1</li>
             <li>2</li>
@@ -36,16 +36,16 @@ def html_list(data, ordered=False, role=None, **kwargs):
 
 
 @html.register(Mapping)
-def html_map(data, role=None, **kwargs):
+def html_map(data, role=(None, None), **kwargs):
     """
     Renders mapping as a description list.
 
     Args:
         data:
             Sequence data.
-        role, strict, ctx:
-            Arguments to pass to render() to transform each element in the
-            sequence.
+        role (tuple):
+            A 2-tuple of roles attributed to each (key, value) pair. Use None
+            if you do not want assign an specific role.
 
         Additional keyword arguments are passed to the root element.
 
@@ -61,9 +61,10 @@ def html_map(data, role=None, **kwargs):
     """
     body = []
     items = getattr(data, 'items', lambda: data)
+    key_role, value_role = role
     for k, v in items():
-        body.append(dt(html(k, role=role)))
-        body.append(dd(html(v, role=role)))
+        body.append(dt(html(k, role=key_role)))
+        body.append(dd(html(v, role=value_role)))
     return dl(body, **kwargs)
 
 
@@ -76,9 +77,8 @@ def html_table(data, columns=None, role=None, **kwargs):
             Sequence data.
         columns:
             A list of column names to be added as <thead>.
-        role, strict, ctx:
-            Arguments to pass to render() to transform each element in the
-            sequence.
+        role:
+            Role used to render elements of the table.
 
         Additional keyword arguments are passed to the root element.
 

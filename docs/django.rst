@@ -126,7 +126,7 @@ functions above does not handle floats, for instance:
 >>> html(7.0, 'currency')
 Traceback (most recent call last):
 ...
-TypeError: no "currency" role for float objects
+TypeError: no "currency" role registered for float objects
 
 Keeping that in mind, always consider using abstract types such as
 :class:`types.Number` and :class:`collections.abc.Sequence`.

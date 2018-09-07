@@ -19,13 +19,15 @@ Near future backlog
 Version 1.1
 ===========
 
-* Achieve 90% test code coverage.
+* Achieve 95% test code coverage.
+* Zero issues in PyCharm.
 * Stabilize HyperJSON format and integrate with Hyperpython.
 
 
 Version 1.0
 ===========
 
+* Achieve 90% test code coverage.
 * Basic Hyperpython API.
 * Registering renderers and fragments.
 * Functions for all HTML tags.

@@ -11,8 +11,15 @@ def dump_attrs(obj, file):
     Convert object into a list of key-value HTML attributes.
 
     Args:
-        It uses multiple dispatch, so the behaviour might differ a little bit
-        depending o the first argument.
+        obj:
+            Object representing a sequence of arguments.
+        file:
+            A file-like descriptor.
+
+
+    Observations:
+        This function uses multiple dispatch, so the behaviour might differ a
+        little bit depending o the first argument.
 
         mappings:
             Renders key-values into the corresponding HTML results.
@@ -28,14 +35,9 @@ def dump_attrs(obj, file):
         present in the attribute names to dashes since this is the most common
         convention in HTML.
     """
-
-    try:
-        data = obj.attrs
-    except AttributeError:
-        pass
-    else:
-        if type(data) is not type(obj):
-            return dump_attrs(data, file)
+    data = getattr(obj, 'attrs', None)
+    if data is not None and type(data) is not type(obj):
+        return dump_attrs(data, file)
     raise TypeError('%s objects are not supported' % obj.__class__.__name__)
 
 
@@ -55,18 +57,18 @@ def render_attrs(obj, **kwargs):
 
 
 @dump_attrs.register(type(None))
-def _attrs_none(none, file):
+def _attrs_none(_, file):
     _attrs_mapping({}, file)
 
 
 @dump_attrs.register(collections.Mapping)
-def _attrs_mapping(map, file):
-    _attrs_sequence(map.items(), file)
+def _attrs_mapping(dic, file):
+    _attrs_sequence(dic.items(), file)
 
 
 @dump_attrs.register(bytes)
 @dump_attrs.register(str)
-def _attrs_str(*args):
+def _attrs_str(*_args):
     raise TypeError('strings types are not supported')
 
 

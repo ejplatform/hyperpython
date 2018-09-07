@@ -23,7 +23,7 @@ try:
         frame, frameset, noframes, strike, tt
     )
     from .utils import escape, unescape, safe, sanitize
-    from .fragment import fragment
+    from .fragment import fragment, FragmentNotFound
     from .helpers import classes
 except ImportError as exc:
     print('Caught exception:', exc)

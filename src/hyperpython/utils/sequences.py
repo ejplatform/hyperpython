@@ -1,4 +1,4 @@
-def flatten(seq, seqtypes=(list, tuple, set, type(_ for _ in []))):
+def flatten(seq, seq_types=(list, tuple, set, type(_ for _ in []))):
     """
     Flatten a sequence of sequences.
 
@@ -11,8 +11,8 @@ def flatten(seq, seqtypes=(list, tuple, set, type(_ for _ in []))):
 
     result = []
     for elem in seq:
-        if isinstance(elem, seqtypes):
-            result.extend(flatten(elem, seqtypes))
+        if isinstance(elem, seq_types):
+            result.extend(flatten(elem, seq_types))
         else:
             result.append(elem)
     return result

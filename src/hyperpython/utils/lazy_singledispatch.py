@@ -1,26 +1,8 @@
+import functools
 from abc import get_cache_token
-from functools import _find_impl, update_wrapper
-from weakref import WeakKeyDictionary
-
+from functools import update_wrapper
 from types import MappingProxyType
-
-
-# TODO(?): maybe we should not use undocumented APIs ;)
-
-
-def _possible_qualnames(cls):
-    """
-    Iterator over possible qualified names for class.
-    """
-
-    for subclass in cls.mro()[:-1]:
-        path = subclass.__module__
-        name = subclass.__qualname__
-
-        while path:
-            value = '%s.%s' % (path, name)
-            yield value
-            path, _, _ = path.rpartition('.')
+from weakref import WeakKeyDictionary
 
 
 def lazy_singledispatch(func):  # noqa: C901
@@ -86,7 +68,7 @@ def lazy_singledispatch(func):  # noqa: C901
 
         cls = x.__class__
         if lazy_registry:
-            for qualname in _possible_qualnames(cls):
+            for qualname in possible_qualnames(cls):
                 if qualname in lazy_registry:
                     implementation = lazy_registry.pop(qualname)
                     wrapper.register(cls, implementation)
@@ -113,15 +95,14 @@ def lazy_singledispatch(func):  # noqa: C901
             try:
                 impl = registry[cls]
             except KeyError:
-                impl = _find_impl(cls, registry)
+                impl = find_implementation(cls, registry)
             dispatch_cache[cls] = impl
         return impl
 
-    def register(cls, func=None):
-        """generic_func.register(cls, func) -> func
+    def register(cls, impl=None):
+        """generic_func.register(cls, impl) -> impl
 
         Registers a new implementation for the given *cls* on a *generic_func*.
-
         """
         nonlocal cache_token
 
@@ -129,22 +110,22 @@ def lazy_singledispatch(func):  # noqa: C901
         # registering one at a time.
         if not isinstance(cls, (type, str)):
             cls_list = list(cls)
-            if func is not None:
+            if impl is not None:
                 for cls in cls_list:
-                    register(cls, func)
+                    register(cls, impl)
                 return
 
         # Single class
-        if func is None:
+        if impl is None:
             return lambda f: register(cls, f)
         if isinstance(cls, str):
-            lazy_registry[cls] = func
+            lazy_registry[cls] = impl
         else:
-            registry[cls] = func
+            registry[cls] = impl
         if cache_token is None and hasattr(cls, '__abstractmethods__'):
             cache_token = get_cache_token()
         dispatch_cache.clear()
-        return func
+        return impl
 
     def wrapper(*args, **kwargs):
         impl = dispatch(args[0].__class__)
@@ -157,3 +138,24 @@ def lazy_singledispatch(func):  # noqa: C901
     wrapper._clear_cache = dispatch_cache.clear
     update_wrapper(wrapper, func)
     return wrapper
+
+
+def possible_qualnames(cls):
+    """
+    Iterator over possible qualified names for class.
+    """
+
+    for subclass in cls.mro()[:-1]:
+        path = subclass.__module__
+        name = subclass.__qualname__
+
+        while path:
+            value = '%s.%s' % (path, name)
+            yield value
+            path, _, _ = path.rpartition('.')
+
+
+# TODO(?): maybe we should not use undocumented APIs ;)
+find_implementation = getattr(functools, '_find_impl', None)
+if find_implementation is None:
+    raise RuntimeError('Could not import function _find_impl from functools')

@@ -56,7 +56,7 @@ def html(obj, role=None, **kwargs):
 #
 # Auxiliary functions
 #
-def register_template(cls, template, role=None, function=None):
+def register_template(cls, template, role=None):
     """
     Decorator that registers a template-based renderer.
 
@@ -69,8 +69,6 @@ def register_template(cls, template, role=None, function=None):
             Template name or list of template names.
         role:
             Optional role for the template.
-        function (callable):
-            Decorated function (when not using the decorator syntax).
 
     Examples:
         The decorated function must receive an instance of `cls` as first
@@ -97,9 +95,6 @@ def register_template(cls, template, role=None, function=None):
                 'role': role,
             }
     """
-    if function is not None:
-        return html.register_template(cls, template, role=role)(function)
-
     template = django_loader.get_template(template)
     renderer = template.render
 

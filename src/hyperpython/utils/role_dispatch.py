@@ -1,7 +1,6 @@
-from functools import partial
 from types import MappingProxyType
 
-from sidekick import import_later
+from sidekick import import_later, record
 
 from .lazy_singledispatch import lazy_singledispatch
 
@@ -54,7 +53,7 @@ def role_singledispatch(func):  # noqa: C901
         try:
             return impl.registry[role]
         except KeyError:
-            return partial(impl, role=role)
+            raise error(record(__class__=cls), role)
 
     wrapped.register = register
     wrapped.dispatch = dispatch
@@ -84,5 +83,7 @@ def make_type_renderer(cls):
 
 
 def error(obj, role):
-    tname = type(obj).__name__
-    return TypeError(f'no "{role}" role for {tname} objects')
+    tname = obj.__class__.__name__
+    if role is None:
+        return TypeError(f'no default role registered for {tname} objects')
+    return TypeError(f'no "{role}" role registered for {tname} objects')
