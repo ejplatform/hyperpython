@@ -1,7 +1,7 @@
 """
 Core Hyperpython API
 """
-__version__ = '0.3.0'
+__version__ = '1.0.0'
 __author__ = 'Fábio Macêdo Mendes'
 
 # Ugly hack to make it possible to store __version__ directly on __init__.py
