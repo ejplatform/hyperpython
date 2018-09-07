@@ -53,6 +53,7 @@ def role_singledispatch(func):  # noqa: C901
         try:
             return impl.registry[role]
         except KeyError:
+            # noinspection PyTypeChecker
             raise error(record(__class__=cls), role)
 
     wrapped.register = register

@@ -1,8 +1,8 @@
 import collections
 
-from ..html import html
 from ..core import Element
-from ..tags import a, p, span, h
+from ..html import html
+from ..tags import a, p, span, h, ul, li
 from ..utils import escape, lazy_singledispatch
 from ..utils.role_dispatch import role_singledispatch
 
@@ -130,8 +130,8 @@ def split_link(name):
     return name, None
 
 
-def breadcrumbs(x, *paths, level=0, **kwargs):
+def breadcrumbs(links, class_='breadcrumbs'):
     """
     Component that Receives a list of links and return a breadcrumbs element.
     """
-    raise NotImplementedError
+    return ul(class_=class_, children=[li(hyperlink(x) for x in links)])
