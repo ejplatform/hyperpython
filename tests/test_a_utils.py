@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 import pytest
 
-from hyperpython.utils import lazy_singledispatch, html_safe_natural_attr
+from hyperpython.utils import lazy_singledispatch, html_safe_natural_attr, flatten
 
 
 class TestLazySingleDispatch:
@@ -38,3 +38,9 @@ class TestStringUtils:
         for name in invalid:
             with pytest.raises(ValueError):
                 html_safe_natural_attr(name)
+
+
+class TestSeqUtils:
+    def test_flatten_lists(self):
+        assert flatten([[1, 2], [3]]) == [1, 2, 3]
+        assert flatten([1, [2, [3, 4]]]) == [1, 2, 3, 4]

@@ -157,6 +157,12 @@ LIB_ICONS = {
     ],
 }
 LIB_ICONS.update(far=LIB_ICONS['fa'], fal=LIB_ICONS['fa'], fas=LIB_ICONS['fa'])
+LIB_ICONS.update(
+    regular=LIB_ICONS['far'],
+    light=LIB_ICONS['fal'],
+    solid=LIB_ICONS['fas'],
+    brand=LIB_ICONS['fab'],
+)
 COLLECTIONS = {
     **{icon: 'fab' for icon in LIB_ICONS['fab']},
     **{icon: 'fa' for icon in LIB_ICONS['fa']},

@@ -3,7 +3,7 @@ import pytest
 from hyperpython import Text, html, render
 from hyperpython.components import (
     hyperlink, html_table, html_list, html_map, a_or_p,
-    a_or_span, fab_icon, fa_icon,
+    a_or_span, fa_icon,
 )
 from hyperpython.components.hyperlinks import split_link
 
@@ -99,9 +99,7 @@ class TestIcons:
     def test_render_font_awesome_icons(self):
         assert str(fa_icon('user')) == '<i class="fa fa-user"></i>'
         assert str(fa_icon('github')) == '<i class="fab fa-github"></i>'
-        assert str(fab_icon('github')) == '<i class="fab fa-github"></i>'
 
     def test_render_icon_with_link(self):
         assert str(fa_icon('user', href='#')) == '<a href="#"><i class="fa fa-user"></i></a>'
         assert str(fa_icon('github', href='#')) == '<a href="#"><i class="fab fa-github"></i></a>'
-        assert str(fab_icon('github', href='#')) == '<a href="#"><i class="fab fa-github"></i></a>'
