@@ -7,7 +7,7 @@ from ..tags import ul, ol, li, dl, dd, dt, table, thead, tbody, tr, td, th
 
 
 @html.register(Iterable)
-def html_list(data, ordered=False, role=None, **kwargs):
+def html_list(data, role=None, ordered=False, **kwargs):
     """
     Convert a Python iterable into an HTML list element.
 
@@ -36,16 +36,17 @@ def html_list(data, ordered=False, role=None, **kwargs):
 
 
 @html.register(Mapping)
-def html_map(data, role=(None, None), **kwargs):
+def html_map(data, role=None, key_role=None, **kwargs):
     """
-    Renders mapping as a description list.
+    Renders mapping as a description list using dt as keys and dt as values.
 
     Args:
         data:
             Sequence data.
-        role (tuple):
-            A 2-tuple of roles attributed to each (key, value) pair. Use None
-            if you do not want assign an specific role.
+        role:
+            Role passed to the dd (values) elements of the description list.
+        key_role:
+            Role passed to the dt (keys) elements of the description list.
 
         Additional keyword arguments are passed to the root element.
 
@@ -61,14 +62,13 @@ def html_map(data, role=(None, None), **kwargs):
     """
     body = []
     items = getattr(data, 'items', lambda: data)
-    key_role, value_role = role
     for k, v in items():
         body.append(dt(html(k, role=key_role)))
-        body.append(dd(html(v, role=value_role)))
+        body.append(dd(html(v, role=role)))
     return dl(body, **kwargs)
 
 
-def html_table(data, columns=None, role=None, **kwargs):
+def html_table(data, role=None, columns=None, **kwargs):
     """
     Convert 2D matrix-like data to an HTML table.
 

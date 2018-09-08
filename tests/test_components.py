@@ -56,10 +56,10 @@ class TestRender:
         assert render(Type(), role='detail') == 'html-detail'
 
     def test_role_dispatch(self):
-        assert html.dispatch(str)(42) == html(42)
+        assert html.dispatch(int)(42) == html(42)
 
         with pytest.raises(TypeError):
-            html.dispatch(str, 'foo')
+            print(html.dispatch(int, 'foo')(42))
 
     def test_conversion_to_children(self):
         assert as_child(42)

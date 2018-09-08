@@ -41,10 +41,11 @@ def html(obj, role=None, **kwargs):
     else:
         return method(role=role, **kwargs)
 
-    # Fallback to __html__ or string renderers
+    # If role is given, we adopt a more strict behavior
     if role is not None:
-        raise error(obj, role)
+        raise error(type(obj), role)
 
+    # Fallback to __html__ or string renderers for role-less calls
     try:
         raw = obj.__html__()
     except AttributeError:
@@ -122,7 +123,7 @@ def no_role(func):
     def wrapped(x, role=None, **kwargs):
         if role is None:
             return func(x, **kwargs)
-        raise error(x, role)
+        raise error(type(x), role)
 
     return wrapped
 

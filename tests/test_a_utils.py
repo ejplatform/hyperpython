@@ -2,9 +2,10 @@ from collections import OrderedDict
 
 import pytest
 
-from hyperpython.utils import (lazy_singledispatch, html_safe_natural_attr,
-                               flatten)
-from hyperpython.utils.text import (snake_case, dash_case, random_id)
+from hyperpython.utils import flatten
+from hyperpython.utils import lazy_singledispatch, html_safe_natural_attr
+from hyperpython.utils.role_dispatch import role_singledispatch
+from hyperpython.utils.text import snake_case, dash_case, random_id
 
 
 class TestLazySingleDispatch:
@@ -25,6 +26,31 @@ class TestLazySingleDispatch:
         assert foo(1) == 42
         assert foo('two') == 'two'
         assert foo(d) == d
+
+
+class TestRoleDispatch:
+    def test_can_dispatch_to_generic_super_type(self):
+        class Foo:
+            __str__ = (lambda x: 'foo')
+
+        class Bar(Foo):
+            __str__ = (lambda x: 'bar')
+
+        @role_singledispatch
+        def func(x, role):
+            return f'{x} - {role}'
+
+        @func.register(Bar, 'upper')
+        def bar_upper(x):
+            return str(x).upper()
+
+        @func.register(Foo)
+        def foo(x):
+            return str(x)
+
+        assert func(Bar(), 'upper') == 'BAR'
+        assert func(Foo()) == 'foo'
+        assert func(Bar()) == 'bar'
 
 
 class TestStringUtils:

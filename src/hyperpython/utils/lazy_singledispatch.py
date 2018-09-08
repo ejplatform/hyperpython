@@ -57,25 +57,6 @@ def lazy_singledispatch(func):  # noqa: C901
     dispatch_cache = WeakKeyDictionary()
     cache_token = None
 
-    def fallback(x, *args, **kwargs):
-        """
-        Call generic function x with argument of type registered with the
-        lazy_register decorator.
-
-        This will search the function cache for a suitable implementation and
-        register it when with the generic function when it is found.
-        """
-
-        cls = x.__class__
-        if lazy_registry:
-            for qualname in possible_qualnames(cls):
-                if qualname in lazy_registry:
-                    implementation = lazy_registry.pop(qualname)
-                    wrapper.register(cls, implementation)
-                    return wrapper(x, **kwargs)
-        dispatch_cache[cls] = func
-        return func(x, *args, **kwargs)
-
     def dispatch(cls):
         """generic_func.dispatch(cls) -> <function implementation>
 
@@ -96,6 +77,13 @@ def lazy_singledispatch(func):  # noqa: C901
                 impl = registry[cls]
             except KeyError:
                 impl = find_implementation(cls, registry)
+                if impl is func and lazy_registry:
+                    for qualname in possible_qualnames(cls):
+                        if qualname in lazy_registry:
+                            impl = lazy_registry.pop(qualname)
+                            register(cls)(impl)
+                            break
+
             dispatch_cache[cls] = impl
         return impl
 
@@ -131,11 +119,11 @@ def lazy_singledispatch(func):  # noqa: C901
         impl = dispatch(args[0].__class__)
         return impl(*args, **kwargs)
 
-    registry[object] = fallback
+    registry[object] = func
     wrapper.register = register
     wrapper.dispatch = dispatch
     wrapper.registry = MappingProxyType(registry)
-    wrapper._clear_cache = dispatch_cache.clear
+    wrapper.clear_cache = dispatch_cache.clear
     update_wrapper(wrapper, func)
     return wrapper
 
@@ -155,7 +143,6 @@ def possible_qualnames(cls):
             path, _, _ = path.rpartition('.')
 
 
-# TODO(?): maybe we should not use undocumented APIs ;)
 find_implementation = getattr(functools, '_find_impl', None)
 if find_implementation is None:
     raise RuntimeError('Could not import function _find_impl from functools')
