@@ -6,7 +6,7 @@ __author__ = 'Fábio Macêdo Mendes'
 
 # Ugly hack to make it possible to store __version__ directly on __init__.py
 try:
-    from .core import Element, Text, Block
+    from .core import Element, Text, Block, Json, Component
     from .html import html, render
     from .tags import (
         HTML5, h,

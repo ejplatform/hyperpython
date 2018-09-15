@@ -2,7 +2,7 @@ import pytest
 import sidekick as sk
 from mock import Mock
 
-from hyperpython import Text, html, render, p
+from hyperpython import Text, Json, html, render, p
 from hyperpython.components import (
     hyperlink, html_table, html_list, html_map, a_or_p,
     a_or_span, fa_icon, page
@@ -155,6 +155,7 @@ class TestIcons:
     def test_render_font_awesome_icons(self):
         assert str(fa_icon('user')) == '<i class="fa fa-user"></i>'
         assert str(fa_icon('github')) == '<i class="fab fa-github"></i>'
+        assert str(fa_icon('github', class_='cls')) == '<i class="fab fa-github cls"></i>'
 
     def test_render_icon_with_link(self):
         assert str(fa_icon('user', href='#')) == '<a href="#"><i class="fa fa-user"></i></a>'

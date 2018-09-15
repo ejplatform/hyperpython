@@ -68,17 +68,17 @@ def html_map(data, role=None, key_role=None, **kwargs):
     return dl(body, **kwargs)
 
 
-def html_table(data, role=None, columns=None, **kwargs):
+def html_table(data, *, role=None, columns=None, **kwargs):
     """
     Convert 2D matrix-like data to an HTML table.
 
     Args:
         data:
             Sequence data.
-        columns:
-            A list of column names to be added as <thead>.
         role:
             Role used to render elements of the table.
+        columns:
+            A list of column names to be added as <thead>.
 
         Additional keyword arguments are passed to the root element.
 

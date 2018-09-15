@@ -2,7 +2,7 @@ from .fa_icons import COLLECTIONS as FA_COLLECTIONS
 from ..tags import i, a
 
 
-def icon(name, href=None, icon_class=lambda x: x, **kwargs):
+def icon(name, href=None, icon_class=lambda x: x, icon_data=lambda x: [], **kwargs):
     """
     Returns a icon tag.
 
@@ -16,8 +16,8 @@ def icon(name, href=None, icon_class=lambda x: x, **kwargs):
             list of classes that should be added to the icon.
     """
     if href:
-        return a(icon(name, **kwargs), href=href)
-    return i(**kwargs).add_class(icon_class(name))
+        return a(icon(name, icon_class=icon_class, icon_data=icon_data, **kwargs), href=href)
+    return i(children=icon_data(name), **kwargs).add_class(icon_class(name), first=True)
 
 
 def fa_icon(name, href=None, collection=None, **kwargs):

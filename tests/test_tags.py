@@ -1,11 +1,9 @@
 import pytest
 
-from hyperpython import a, div, p, title, head, Text, h1, Block, h
+from hyperpython import a, div, p, title, head, Text, Json, h1, Block, h
 
 
 # noinspection PyShadowingNames
-
-
 class TestSimpleTagAttrsOperations:
     """
     Tests for a single tag object.
@@ -149,3 +147,8 @@ class TestCoreTagFunctionality:
     def test_cannot_create_children_in_void_elements(self):
         with pytest.raises(ValueError):
             print(h('br')['foo', 'bar'])
+
+    def test_json_renders_correctly(self):
+        obj = Json({'foo': 'bar'})
+        assert str(obj) == '{"foo": "bar"}'
+        assert obj.data == {'foo': 'bar'}

@@ -1,5 +1,6 @@
 import copy
 import io
+import json
 from collections import Sequence
 from types import MappingProxyType
 
@@ -117,6 +118,7 @@ class BaseElement:
         return self
 
 
+# ------------------------------------------------------------------------------
 class Component(BaseElement):
     """
     Component that delegates the creation of HTML tree to an .html() method.
@@ -143,9 +145,8 @@ class Component(BaseElement):
         new._tree = self._tree.copy()
         return new
 
-    # ------------------------------------------------------------------------------
 
-
+# ------------------------------------------------------------------------------
 class Element(BaseElement):
     """
     Represents an HTML element.
@@ -327,6 +328,31 @@ class Text(Markup, BaseElement):
         return {'text': str(self)} if self.escape else {'raw': str(self)}
 
 
+# ------------------------------------------------------------------------------
+class Json(BaseElement):
+    """
+    Stores JSON data.
+
+    Hyperpython stores the JSON objects as data instead of text blobs. Users can
+    introspect the data content in the .data attribute.
+    """
+
+    _json_data = lazy(lambda self: json.dumps(self.data))
+
+    def __init__(self, data):
+        self.data = data
+
+    def __repr__(self):
+        return 'Json(%r)' % self.data
+
+    def __html__(self):
+        return self._json_data
+
+    def dump(self, file):
+        json.dump(self.data, file)
+
+
+# ------------------------------------------------------------------------------
 class Block(BaseElement, Sequence):
     """
     Represents a list of elements *not* wrapped in a tag.
