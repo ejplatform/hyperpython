@@ -1,4 +1,4 @@
-from collections import Mapping, Iterable
+from collections.abc import Mapping, Iterable
 
 from ..core import Element
 from ..html import html

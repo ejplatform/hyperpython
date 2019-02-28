@@ -2,7 +2,7 @@ import collections
 
 from ..core import Element
 from ..html import html
-from ..tags import a, p, span, h, ul, li
+from ..tags import a, p, span, h, ul, li, input_, button
 from ..utils import escape, lazy_singledispatch
 from ..utils.role_dispatch import role_singledispatch
 
@@ -27,6 +27,21 @@ def a_or_span(*args, href=None, **kwargs):
         return a(*args, href=href, **kwargs)
     else:
         return span(*args, **kwargs)
+
+
+def a_or_button(*args, href=None, submit=False, reset=False, **kwargs):
+    """
+    Return a or span tag depending if href is defined or not.
+    """
+
+    if href:
+        return a(*args, href=href, **kwargs)
+    elif submit:
+        return input_(type='submit', value=args[0], **kwargs)
+    elif reset:
+        return input_(type='reset', value=args[0], **kwargs)
+    else:
+        return button(*args, **kwargs)
 
 
 @lazy_singledispatch

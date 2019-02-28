@@ -15,14 +15,11 @@ def role_singledispatch(func):  # noqa: C901
     and role string.
     """
 
-    func_name = getattr(func, '__name__', 'callable')
-    cls_wrapped = lazy_singledispatch(func)
-    cls_register = cls_wrapped.register
-    cls_dispatch = cls_wrapped.dispatch
-    cls_registry = cls_wrapped.registry
-    cache_token = None
+    roles = {}
+    no_roles = lazy_singledispatch(func)
     registry = {}
     dispatch_cache = {}
+    cache_token = None
 
     def register(cls, role=None):
         """
@@ -35,21 +32,21 @@ def role_singledispatch(func):  # noqa: C901
             role (str):
                 Roles define alternate contexts for rendering the same object.
         """
-        try:
-            cls_fallback = cls_registry[cls]
-        except KeyError:
-            cls_fallback = type_fallback(cls, func_name)
-            cls_register(cls)(cls_fallback)
+        if role is None:
+            register_ = no_roles.register(cls)
+        else:
+            try:
+                function = roles[role]
+            except KeyError:
+                def role_fallback(obj, **kwargs):
+                    return no_roles(obj, role=role, **kwargs)
+                function = roles[role] = lazy_singledispatch(role_fallback)
+            register_ = function.register(cls)
 
-        def decorator(decorated):
-            nonlocal cache_token
-
-            cls_fallback.registry[role] = decorated
-            registry[cls, role] = cls_fallback
-            if cache_token is None and hasattr(cls, '__abstractmethods__'):
-                cache_token = get_cache_token()
+        def decorator(func):
             dispatch_cache.clear()
-            return decorated
+            registry[cls, role] = func
+            return register_(func)
 
         return decorator
 
@@ -62,58 +59,28 @@ def role_singledispatch(func):  # noqa: C901
         the return function should receive both an object and a role as
         positional arguments.
         """
+        # Invalidate cache when ABC cache is invalidated
         nonlocal cache_token
-        if cache_token is not None:
-            current_token = get_cache_token()
-            if cache_token != current_token:
-                dispatch_cache.clear()
-                cache_token = current_token
+        if cache_token is not None and cache_token != get_cache_token():
+            dispatch_cache.clear()
+            cache_token = get_cache_token()
 
         try:
             return dispatch_cache[cls, role]
         except KeyError:
-            cls_impl = cls_dispatch(cls)
+            pass
 
-            # We went all the way to the fallback function: there is no type
-            # registered to handle the given request for any kind of role
-            if cls_impl is func:
-                if role is None:
-                    impl = cls_impl
-                else:
-                    impl = partial(cls_impl, role=role)
+        # Find implementation, if not in cache
+        if role is None:
+            impl = no_roles.dispatch(cls)
+        elif role in roles:
+            impl = roles[role].dispatch(cls)
+        else:
+            impl = partial(no_roles.dispatch(cls), role=role)
 
-            # Now we assume we have a function generated with the type_fallback
-            # function. If role=None, we descent the mro() looking for a valid
-            # implementation
-            elif role is None:
-                try:
-                    impl = cls_impl.registry[None]
-                except KeyError:
-                    classes = deque(cls.mro())
-                    classes.popleft()
-                    for superclass in classes:
-                        impl = dispatch(superclass)
-                        if impl is not func:
-                            break
-                    else:
-                        impl = func
-
-            # Role is explicitly registered
-            else:
-                for superclass in cls.mro():
-                    cls_impl = cls_dispatch(superclass)
-                    if role in cls_impl.registry:
-                        impl = cls_impl.registry[role]
-                        break
-                    elif None in cls_impl.registry:
-                        impl = partial(cls_impl.registry[None], role=role)
-                        break
-                else:
-                    impl = partial(func, role=role)
-
-            # Save in cache and return
-            dispatch_cache[cls, role] = impl
-            return impl
+        # Cache and return
+        dispatch_cache[cls, role] = impl
+        return impl
 
     @wraps(func)
     def wrapped(obj, role=None, **kwargs):
@@ -125,28 +92,6 @@ def role_singledispatch(func):  # noqa: C901
     wrapped.registry = MappingProxyType(registry)
     wrapped.clear_cache = dispatch_cache.clear
     return wrapped
-
-
-def type_fallback(cls, name):
-    registry = {}
-
-    def fallback(obj, role=None, **kwargs):
-        try:
-            func = registry[role]
-        except KeyError:
-            try:
-                func = registry[None]
-                kwargs['role'] = role
-            except KeyError:
-                raise error(obj.__class__, role)
-        return func(obj, **kwargs)
-
-    fallback.registry = registry
-    fallback.type = cls
-    if isinstance(cls, type):
-        fallback.__name__ = f'{name}__{cls.__name__}'
-        fallback.__qualname__ = fallback.__name__
-    return fallback
 
 
 def error(cls: type, role: str):

@@ -1,0 +1,321 @@
+[NotebookApp | WARNING] No nbgrader_config.py file found (rerun with --debug to see where nbgrader is looking)
+[NotebookApp | INFO] Loading the validate_assignment nbgrader serverextension
+[NotebookApp | INFO] Serving notebooks from local directory: /home/chips/git/web/hyperpython/tests/notebooks
+[NotebookApp | INFO] 0 active kernels
+[NotebookApp | INFO] The Jupyter Notebook is running at:
+[NotebookApp | INFO] http://localhost:8888/?token=0e130d63c3654e6a02209d94c0c3517f9f8685336726074e
+[NotebookApp | INFO] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[NotebookApp | CRITICAL] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=0e130d63c3654e6a02209d94c0c3517f9f8685336726074e&token=0e130d63c3654e6a02209d94c0c3517f9f8685336726074e
+[NotebookApp | INFO] Accepting one-time-token-authenticated connection from ::1
+[NotebookApp | INFO] Creating new notebook in 
+[NotebookApp | INFO] Kernel started: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 20.28ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 2.86ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 3.05ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 3.01ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.79ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 2.29ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.55ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 4.14ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 4.02ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 3.71ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:6f87970feaf04a0986b388678cd8df3d
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:7e2c3c1166df416199659304cb17a98b
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:7e2c3c1166df416199659304cb17a98b
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:7e2c3c1166df416199659304cb17a98b
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:07086eeed62440cf8374112b8af29590
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:2e84dde700e94629873262876d6e7112
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Kernel interrupted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:0b9b6cca14574beb8fc4a6af88696abc
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:0b9b6cca14574beb8fc4a6af88696abc
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:0b9b6cca14574beb8fc4a6af88696abc
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.53ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 4.60ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:025eec72c2324943876ed5984419fac9
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.95ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 3.06ms referer=None
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:ae14fc9b94db4eecabd95b467a969c6a
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:5b23a5ecf1d149a4ab58ea6927949eda
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:5c95696ca4064b79898dd531f4fa6899
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:5c95696ca4064b79898dd531f4fa6899
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.69ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 3.84ms referer=None
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:5c95696ca4064b79898dd531f4fa6899
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:5c95696ca4064b79898dd531f4fa6899
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:5c95696ca4064b79898dd531f4fa6899
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 5.51ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 3.11ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | INFO] Replaying 6 buffered messages
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/message.min.css (::1) 4.12ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/comment.min.css (::1) 2.65ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/segment.min.css (::1) 2.65ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/sticky.min.css (::1) 3.39ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/card.min.css (::1) 3.92ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/None.min.css (::1) 1.55ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/None.min.js?_=1545855580837 (::1) 1.96ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/accordion.min.css (::1) 2.55ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/modal.min.css (::1) 2.54ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/header.min.css (::1) 3.83ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/popup.min.css (::1) 3.60ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/site.min.css (::1) 3.69ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/progress.min.css (::1) 2.03ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/segment.min.js?_=1545855580838 (::1) 1.79ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/rail.min.css (::1) 4.22ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/checkbox.min.css (::1) 2.13ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/reset.min.css (::1) 2.21ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/input.min.css (::1) 1.74ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/flag.min.css (::1) 1.72ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/menu.min.css (::1) 1.67ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/rating.min.css (::1) 1.90ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/container.min.css (::1) 1.95ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/table.min.css (::1) 2.72ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/sticky.min.js?_=1545855580839 (::1) 3.59ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/icon.min.css (::1) 1.92ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/step.min.css (::1) 1.87ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/nag.min.css (::1) 2.45ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/statistic.min.css (::1) 2.00ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/breadcrumb.min.css (::1) 1.70ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/shape.min.css (::1) 1.64ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/video.min.css (::1) 2.32ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/divider.min.css (::1) 3.19ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/feed.min.css (::1) 2.07ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/dimmer.min.css (::1) 1.65ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/list.min.css (::1) 1.69ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/embed.min.css (::1) 1.98ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/button.min.css (::1) 1.83ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/tab.min.css (::1) 2.19ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/sidebar.min.css (::1) 1.69ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/item.min.css (::1) 1.70ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/loader.min.css (::1) 2.40ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/accordion.min.js?_=1545855580840 (::1) 2.11ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/form.min.css (::1) 3.31ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/grid.min.css (::1) 1.94ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/label.min.css (::1) 2.49ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/image.min.css (::1) 2.34ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/dropdown.min.css (::1) 2.50ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/ad.min.css (::1) 2.50ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/transition.min.css (::1) 3.85ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/search.min.css (::1) 3.73ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/placeholder.min.css (::1) 2.45ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/modal.min.js?_=1545855580841 (::1) 1.79ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/popup.min.js?_=1545855580842 (::1) 2.63ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/site.min.js?_=1545855580843 (::1) 3.84ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/progress.min.js?_=1545855580844 (::1) 2.59ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/reset.min.js?_=1545855580845 (::1) 2.60ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/rating.min.js?_=1545855580846 (::1) 1.93ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/checkbox.min.js?_=1545855580847 (::1) 1.59ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/sidebar.min.js?_=1545855580848 (::1) 5.49ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/nag.min.js?_=1545855580849 (::1) 2.00ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/shape.min.js?_=1545855580850 (::1) 2.40ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/video.min.js?_=1545855580851 (::1) 2.82ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/visibility.min.js?_=1545855580852 (::1) 1.57ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/dimmer.min.js?_=1545855580853 (::1) 2.40ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/embed.min.js?_=1545855580854 (::1) 2.47ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/tab.min.js?_=1545855580855 (::1) 1.58ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/api.min.js?_=1545855580856 (::1) 1.92ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/form.min.js?_=1545855580857 (::1) 3.29ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/dropdown.min.js?_=1545855580858 (::1) 3.48ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/transition.min.js?_=1545855580859 (::1) 2.34ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /notebooks/2.4.1///cdnjs.cloudflare.com/ajax/libs/semantic-ui/components/search.min.js?_=1545855580860 (::1) 1.60ms referer=http://localhost:8888/notebooks/milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 3.37ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 3.24ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | INFO] Kernel restarted: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Restoring connection for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:8ded93f540c5414da12d1ade3a695ad9
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 3.27ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 4.67ms referer=None
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 1c2a56d4-e3f7-4835-8898-f735ad5f21a9:55fe799ba3d04bf48f48a4740cd045ea
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 3.68ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 2.55ms referer=None
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | INFO] interrupted
+[NotebookApp | CRITICAL] Shutdown confirmed
+[NotebookApp | INFO] Shutting down 1 kernel
+[NotebookApp | INFO] Kernel shutdown: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | WARNING] No nbgrader_config.py file found (rerun with --debug to see where nbgrader is looking)
+[NotebookApp | INFO] Loading the validate_assignment nbgrader serverextension
+[NotebookApp | INFO] Serving notebooks from local directory: /home/chips/git/web/hyperpython/tests/notebooks
+[NotebookApp | INFO] 0 active kernels
+[NotebookApp | INFO] The Jupyter Notebook is running at:
+[NotebookApp | INFO] http://localhost:8888/?token=9049a23f28ed11b1f5f80b98a2a4cce3ad1e45b2e6ff8e23
+[NotebookApp | INFO] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[NotebookApp | CRITICAL] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=9049a23f28ed11b1f5f80b98a2a4cce3ad1e45b2e6ff8e23&token=9049a23f28ed11b1f5f80b98a2a4cce3ad1e45b2e6ff8e23
+[NotebookApp | INFO] Accepting one-time-token-authenticated connection from ::1
+[NotebookApp | WARNING] 404 GET /api/kernels/1c2a56d4-e3f7-4835-8898-f735ad5f21a9/channels?session_id=e09f9310e9af495a8ebb09889d782134 (::1): Kernel does not exist: 1c2a56d4-e3f7-4835-8898-f735ad5f21a9
+[NotebookApp | WARNING] 404 GET /api/kernels/1c2a56d4-e3f7-4835-8898-f735ad5f21a9/channels?session_id=e09f9310e9af495a8ebb09889d782134 (::1) 24.70ms referer=None
+[NotebookApp | INFO] Kernel started: 084f3591-4a38-4fbd-a507-8a128c0f9bca
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 084f3591-4a38-4fbd-a507-8a128c0f9bca
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.99ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 4.19ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for 084f3591-4a38-4fbd-a507-8a128c0f9bca:6b34a6ec9a0c4215a9ce8c49e80c9f51
+[NotebookApp | INFO] Kernel shutdown: 084f3591-4a38-4fbd-a507-8a128c0f9bca
+[NotebookApp | INFO] Kernel started: d32f4e83-e0af-4e92-beeb-cef166ceea8a
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel d32f4e83-e0af-4e92-beeb-cef166ceea8a
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 3.45ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 2.93ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Starting buffering for d32f4e83-e0af-4e92-beeb-cef166ceea8a:24a7938678d64bffa906d5d9312296ae
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 3.12ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 8.11ms referer=None
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel d32f4e83-e0af-4e92-beeb-cef166ceea8a
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel d32f4e83-e0af-4e92-beeb-cef166ceea8a
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 2.92ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 2.01ms referer=None
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | INFO] Saving file at /milligram.ipynb
+[NotebookApp | WARNING] 404 GET /static/components/preact/preact.min.js.map (::1) 1.67ms referer=None
+[NotebookApp | WARNING] 404 GET /static/components/proptypes/index.js.map (::1) 2.41ms referer=None
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel d32f4e83-e0af-4e92-beeb-cef166ceea8a

@@ -52,6 +52,18 @@ class TestRoleDispatch:
         assert func(Foo()) == 'foo'
         assert func(Bar()) == 'bar'
 
+    def test_can_register_role_to_object(self):
+        @role_singledispatch
+        def func(x, role=None):
+            return f'{x}:{role}'
+
+        @func.register(object, 'uppercase')
+        def _(x):
+            return str(x).upper()
+
+        assert func('foo', role='bar') == 'foo:bar'
+        assert func('foo', role='uppercase') == 'FOO'
+
 
 class TestStringUtils:
     def test_attr_names(self):

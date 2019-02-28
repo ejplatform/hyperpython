@@ -440,7 +440,7 @@ class Tag:
     """
     Return an HTMLTag subclass for the given tag.
     """
-    _h_function = None
+    _h_function: callable = None
 
     def __init__(self, tag, help_text=None):
         self.tag = tag
