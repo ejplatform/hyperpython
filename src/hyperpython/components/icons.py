@@ -16,7 +16,9 @@ def icon(name, href=None, icon_class=lambda x: x, icon_data=lambda x: [], **kwar
             list of classes that should be added to the icon.
     """
     if href:
-        return a(icon(name, icon_class=icon_class, icon_data=icon_data, **kwargs), href=href)
+        return a(
+            icon(name, icon_class=icon_class, icon_data=icon_data, **kwargs), href=href
+        )
     return i(children=icon_data(name), **kwargs).add_class(icon_class(name), first=True)
 
 
@@ -38,11 +40,11 @@ def fa_icon(name, href=None, collection=None, **kwargs):
 
     Examples:
 
-        >>> fa_icon('face')
+        >>> print(fa_icon('face'))
         <i class="fa fa-face"></i>
     """
     if collection is None:
-        collection = FA_COLLECTIONS.get(name, 'fa')
+        collection = FA_COLLECTIONS.get(name, "fa")
     if href:
         return a(fa_icon(name, collection=collection, **kwargs), href=href)
-    return icon(name, href, lambda x: [collection, f'fa-{name}'], **kwargs)
+    return icon(name, href, lambda x: [collection, f"fa-{name}"], **kwargs)

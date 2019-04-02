@@ -1,6 +1,6 @@
 [run]
-include = src/*
 branch = True
+source = src/
 
 
 [report]
@@ -26,7 +26,7 @@ exclude_lines =
     while False:
 
 ignore_errors = True
-
+omit =
+    src/hyperpython/contrib/*
 
 [paths]
-source = src/

@@ -1,11 +1,12 @@
 from functools import wraps
 
+from markupsafe import Markup
 from sidekick import import_later, Proxy
 
-from .core import Text, Element, Block
+from .core import Text, Element, Block, Blob
 from .utils.role_dispatch import role_singledispatch, error
 
-django_loader = import_later('django.template.loader')
+django_loader = import_later("django.template.loader")
 
 
 def render(obj, role=None, **kwargs):
@@ -51,7 +52,7 @@ def html(obj, role=None, **kwargs):
     except AttributeError:
         return Text(str(obj))
     else:
-        return Text(raw, escape=False)
+        return Blob(raw)
 
 
 #
@@ -103,9 +104,9 @@ def register_template(cls, template, role=None):
         @html.register(cls, role)
         def wrapped(obj, **kwargs):
             ctx = func(obj, **kwargs)
-            request = ctx.get('request')
+            request = ctx.get("request")
             data = renderer(context=ctx, request=request)
-            return Text(data, escape=False)
+            return Blob(data)
 
         return wrapped
 
@@ -128,6 +129,7 @@ def no_role(func):
     return wrapped
 
 
+html.register(Markup)(no_role(lambda x: Blob(x)))
 html.register(str)(no_role(lambda x: Text(x)))
 html.register(Proxy)(lambda x, **kwargs: html(x._obj__, **kwargs))
 

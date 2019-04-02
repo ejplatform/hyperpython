@@ -1,12 +1,12 @@
 from abc import get_cache_token
 from functools import wraps, partial
 from types import MappingProxyType
-
-from sidekick import import_later, deque
+from collections import deque
+from sidekick import import_later
 
 from .lazy_singledispatch import lazy_singledispatch
 
-django_loader = import_later('django.template.loader')
+django_loader = import_later("django.template.loader")
 
 
 def role_singledispatch(func):  # noqa: C901
@@ -38,8 +38,10 @@ def role_singledispatch(func):  # noqa: C901
             try:
                 function = roles[role]
             except KeyError:
+
                 def role_fallback(obj, **kwargs):
                     return no_roles(obj, role=role, **kwargs)
+
                 function = roles[role] = lazy_singledispatch(role_fallback)
             register_ = function.register(cls)
 
@@ -95,8 +97,8 @@ def role_singledispatch(func):  # noqa: C901
 
 
 def error(cls: type, role: str):
-    assert isinstance(cls, type), f'bad argument: {cls}'
+    assert isinstance(cls, type), f"bad argument: {cls}"
     tname = cls.__name__
     if role is None:
-        return TypeError(f'no default role registered for {tname} objects')
+        return TypeError(f"no default role registered for {tname} objects")
     return TypeError(f'no "{role}" role registered for {tname} objects')

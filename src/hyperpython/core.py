@@ -1,19 +1,19 @@
 import copy
 import io
 import json
-from collections import Sequence
-from types import MappingProxyType
+from collections.abc import Sequence
 
 from markupsafe import Markup
 from sidekick import lazy, delegate_to
+from types import MappingProxyType
 
 from .helpers import classes
 from .renderers import dump_attrs, render_pretty
-from .utils import unescape, escape as _escape
+from .utils import escape as _escape
 
 SEQUENCE_TYPES = (tuple, list, type(x for x in []), type(map(lambda: 0, [])))
 JUPYTER_NOTEBOOK_RENDER_HTML = True
-cte = (lambda value: lambda *args: value)
+cte = lambda value: lambda *args: value
 
 
 class BaseElement:
@@ -24,15 +24,15 @@ class BaseElement:
     # Default values and properties
     tag = property(cte(None))
     attrs = MappingProxyType({})
-    classes = property(lambda self: self.attrs.get('class', []))
-    id = property(lambda self: self.attrs.get('id'))
+    classes = property(lambda self: self.attrs.get("class", []))
+    id = property(lambda self: self.attrs.get("id"))
 
     @id.setter
     def id(self, value):
-        setitem = getattr(self.attrs, '__setitem__', None)
+        setitem = getattr(self.attrs, "__setitem__", None)
         if setitem is None:
-            raise AttributeError('cannot set id of immutable type')
-        setitem('id', value)
+            raise AttributeError("cannot set id of immutable type")
+        setitem("id", value)
 
     children = ()
     requires = ()
@@ -110,9 +110,9 @@ class BaseElement:
         Caveat: Hyperpython *do not* enforce immutability, but it is a good
         practice to keep HTML data structures immutable.
         """
-        append = getattr(self.children, 'append', None)
+        append = getattr(self.children, "append", None)
         if append is None:
-            raise TypeError('cannot change immutable structure')
+            raise TypeError("cannot change immutable structure")
         else:
             append(as_child(value))
         return self
@@ -124,21 +124,21 @@ class Component(BaseElement):
     Component that delegates the creation of HTML tree to an .html() method.
     """
 
-    json = delegate_to('_tree')
-    dump = delegate_to('_tree')
-    tag = delegate_to('_tree')
-    attrs = delegate_to('_tree')
-    children = delegate_to('_tree')
-    requires = delegate_to('_tree')
-    is_void = delegate_to('_tree')
-    is_element = delegate_to('_tree')
+    json = delegate_to("_tree")
+    dump = delegate_to("_tree")
+    tag = delegate_to("_tree")
+    attrs = delegate_to("_tree")
+    children = delegate_to("_tree")
+    requires = delegate_to("_tree")
+    is_void = delegate_to("_tree")
+    is_element = delegate_to("_tree")
 
     @lazy
     def _tree(self):
         return self.html()
 
     def html(self, **kwargs):
-        raise NotImplementedError('must be implemented in subclasses')
+        raise NotImplementedError("must be implemented in subclasses")
 
     def copy(self):
         new = copy.copy(self)
@@ -152,17 +152,19 @@ class Element(BaseElement):
     Represents an HTML element.
     """
 
-    tag: str = ''
+    tag: str = ""
     attrs: dict
     children: list
     is_void: bool
     is_element = True
 
-    def __init__(self, tag: str, attrs: dict, children: list, is_void=False,
-                 requires=()):
+    def __init__(
+            self, tag: str, attrs: dict, children: list, is_void=False, requires=()
+    ):
         self.tag = tag
         self.attrs = {
-            k: v for k, v in map(as_attr, attrs.keys(), attrs.values())
+            k: v
+            for k, v in map(as_attr, attrs.keys(), attrs.values())
             if k is not None and v is not None
         }
         self.children = list(map(as_child, children))
@@ -171,7 +173,7 @@ class Element(BaseElement):
 
     def __getitem__(self, item):
         if self.is_void:
-            raise ValueError('void elements cannot define children')
+            raise ValueError("void elements cannot define children")
 
         if isinstance(item, SEQUENCE_TYPES):
             self.children.extend(map(as_child, item))
@@ -187,25 +189,26 @@ class Element(BaseElement):
         if len(children) == 1 and isinstance(children[0], Text):
             children_repr = repr_child(children[0])
         else:
-            data = ', '.join(repr_child(x) for x in children)
-            children_repr = f'[{data}]'
+            data = ", ".join(repr_child(x) for x in children)
+            children_repr = f"[{data}]"
 
         if attrs and children:
-            return 'h(%r, %s, %s)' % (self.tag, attrs, children_repr)
+            return "h(%r, %s, %s)" % (self.tag, attrs, children_repr)
         elif attrs:
-            return 'h(%r, %s)' % (self.tag, attrs)
+            return "h(%r, %s)" % (self.tag, attrs)
         elif children:
-            return 'h(%r, %s)' % (self.tag, children_repr)
+            return "h(%r, %s)" % (self.tag, children_repr)
         else:
-            return 'h(%r)' % self.tag
+            return "h(%r)" % self.tag
 
     def __eq__(self, other):
         if other.__class__ is self.__class__:
-            return \
-                self.tag == other.tag and \
-                self.attrs == other.attrs and \
-                len(self.children) == len(other.children) and \
-                all(x == y for x, y in zip(self.children, other.children))
+            return (
+                    self.tag == other.tag
+                    and self.attrs == other.attrs
+                    and len(self.children) == len(other.children)
+                    and all(x == y for x, y in zip(self.children, other.children))
+            )
         return NotImplemented
 
     def dump(self, file):
@@ -213,29 +216,29 @@ class Element(BaseElement):
         Dumps HTML data into file.
         """
         write = file.write
-        write('<')
+        write("<")
         write(self.tag)
         if self.attrs:
-            write(' ')
+            write(" ")
             pos = file.tell()
             dump_attrs(self.attrs, file)
             if file.tell() == pos:
                 file.seek(pos - 1)
-        write('>')
+        write(">")
         if not self.is_void:
             for child in self.children:
                 child.dump(file)
-        write(f'</{self.tag}>')
+        write(f"</{self.tag}>")
 
     def json(self):
         """
         JSON-compatible representation of object.
         """
-        json = {'tag': self.tag}
+        json = {"tag": self.tag}
         if self.attrs:
-            json['attrs'] = self.attrs
+            json["attrs"] = self.attrs
         if self.children:
-            json['children'] = [x.json() for x in self.children]
+            json["children"] = [x.json() for x in self.children]
         return json
 
     def copy(self):
@@ -256,15 +259,15 @@ class Element(BaseElement):
         """
         new_classes = classes(cls)
         try:
-            old_classes = self.attrs['class']
+            old_classes = self.attrs["class"]
         except KeyError:
-            self.attrs['class'] = list(new_classes)
+            self.attrs["class"] = list(new_classes)
         else:
             if first:
                 new_classes = list(new_classes)
                 class_set = set(new_classes)
                 new_classes.extend(x for x in old_classes if x not in class_set)
-                self.attrs['class'][:] = new_classes
+                self.attrs["class"][:] = new_classes
             else:
                 class_set = set(old_classes)
                 old_classes.extend(x for x in new_classes if x not in class_set)
@@ -274,58 +277,72 @@ class Element(BaseElement):
         """
         Replace all current classes by the new ones.
         """
-        self.attrs['class'] = list(classes(cls))
+        self.attrs["class"] = list(classes(cls))
         return self
 
 
 # ------------------------------------------------------------------------------
-class Text(Markup, BaseElement):
+class Text(str, BaseElement):
     """
-    It extends the Markup object with a Element-compatible API.
+    Represents regular text strings
     """
-    unescaped = property(unescape)
-
-    def __new__(cls, data, escape=None):
-        return super().__new__(cls, data)
-
-    def __init__(self, data, escape=None):
-        if escape is None:
-            escape = not isinstance(data, Markup)
-        if escape and isinstance(data, Markup):
-            escape = False
-        self.escape = escape
 
     def __html__(self):
-        if self.escape:
-            return _escape(str(self))
+        return _escape(str(self))
+
+    def __getitem__(self, item):
+        raise TypeError("Text elements cannot set children")
+
+    def __repr__(self):
+        return "Text(%r)" % str(self)
+
+    def _repr_child(self):
+        return repr(str(self))
+
+    def render(self):
+        return _escape(self)
+
+    def dump(self, file):
+        file.write(_escape(self))
+
+    def copy(self, parent=None):
+        return self
+
+    def json(self):
+        return {"text": str(self)}
+
+
+class Blob(Markup, BaseElement):
+    """
+    A blob of raw HTML data.
+    """
+
+    def __init__(self, data):
+        Markup.__init__(data)
+
+    def __html__(self):
         return self
 
     def __getitem__(self, item):
-        raise TypeError('Text elements cannot set children')
+        raise TypeError("HTML Blobs cannot set children")
 
     def __repr__(self):
-        return 'Text(%r)' % str(self)
+        return "Blob(%r)" % str(self)
 
     def _repr_child(self):
-        if self.escape:
-            return repr(str(self))
-        else:
-            return repr(self)
+        return repr(self)
 
     def render(self):
         return self.__html__()
 
     def dump(self, file):
-        if self.escape:
-            file.write(_escape(self))
-        else:
-            file.write(self)
+        file.write(self)
 
     def copy(self, parent=None):
-        return Text(self, escape=self.escape)
+        return self
 
     def json(self):
-        return {'text': str(self)} if self.escape else {'raw': str(self)}
+        return {"raw": str(self)}
 
 
 # ------------------------------------------------------------------------------
@@ -343,13 +360,19 @@ class Json(BaseElement):
         self.data = data
 
     def __repr__(self):
-        return 'Json(%r)' % self.data
+        return "Json(%r)" % self.data
 
     def __html__(self):
         return self._json_data
 
     def dump(self, file):
         json.dump(self.data, file)
+
+    def json(self):
+        return self.data
+
+    def copy(self):
+        return Json(self.data)
 
 
 # ------------------------------------------------------------------------------
@@ -381,7 +404,7 @@ class Block(BaseElement, Sequence):
         return Block(list(self.children), requires=list(self.requires))
 
     def json(self):
-        return {'body': [x.to_json() for x in self.children]}
+        return {"body": [x.to_json() for x in self.children]}
 
 
 #
@@ -396,36 +419,38 @@ def as_attr(name, value):
         name: attribute name
         value: attribute value
     """
-    if name == 'class':
+    if name == "class":
         value = list(classes(value))
         return name, value
     return name, value
-
 
 def as_child(value):
     """
     Convert arbitrary object to a compatible Element object.
     """
 
-    if isinstance(value, (Element, Text)):
+    if isinstance(value, BaseElement):
         return value
-    elif isinstance(value, (str, Markup)):
+    elif isinstance(value, Markup):
+        return Blob(value)
+    elif isinstance(value, str):
         return Text(value)
     elif isinstance(value, (int, float)):
         return Text(str(value))
     elif isinstance(value, Tag):
-        # noinspection PyProtectedMember
-        return Tag._h_function(value.tag)
-    elif hasattr(value, '__html__'):
-        return Text(value.__html__(), escape=False)
-    elif hasattr(value, '__hyperpython__'):
+        return h(value.tag)
+    elif hasattr(value, "__html__"):
+        return Blob(value.__html__())
+    elif hasattr(value, "__hyperpython__"):
         return value.__hyperpython__()
+    elif isinstance(value, list):
+        return Block(value)
     else:
         data = str(value)
         if data == value:
             return Text(data)
         type_name = value.__class__.__name__
-        raise TypeError('invalid type for a child node: %s' % type_name)
+        raise TypeError("invalid type for a child node: %s" % type_name)
 
 
 def repr_child(value):
@@ -440,6 +465,7 @@ class Tag:
     """
     Return an HTMLTag subclass for the given tag.
     """
+
     _h_function: callable = None
 
     def __init__(self, tag, help_text=None):
@@ -451,3 +477,5 @@ class Tag:
 
     def __getitem__(self, item):
         return self._h_function(self.tag)[item]
+
+from .tags import h

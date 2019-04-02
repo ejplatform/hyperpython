@@ -1,6 +1,8 @@
-import collections
+import collections.abc
 import io
 from json import dumps as json_dumps
+
+from markupsafe import Markup
 
 from ..utils import lazy_singledispatch
 
@@ -22,7 +24,7 @@ def dump_single_attr(x, file):
         Are converted to JSON and returned as safe strings. This is used in
         some modern javascript frameworks reads JSON from tag attributes.
     """
-    raise TypeError('%s objects are not supported' % x.__class__.__name__)
+    raise TypeError("%s objects are not supported" % x.__class__.__name__)
 
 
 def render_single_attr(x):
@@ -36,17 +38,22 @@ def render_single_attr(x):
 
 @dump_single_attr.register(str)
 def _single_attr_str(x, file):
-    data = x.replace('&', '&amp;').replace('"', '&quot;')
+    data = x.replace("&", "&amp;").replace('"', "&quot;")
     file.write(data)
 
 
+@dump_single_attr.register(Markup)
+def _single_attr_str(x, file):
+    file.write(x)
+
+
 # Register numeric types and all trivial conversions
-for _tt in [int, float, complex, 'decimal.Decimal']:
+for _tt in [int, float, complex, "decimal.Decimal"]:
     dump_single_attr.register(_tt, lambda x, file: file.write(str(x)))
 
 
 # JSON conversions
-@dump_single_attr.register(collections.Sequence)
-@dump_single_attr.register(collections.Mapping)
+@dump_single_attr.register(collections.abc.Sequence)
+@dump_single_attr.register(collections.abc.Mapping)
 def _single_attr_json_data(x, file):
     dump_single_attr(json_dumps(x), file)

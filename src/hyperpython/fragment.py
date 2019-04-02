@@ -3,22 +3,17 @@ from collections import OrderedDict
 
 from .core import BaseElement
 
-identity = (lambda x: x)
+identity = lambda x: x
 FRAGMENT_REGISTRY = OrderedDict()
 SIMPLE_PATH_REGISTRY = {}
-PATH_REGEX = re.compile(r'<[a-zA-Z]\w*(?::[a-zA-Z]\w*)?>')
+PATH_REGEX = re.compile(r"<[a-zA-Z]\w*(?::[a-zA-Z]\w*)?>")
 KIND_REGEX_MAP = {
-    'str': r'.+',
-    'int': r'\d+',
-    'float': r'\d+(\.\d+)?',
-    'slug': r'[\w-]+',
+    "str": r".+",
+    "int": r"\d+",
+    "float": r"\d+(\.\d+)?",
+    "slug": r"[\w-]+",
 }
-KIND_COERCION_MAP = {
-    'str': identity,
-    'int': int,
-    'float': float,
-    'slug': identity,
-}
+KIND_COERCION_MAP = {"str": identity, "int": int, "float": float, "slug": identity}
 
 
 def fragment(path, **kwargs):
@@ -46,13 +41,13 @@ def fragment(path, **kwargs):
                 else:
                     break
         else:
-            raise FragmentNotFound(f'no fragment registered to {path}')
+            raise FragmentNotFound(f"no fragment registered to {path}")
     else:
         result = func(**kwargs)
 
     if not isinstance(result, BaseElement):
         cls = type(result).__name__
-        msg = f'fragment function returned {cls} instead of element'
+        msg = f"fragment function returned {cls} instead of element"
         raise TypeError(msg)
     return result
 
@@ -67,7 +62,7 @@ def register(path):
     """
 
     def decorator(func):
-        if '<' in path or '>' in path:
+        if "<" in path or ">" in path:
             FRAGMENT_REGISTRY[make_validator(path)] = func
         else:
             SIMPLE_PATH_REGISTRY[path] = func
@@ -112,7 +107,7 @@ def make_regex(spec):
     """
 
     data = spec
-    parts = ['^']
+    parts = ["^"]
     coercions = {}
     search = PATH_REGEX.search
     variables = set()
@@ -122,22 +117,22 @@ def make_regex(spec):
         i, j = m.span()
         start, sep, data = data[:i], data[i:j], data[j:]
         pattern = sep[1:-1]
-        if ':' in pattern:
-            kind, name = pattern.split(':')
+        if ":" in pattern:
+            kind, name = pattern.split(":")
         else:
-            kind = 'str'
+            kind = "str"
             name = pattern
 
         # Prevent repeated variables in the spec
         if name in variables:
-            raise ValueError(f'{name} is used twice in path spec')
+            raise ValueError(f"{name} is used twice in path spec")
         variables.add(name)
 
         # Prevent malformed paths
         validate_simple_path(start, spec)
 
         # Create fragment path and coercion function
-        arg_regex = rf'(?P<{name}>{argument_regex(kind)})'
+        arg_regex = rf"(?P<{name}>{argument_regex(kind)})"
         coercions[name] = argument_coercion(kind)
 
         parts.append(re.escape(start))
@@ -147,9 +142,9 @@ def make_regex(spec):
 
     validate_simple_path(data, spec)
     parts.append(re.escape(data))
-    parts.append('$')
+    parts.append("$")
 
-    return re.compile(''.join(parts)), coercion_function(coercions)
+    return re.compile("".join(parts)), coercion_function(coercions)
 
 
 fragment.register = register
@@ -170,7 +165,7 @@ def argument_regex(kind):
     try:
         return KIND_REGEX_MAP[kind]
     except KeyError:
-        raise ValueError(f'invalid path type: {kind}')
+        raise ValueError(f"invalid path type: {kind}")
 
 
 def argument_coercion(kind):
@@ -188,7 +183,7 @@ def argument_coercion(kind):
     try:
         return KIND_COERCION_MAP[kind]
     except KeyError:
-        raise ValueError(f'invalid path type: {kind}')
+        raise ValueError(f"invalid path type: {kind}")
 
 
 def coercion_function(coercions):
@@ -209,8 +204,8 @@ def validate_simple_path(st, path):
     """
     Prevent incomplete path specifications.
     """
-    if '<' in st or '>' in st:
-        raise ValueError(f'invalid path spec: {path}')
+    if "<" in st or ">" in st:
+        raise ValueError(f"invalid path spec: {path}")
 
 
 #

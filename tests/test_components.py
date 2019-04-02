@@ -8,7 +8,7 @@ from hyperpython.components import (
     a_or_span, fa_icon, page
 )
 from hyperpython.components.hyperlinks import split_link
-from hyperpython.core import as_child
+from hyperpython.core import as_child, Blob
 
 
 class CustomType:
@@ -68,7 +68,7 @@ class TestRender:
         assert as_child(CustomTypeWithHyperpython())
 
         with pytest.raises(TypeError):
-            as_child([])
+            as_child({})
 
 
 # noinspection PyShadowingNames
@@ -97,7 +97,7 @@ class TestDjangoRenderer:
 
         obj = model_class()
         result = html(obj, 'simple')
-        assert isinstance(result, Text)
+        assert isinstance(result, Blob)
 
     def test_cannot_render_wrong_role(self):
         with pytest.raises(TypeError):

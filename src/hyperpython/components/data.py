@@ -25,10 +25,10 @@ def html_list(data, role=None, ordered=False, **kwargs):
         >>> doc = html_list([1, 2, 3])
         >>> print(doc.pretty())
         <ul>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-        </ul>'
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
     """
     tag = ol if ordered else ul
     body = [li(html(x, role=role)) for x in data]
@@ -54,14 +54,14 @@ def html_map(data, role=None, key_role=None, **kwargs):
         >>> doc = html_map({'answer': 42, 'universe': True})
         >>> print(doc.pretty())
         <dl>
-            <dt>answer</dt>
-            <dd>42</dd>
-            <dt>universe</dt>
-            <dd>True</dd>
+          <dt>answer</dt>
+          <dd>42</dd>
+          <dt>universe</dt>
+          <dd>True</dd>
         </dl>
     """
     body = []
-    items = getattr(data, 'items', lambda: data)
+    items = getattr(data, "items", lambda: data)
     for k, v in items():
         body.append(dt(html(k, role=key_role)))
         body.append(dd(html(v, role=role)))
@@ -86,20 +86,26 @@ def html_table(data, *, role=None, columns=None, **kwargs):
         >>> doc = html_table([[1, 2], [3, 4]], columns=['a', 'b'])
         >>> print(doc.pretty())
         <table>
-            <thead>
-                <tr><th>a</th><th>b</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>2</td></tr>
-                <tr><td>3</td><td>4</td></tr>
-            </tbody>
+          <thead>
+              <tr>
+                <th>a</th>
+                <th>b</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td>1</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>4</td>
+              </tr>
+          </tbody>
         </table>
     """
-    options = {'role': role}
-    body = [
-        tr([td(html(obj, **options)) for obj in row])
-        for row in data
-    ]
+    options = {"role": role}
+    body = [tr([td(html(obj, **options)) for obj in row]) for row in data]
     if columns is not None:
         head = tr([to_header_row(col, **options) for col in columns])
         return table([thead(head), tbody(body)], **kwargs)
@@ -109,17 +115,11 @@ def html_table(data, *, role=None, columns=None, **kwargs):
 
 def to_header_row(obj, **options):
     data = html(obj, **options)
-    if data.tag in ('td', 'th'):
-        return data
-    else:
-        return th(data)
+    return data if data.tag in ("td", "th") else th(data)
 
 
-def wrap(obj, tag='div'):
+def wrap(obj, tag="div"):
     """
     Wraps object in a div (or any other specified tag) if it is not an element.
     """
-    if isinstance(obj, Element):
-        return obj
-    else:
-        return h(tag, {}, obj)
+    return obj if isinstance(obj, Element) else h(tag, {}, obj)

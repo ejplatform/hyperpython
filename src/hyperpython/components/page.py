@@ -3,14 +3,14 @@ from types import MappingProxyType
 from ..core import Block, Component
 from ..tags import link, meta, script, title, head
 
-APPLE_TOUCH_ICONS = {'57x57', '72x72', '114x114', 57, 72, 114}
+APPLE_TOUCH_ICONS = {"57x57", "72x72", "114x114", 57, 72, 114}
 
 
 def stylesheets(sheets):
     """
     Render a list of stylesheets paths as a series of <link> tags.
     """
-    return Block([link(rel='stylesheet', href=sheet) for sheet in sheets])
+    return Block([link(rel="stylesheet", href=sheet) for sheet in sheets])
 
 
 def scripts(urls, **kwargs):
@@ -59,7 +59,7 @@ def meta_og(data, **kwargs):
     information for search engines and social networks such as Facebook.
     """
     data = join_dicts(data, kwargs)
-    return meta_properties({'og:' + k: v for k, v in data.items()})
+    return meta_properties({"og:" + k: v for k, v in data.items()})
 
 
 def favicons(data):
@@ -73,14 +73,14 @@ def favicons(data):
 
     icons = []
     for size, url in data.items():
-        if size is None or size == 'default':
-            icons.append(link(rel='icon', href=url))
+        if size is None or size == "default":
+            icons.append(link(rel="icon", href=url))
         elif size in APPLE_TOUCH_ICONS:
             size = as_icon_size(size)
-            icons.append(link(rel='apple-touch-icon', size=size, href=url))
+            icons.append(link(rel="apple-touch-icon", size=size, href=url))
         else:
             size = as_icon_size(size)
-            icons.append(link(rel='icon', size=size, href=url))
+            icons.append(link(rel="icon", size=size, href=url))
 
     return Block(icons)
 
@@ -89,7 +89,8 @@ def google_analytics(property_id, defer=False):
     """
     Return a Google analytics script tag.
     """
-    return script('''
+    return script(
+        """
 (function(i, s, o, g, r, a, m) {
 i['GoogleAnalyticsObject'] = r;
 i[r] = i[r] | | function ()
@@ -102,7 +103,10 @@ a.async = 1;
 a.src = g;
 m.parentNode.insertBefore(a, m)
 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-ga('create', '%s', 'auto');''' % property_id, defer=defer)
+ga('create', '%s', 'auto');"""
+        % property_id,
+        defer=defer,
+    )
 
 
 class Head(Component):
@@ -120,9 +124,14 @@ class Head(Component):
     meta_properties = MappingProxyType({})
 
     # noinspection PyShadowingNames
-    def __init__(self, title, charset='utf8',
-                 viewport='width=device-width, initial-scale=1',
-                 og_type='website', **kwargs):
+    def __init__(
+        self,
+        title,
+        charset="utf8",
+        viewport="width=device-width, initial-scale=1",
+        og_type="website",
+        **kwargs,
+    ):
         self.title = title
         self.charset = charset
         self.viewport = viewport
@@ -132,24 +141,26 @@ class Head(Component):
             setattr(self, k, v)
 
     def html(self):
-        return head([
-            meta(charset=self.charset),
-            title(self.title),
-            meta(name='viewport', content=self.viewport),
-            *self.meta_values_tags(),
-            *self.meta_headers_tags(),
-            *self.meta_properties_tags(),
-            *self.open_graph_tags(),
-            *self.css_tags(),
-            *self.script_tags(),
-            *self.google_analytics_tag(),
-            *self.favicon_tags(),
-        ])
+        return head(
+            [
+                meta(charset=self.charset),
+                title(self.title),
+                meta(name="viewport", content=self.viewport),
+                *self.meta_values_tags(),
+                *self.meta_headers_tags(),
+                *self.meta_properties_tags(),
+                *self.open_graph_tags(),
+                *self.css_tags(),
+                *self.script_tags(),
+                *self.google_analytics_tag(),
+                *self.favicon_tags(),
+            ]
+        )
 
     def open_graph_tags(self):
         data = {
-            'title': getattr(self, 'og_title', self.title),
-            'type': getattr(self, 'og_type', 'website'),
+            "title": getattr(self, "og_title", self.title),
+            "type": getattr(self, "og_type", "website"),
         }
         clean_data = {k: v for k, v in data.items() if v is not None}
         return meta_og(clean_data).children
@@ -184,12 +195,12 @@ class Head(Component):
 #
 def join_dicts(data, kwargs):
     if kwargs:
-        kwargs = {k.replace('_', '-'): v for k, v in kwargs.items()}
+        kwargs = {k.replace("_", "-"): v for k, v in kwargs.items()}
         return dict(data, **kwargs)
     return data
 
 
 def as_icon_size(value):
     if isinstance(value, int):
-        return f'{value}x{value}'
+        return f"{value}x{value}"
     return value

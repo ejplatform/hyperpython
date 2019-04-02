@@ -7,13 +7,13 @@ from markupsafe import Markup, escape, escape_silent
 from sidekick import import_later
 
 # qa: used imports
-bleach = import_later('bleach')
+bleach = import_later("bleach")
 escape = escape
 escape_silent = escape_silent
 unescape = unescape
-VALID_ID_CHARS = ascii_letters + digits + '_-'
+VALID_ID_CHARS = ascii_letters + digits + "_-"
 STR_TYPES = (str, bytes, Markup)
-SAFE_ATTRIBUTE_NAME = re.compile(r'^[^\s=<>&\"\']+$')
+SAFE_ATTRIBUTE_NAME = re.compile(r"^[^\s=<>&\"\']+$")
 
 
 def dash_case(name):
@@ -27,11 +27,11 @@ def dash_case(name):
 
     letters = []
     for c in name:
-        if c.isupper() and letters and letters[-1] != '-':
-            letters.append('-' + c.lower())
+        if c.isupper() and letters and letters[-1] != "-":
+            letters.append("-" + c.lower())
         else:
             letters.append(c.lower())
-    return ''.join(letters)
+    return "".join(letters)
 
 
 def snake_case(name):
@@ -39,10 +39,10 @@ def snake_case(name):
     Convert camel case to snake case.
     """
 
-    return dash_case(name).replace('-', '_')
+    return dash_case(name).replace("-", "_")
 
 
-def random_id(prefix='id-', size=8):
+def random_id(prefix="id-", size=8):
     """
     Return a random valid HTML id.
 
@@ -60,7 +60,7 @@ def random_id(prefix='id-', size=8):
     if not prefix:
         prefix = choice(ascii_letters)
         size -= 1
-    return prefix + ''.join(choice(VALID_ID_CHARS) for _ in range(size))
+    return prefix + "".join(choice(VALID_ID_CHARS) for _ in range(size))
 
 
 def safe(x):
@@ -83,7 +83,7 @@ def html_natural_attr(x):
 
     This function replaces underscores by dashes.
     """
-    return x.rstrip('_').replace('_', '-')
+    return x.rstrip("_").replace("_", "-")
 
 
 def html_safe_natural_attr(x):
@@ -100,5 +100,5 @@ def check_html_safe_name(x):
     """
 
     if not SAFE_ATTRIBUTE_NAME.match(x):
-        raise ValueError('invalid html attribute name: %r' % x)
+        raise ValueError("invalid html attribute name: %r" % x)
     return x

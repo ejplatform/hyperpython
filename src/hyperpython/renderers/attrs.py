@@ -1,4 +1,4 @@
-import collections
+import collections.abc
 import io
 
 from .single_attr import dump_single_attr
@@ -35,10 +35,10 @@ def dump_attrs(obj, file):
         present in the attribute names to dashes since this is the most common
         convention in HTML.
     """
-    data = getattr(obj, 'attrs', None)
+    data = getattr(obj, "attrs", None)
     if data is not None and type(data) is not type(obj):
         return dump_attrs(data, file)
-    raise TypeError('%s objects are not supported' % obj.__class__.__name__)
+    raise TypeError("%s objects are not supported" % obj.__class__.__name__)
 
 
 def render_attrs(obj, **kwargs):
@@ -50,7 +50,7 @@ def render_attrs(obj, **kwargs):
     idx = file.tell()
     if kwargs:
         if idx:
-            file.write(' ')
+            file.write(" ")
         kwargs = {html_natural_attr(k): v for k, v in kwargs.items()}
         dump_attrs(kwargs, file)
     return file.getvalue().rstrip()
@@ -61,7 +61,7 @@ def _attrs_none(_, file):
     _attrs_mapping({}, file)
 
 
-@dump_attrs.register(collections.Mapping)
+@dump_attrs.register(collections.abc.Mapping)
 def _attrs_mapping(dic, file):
     _attrs_sequence(dic.items(), file)
 
@@ -69,10 +69,10 @@ def _attrs_mapping(dic, file):
 @dump_attrs.register(bytes)
 @dump_attrs.register(str)
 def _attrs_str(*_args):
-    raise TypeError('strings types are not supported')
+    raise TypeError("strings types are not supported")
 
 
-@dump_attrs.register(collections.Sequence)  # noqa: C901
+@dump_attrs.register(collections.abc.Sequence)  # noqa: C901
 def _attrs_sequence(seq, file):
     write = file.write
     elements = 0
@@ -82,16 +82,16 @@ def _attrs_sequence(seq, file):
             continue
         elif value is True:
             write(attr)
-            write(' ')
-        elif attr == 'class':
+            write(" ")
+        elif attr == "class":
             if value:
                 write('class="')
                 if isinstance(value, str):
                     write(value)
                 elif isinstance(value, dict):
-                    write(' '.join(str(v) for k, v in value.items() if v))
+                    write(" ".join(str(v) for k, v in value.items() if v))
                 else:
-                    write(' '.join(value))
+                    write(" ".join(value))
                 write('" ')
             else:
                 continue

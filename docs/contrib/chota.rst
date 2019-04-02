@@ -4,25 +4,34 @@ Chota.css
 
 TODO
 
-This module wraps `chota.css`_ in hyperpython. Milligram is a minimalistic
-pure CSS framework that provides basic styles and under 2kb gzipped. It works
-mostly by providing better default styles for HTML elements. On top of that,
-it provides a few extra components and a simple grid system.
+This module wraps `chota.css`_ in hyperpython. Chota is a minimalistic
+pure CSS framework that provides basic styles and uses CSS variables for
+customization. It is under 3kb gzipped and provides a grid system and some
+basic components.
 
 .. _chota.css: https://chota.com
-.. module:: hyperpython.contrib.milligram
+.. module:: hyperpython.contrib.chota
+
+.. admonition:: warning
+
+    THIS IS A WORK IN PROGRESS
+
+    I kept this file here since contributing support for a new framework,
+    specially one of those minimalistic ones such as Chota, is a great way
+    to start contributing.
+
 
 Usage
 =====
 
 You can include the necessary imports in an hyperpython page by calling the
-``milligram.cdn()`` function. This will add code to import all necessary assets
+``chota.cdn()`` function. This will add code to import all necessary assets
 from a CDN:
 
 .. code-block:: python
 
     # It acts as a drop-in replacement of hyperpython namespace.
-    from hyperpython.contrib.milligram import *
+    from hyperpython.contrib.chota import *
 
     page = \
         document([
@@ -41,7 +50,7 @@ from a CDN:
 Components
 ==========
 
-.. automodule:: hyperpython.contrib.milligram
+.. automodule:: hyperpython.contrib.chota
     :members: button, label
 
 
@@ -64,7 +73,7 @@ and :func:`column` children inside each :func:`row`:
         ),
     )
 
-.. automodule:: hyperpython.contrib.milligram
+.. automodule:: hyperpython.contrib.chota
     :members: container, row, column
 
 

@@ -10,7 +10,7 @@ def role(ctx, obj, role_name=None, **kwargs):
     is accomplished by ``obj|role('role name')``
     """
     try:
-        request = ctx['request']
+        request = ctx["request"]
     except KeyError:
         return html(obj, role_name, **kwargs)
     else:
@@ -20,6 +20,4 @@ def role(ctx, obj, role_name=None, **kwargs):
 #
 # Register filters and global function namespaces
 #
-filters = {
-    'role': role,
-}
+filters = {"role": role}

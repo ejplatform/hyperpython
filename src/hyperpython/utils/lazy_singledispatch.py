@@ -110,7 +110,7 @@ def lazy_singledispatch(func):  # noqa: C901
             lazy_registry[cls] = impl
         else:
             registry[cls] = impl
-        if cache_token is None and hasattr(cls, '__abstractmethods__'):
+        if cache_token is None and hasattr(cls, "__abstractmethods__"):
             cache_token = get_cache_token()
         dispatch_cache.clear()
         return impl
@@ -138,11 +138,11 @@ def possible_qualnames(cls):
         name = subclass.__qualname__
 
         while path:
-            value = '%s.%s' % (path, name)
+            value = "%s.%s" % (path, name)
             yield value
-            path, _, _ = path.rpartition('.')
+            path, _, _ = path.rpartition(".")
 
 
-find_implementation = getattr(functools, '_find_impl', None)
+find_implementation = getattr(functools, "_find_impl", None)
 if find_implementation is None:
-    raise RuntimeError('Could not import function _find_impl from functools')
+    raise RuntimeError("Could not import function _find_impl from functools")

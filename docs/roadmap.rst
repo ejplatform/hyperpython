@@ -6,7 +6,7 @@ Far future and crazy ideas
 ==========================
 
 * :feature:`1` Integrate with PScript to transpile Hyperpython functions to
-Javascript components. Study solutions for Hyperscript, Mithrill, and React.
+Javascript components. Study solutions for Hyperscript, Mithril, and React.
 
 
 Near future backlog
@@ -14,15 +14,14 @@ Near future backlog
 
 * :feature:`2` Better django integration #2.
 * Extend HyperJSON with basic templating capabilities.
+* Stabilize HyperJSON format and integrate with Hyperpython.
 
 
 Version 1.1
 ===========
 
 * Achieve 95% test code coverage.
-* Zero issues in PyCharm.
-* Stabilize HyperJSON format and integrate with Hyperpython.
-
+* Zero issues in PyCharm static analyzer.
 
 Version 1.0
 ===========
