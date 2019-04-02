@@ -43,6 +43,7 @@ def component(function=None, flags=(), prefix_classes=None, suffix_classes=None)
         if suffix_classes is not None:
             elem.add_class(suffix_classes)
         return elem
+
     return method
 
 
@@ -50,7 +51,7 @@ def ui(elem):
     """
     Adds the ui class to the list of classes of element.
     """
-    return elem.add_class('ui', first=True)
+    return elem.add_class("ui", first=True)
 
 
 def ui_factory(func):
@@ -58,4 +59,4 @@ def ui_factory(func):
     Return a function that adds the ui class to the list of classes of
     the element produced by ``func``.
     """
-    return lambda *args, **kwargs: func(*args, **kwargs).add_class('ui', first=True)
+    return lambda *args, **kwargs: func(*args, **kwargs).add_class("ui", first=True)

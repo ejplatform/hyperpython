@@ -1,18 +1,32 @@
 import hyperpython as hp
+
 # noinspection PyUnresolvedReferences
 from hyperpython import *
 
 RALEWAY = hp.link(
-    rel="stylesheet",
-    href="//fonts.googleapis.com/css?family=Raleway:400,300,600")
+    rel="stylesheet", href="//fonts.googleapis.com/css?family=Raleway:400,300,600"
+)
 NORMALIZE_CSS = hp.link(
-    rel="stylesheet",
-    href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css")
+    rel="stylesheet", href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css"
+)
 SKELETON_CSS = hp.link(
     rel="stylesheet",
-    href="//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css")
-COLUMN_MAP = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
-              'nine', 'ten', 'eleven', 'twelve']
+    href="//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css",
+)
+COLUMN_MAP = [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+]
 
 
 def cdn():
@@ -28,7 +42,9 @@ def cdn():
 #
 # Forms and buttons
 #
-def button(text, *, href=None, submit=False, reset=False, form=False, primary=False, **kwargs):
+def button(
+    text, *, href=None, submit=False, reset=False, form=False, primary=False, **kwargs
+):
     """
     A styled button element.
 
@@ -50,16 +66,16 @@ def button(text, *, href=None, submit=False, reset=False, form=False, primary=Fa
 
         ``button`` also accepts additional HTML attributes as keyword arguments.
     """
-    classes = ['button']
+    classes = ["button"]
     if primary:
-        classes.append('button-primary')
+        classes.append("button-primary")
 
     if href:
         return hp.a(text, href=href, **kwargs).add_class(classes)
     elif submit or reset or form:
         if not isinstance(text, (str, int, float)):
-            raise ValueError('submit inputs do not accept rich element children.')
-        kind = 'submit' if submit else 'reset' if reset else 'button'
+            raise ValueError("submit inputs do not accept rich element children.")
+        kind = "submit" if submit else "reset" if reset else "button"
         return hp.input_(value=text, type=kind, **kwargs).add_class(classes)
     else:
         return hp.button(text, **kwargs).add_class(classes)
@@ -72,14 +88,14 @@ def container(*children, **kwargs):
     """
     Container root of a grid-based layout. Children are passed as arguments.
     """
-    return hp.div(class_='container', children=children, **kwargs)
+    return hp.div(class_="container", children=children, **kwargs)
 
 
 def row(*children, **kwargs):
     """
     A row that contains several columns as children.
     """
-    return hp.div(class_='row', children=children, **kwargs)
+    return hp.div(class_="row", children=children, **kwargs)
 
 
 def column(*children, size=12, offset=None, **kwargs):
@@ -95,10 +111,10 @@ def column(*children, size=12, offset=None, **kwargs):
 
         ``column`` also accepts additional HTML attributes as keyword arguments.
     """
-    classes = [COLUMN_MAP[size - 1], 'columns']
+    classes = [COLUMN_MAP[size - 1], "columns"]
     if offset is not None:
         name = COLUMN_MAP[offset - 1]
-        classes.append(f'offset-by-{name}')
+        classes.append(f"offset-by-{name}")
     return hp.div(children, **kwargs).add_class(classes)
 
 
@@ -109,27 +125,27 @@ def full_width(elem):
     """
     Renders element with 'width: 100%'
     """
-    return elem.add_class('u-full-width')
+    return elem.add_class("u-full-width")
 
 
 def full_max_width(elem):
     """
     Renders element with 'max-width: 100%'
     """
-    return elem.add_class('u-max-full-width')
+    return elem.add_class("u-max-full-width")
 
 
 def floating(to, elem):
     """
     Floats element to left, right or clear floating.
     """
-    if to == 'left':
-        return elem.add_class('u-pull-left')
-    elif to == 'right':
-        return elem.add_class('u-pull-right')
-    elif to == 'clear':
-        return elem.add_class('u-cf')
+    if to == "left":
+        return elem.add_class("u-pull-left")
+    elif to == "right":
+        return elem.add_class("u-pull-right")
+    elif to == "clear":
+        return elem.add_class("u-cf")
     elif to is None:
         return elem
     else:
-        raise ValueError('Invalid float direction')
+        raise ValueError("Invalid float direction")
