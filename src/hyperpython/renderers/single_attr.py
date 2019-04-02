@@ -4,7 +4,7 @@ from json import dumps as json_dumps
 
 from markupsafe import Markup
 
-from ..utils import lazy_singledispatch
+from sidekick import lazy_singledispatch
 
 
 # noinspection PyUnusedLocal

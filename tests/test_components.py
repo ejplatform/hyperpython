@@ -2,7 +2,7 @@ import pytest
 import sidekick as sk
 from mock import Mock
 
-from hyperpython import Text, Json, html, render, p
+from hyperpython import Text, html, render, p
 from hyperpython.components import (
     hyperlink, html_table, html_list, html_map, a_or_p,
     a_or_span, fa_icon, page

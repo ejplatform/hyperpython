@@ -1,8 +1,10 @@
 import collections.abc
 import io
 
+from sidekick import lazy_singledispatch
+
 from .single_attr import dump_single_attr
-from ..utils import lazy_singledispatch, html_natural_attr
+from ..utils import html_natural_attr
 
 
 @lazy_singledispatch

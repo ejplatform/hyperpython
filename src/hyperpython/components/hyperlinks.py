@@ -1,9 +1,11 @@
 import collections.abc
 
+from sidekick import lazy_singledispatch
+
 from ..core import Element, Text, Blob
 from ..html import html
 from ..tags import a, p, span, h, ul, li, input_, button
-from ..utils import escape, lazy_singledispatch
+from ..utils import escape
 from ..utils.role_dispatch import role_singledispatch
 
 

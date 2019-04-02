@@ -1,4 +1,3 @@
-from .lazy_singledispatch import lazy_singledispatch
 from .sequences import flatten
 from .text import (
     snake_case,

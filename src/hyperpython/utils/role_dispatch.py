@@ -1,12 +1,8 @@
 from abc import get_cache_token
 from functools import wraps, partial
+
+from sidekick import lazy_singledispatch
 from types import MappingProxyType
-from collections import deque
-from sidekick import import_later
-
-from .lazy_singledispatch import lazy_singledispatch
-
-django_loader = import_later("django.template.loader")
 
 
 def role_singledispatch(func):  # noqa: C901
