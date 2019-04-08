@@ -1,24 +1,5 @@
-from .core import Tag, Element, Text, as_child, as_attr, SEQUENCE_TYPES
+from .core import Tag, Element, Text, as_child, as_attr, SEQUENCE_TYPES, VOID_ELEMENTS
 from .utils import html_safe_natural_attr
-
-# https://www.w3.org/TR/html5/syntax.html#void-elements
-VOID_ELEMENTS = {
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "keygen",
-    "link",
-    "meta",
-    "param",
-    "source",
-    "track",
-    "wbr",
-}
 
 
 def h(tag, *args, children=None, **attrs):

@@ -11,6 +11,24 @@ from .helpers import classes
 from .renderers import dump_attrs, render_pretty
 from .utils import escape as _escape
 
+# https://www.w3.org/TR/html5/syntax.html#void-elements
+VOID_ELEMENTS = {
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+}
 SEQUENCE_TYPES = (tuple, list, type(x for x in []), type(map(lambda: 0, [])))
 JUPYTER_NOTEBOOK_RENDER_HTML = True
 cte = lambda value: lambda *args: value
@@ -424,6 +442,7 @@ def as_attr(name, value):
         return name, value
     return name, value
 
+
 def as_child(value):
     """
     Convert arbitrary object to a compatible Element object.
@@ -438,7 +457,7 @@ def as_child(value):
     elif isinstance(value, (int, float)):
         return Text(str(value))
     elif isinstance(value, Tag):
-        return h(value.tag)
+        return Element(value.tag, {}, [], value.tag in VOID_ELEMENTS)
     elif hasattr(value, "__html__"):
         return Blob(value.__html__())
     elif hasattr(value, "__hyperpython__"):
@@ -466,16 +485,21 @@ class Tag:
     Return an HTMLTag subclass for the given tag.
     """
 
-    _h_function: callable = None
+    _h_function: callable
 
     def __init__(self, tag, help_text=None):
         self.tag = tag
         self.__doc__ = help_text
 
     def __call__(self, *args, **kwargs):
-        return self._h_function(self.tag, *args, **kwargs)
+        try:
+            h = self._h_function
+        except AttributeError:
+            from .tags import h
+            Tag._h_function = h
+        return h(self.tag, *args, **kwargs)
 
     def __getitem__(self, item):
         return self._h_function(self.tag)[item]
 
-from .tags import h
+

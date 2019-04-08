@@ -30,15 +30,15 @@ def cdn():
 # Forms and buttons
 #
 def button(
-        text,
-        *,
-        href=None,
-        submit=False,
-        reset=False,
-        form=False,
-        outline=False,
-        clear=False,
-        **kwargs,
+    text,
+    *,
+    href=None,
+    submit=False,
+    reset=False,
+    form=False,
+    outline=False,
+    clear=False,
+    **kwargs,
 ):
     """
     A styled button element.
@@ -128,14 +128,14 @@ def row(*children, padding=True, wrap=False, align=None, **kwargs):
 
 
 def column(
-        *children,
-        size=None,
-        offset=None,
-        top=False,
-        bottom=False,
-        center=None,
-        align=None,
-        **kwargs,
+    *children,
+    size=None,
+    offset=None,
+    top=False,
+    bottom=False,
+    center=None,
+    align=None,
+    **kwargs,
 ):
     """
     A single column inside a flexible row.
