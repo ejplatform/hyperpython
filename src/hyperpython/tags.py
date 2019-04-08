@@ -64,10 +64,8 @@ def h(tag, *args, children=None, **attrs):
 
 
 def _as_children(data):
-    if isinstance(data, str):
-        return [Text(data)]
-    elif isinstance(data, Element):
-        return [data]
+    if isinstance(data, (Element, str)):
+        return [as_child(data)]
     elif isinstance(data, SEQUENCE_TYPES):
         return list(map(as_child, data))
     else:
