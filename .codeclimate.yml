@@ -1,40 +1,40 @@
-version: '2'
+version: "2"
 
-argument-count:
-    config:
-      threshold: 7
-  complex-logic:
-    config:
-      threshold: 4
-  file-lines:
-    config:
-      threshold: 500
-  method-complexity:
-    config:
-      threshold: 7
-  method-count:
-    config:
-      threshold: 30
-  method-lines:
-    config:
-      threshold: 25
-  nested-control-flow:
-    config:
-      threshold: 4
-  return-statements:
-    config:
-      threshold: 4
-  similar-code:
-    config:
-      threshold: 60
-  identical-code:
-    config:
-      threshold: 40
+checks:
+    argument-count:
+        config:
+            threshold: 7
+    complex-logic:
+        config:
+            threshold: 5
+    file-lines:
+        config:
+            threshold: 500
+    method-complexity:
+        config:
+            threshold: 7
+    method-count:
+        config:
+            threshold: 30
+    method-lines:
+        config:
+            threshold: 25
+    nested-control-flow:
+        config:
+            threshold: 4
+    return-statements:
+        config:
+            threshold: 4
+    similar-code:
+        config:
+            threshold: 60
+    identical-code:
+        config:
+            threshold: 40
 
 exclude_paths:
-  - src/tests/
-  - notebooks/
-  - build/
-  - dist/
-  - **/node_modules/
-  - src/hyperpython/contrib/
+    - src/tests/
+    - notebooks/
+    - build/
+    - dist/
+    - src/hyperpython/contrib/
