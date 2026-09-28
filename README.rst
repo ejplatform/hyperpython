@@ -1,3 +1,7 @@
+.. warning::
+
+   This project is no longer maintained. Its functionality has been superseded by `htpy <https://htpy.dev>`_.
+
 .. image:: https://readthedocs.org/projects/hyperpython/badge/?version=latest
     :target: http://hyperpython.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
